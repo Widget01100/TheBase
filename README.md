@@ -1,22 +1,22 @@
-﻿# The Base - Complete Personal Finance Platform for Kenya
+﻿# The Base - Complete Personal Finance Platform for Kenya 🇰🇪
 
 Your financial command center combining automated tracking, investment access, AI-powered coaching, and gamification - designed specifically for Kenyan users.
 
-## Vision
-While existing Kenyan finance apps do one thing well (CountPesa tracks, Cashlet invests, MOMBO saves), The Base does **EVERYTHING**. It's the operating system for your money.
+## ✨ Features
 
-## Features
-- GitHub-style contribution tracker for financial activity
-- M-Pesa deep integration (SMS parsing, STK Push)
-- AI Financial Coach "Malkia" - voice-enabled assistant
-- Comprehensive calculator suite (FIRE, Sacco, MMF)
-- Financial education hub in English + Swahili + Sheng
-- Gamification with 52-week money challenge
-- Professional tools (tax planning, debt management)
+- **GitHub-Style Contribution Tracker** - Visual calendar showing daily financial activity with color-coded squares
+- **M-Pesa Deep Integration** - Real-time SMS parsing, STK Push, Fuliza tracking, and 5-year statement import
+- **AI Financial Coach "Malkia"** - Personal financial strategist that analyzes spending patterns in English + Swahili + Sheng
+- **Comprehensive Calculator Suite** - FIRE calculators, Sacco vs MMF comparisons, education planners
+- **Financial Education Hub** - Daily quotes from Warren Buffett to Kenyan bloggers
+- **Gamification** - 52-week money challenge, achievement badges, group challenges
+- **Professional Tools** - Tax planning (PAYE), debt management, receipt scanning with OCR
 
-## Tech Stack
-- React 18 with TypeScript
-- Tailwind CSS for styling
-- Recharts for visualizations
-- Vite for build tooling
-- Node.js/Express backend (planned)
+## 🚀 Tech Stack
+
+- **Frontend**: React 18, TypeScript, Tailwind CSS, Recharts, Framer Motion
+- **Backend**: Node.js, Express, MongoDB, Socket.IO, Redis
+- **Integrations**: Safaricom Daraja API (M-Pesa), OpenAI API (for Malkia AI)
+
+## 📁 Project Structure
+
