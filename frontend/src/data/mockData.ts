@@ -53,6 +53,13 @@ export const mockQuotes: FinancialQuote[] = [
     author: 'Kenyan Proverb',
     category: 'saving',
     language: 'sw'
+  },
+  {
+    id: '4',
+    text: 'Akili nyingi huleta pesa nyingi.',
+    author: 'Swahili Proverb',
+    category: 'education',
+    language: 'sw'
   }
 ];
 

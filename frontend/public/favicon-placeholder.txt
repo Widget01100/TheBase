@@ -1,0 +1,5 @@
+﻿// Please add your favicon to the public folder:
+// - favicon.ico
+// - logo192.png
+// - logo512.png
+// - og-image.png (for social sharing)

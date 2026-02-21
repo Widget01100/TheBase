@@ -1,0 +1,11 @@
+﻿// Available building-related icons in lucide-react:
+// - Building
+// - Building2 (might not exist)
+// - BuildingOffice
+// - BuildingOffice2
+// - Buildings
+// - Warehouse
+// - Bank
+// - Landmark
+
+// We'll use 'Landmark' for Sacco/Building related icons

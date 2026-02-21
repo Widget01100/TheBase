@@ -1,56 +1,64 @@
 ﻿import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Layout from './components/layout/Layout';
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './components/layout/MainLayout';
 import Dashboard from './pages/dashboard/Dashboard';
+import Transactions from './pages/transactions/Transactions';
+import Savings from './pages/savings/Savings';
+import Investments from './pages/investments/Investments';
+import Calculators from './pages/calculators/Calculators';
+import Education from './pages/education/Education';
+import AICoach from './pages/ai-coach/AICoach';
+import LoadingSpinner from './components/shared/LoadingSpinner';
+import { useApp } from './contexts/AppContext';
 
-// Placeholder pages
-const Savings = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Savings Page - Coming Soon</div>;
-const Investments = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Investments Page - Coming Soon</div>;
-const Education = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Financial Education Page - Coming Soon</div>;
-const Calculators = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Calculators Page - Coming Soon</div>;
-const Challenges = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Challenges Page - Coming Soon</div>;
-const Goals = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Goals Page - Coming Soon</div>;
-const Budget = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Budget Page - Coming Soon</div>;
-const AICoach = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">AI Coach Malkia Page - Coming Soon</div>;
-const Community = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Community Page - Coming Soon</div>;
-const Resources = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Resources Page - Coming Soon</div>;
-const Profile = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Profile Page - Coming Soon</div>;
-const Settings = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Settings Page - Coming Soon</div>;
-const Help = () => <div className="p-8 text-center text-gray-600 dark:text-gray-400">Help Page - Coming Soon</div>;
+// Lazy load with Suspense
+const Settings = React.lazy(() => import('./pages/settings/Settings'));
+const Profile = React.lazy(() => import('./pages/profile/Profile'));
+const Help = React.lazy(() => import('./pages/help/Help'));
 
 function App() {
+  const { loading } = useApp();
+
+  if (loading) {
+    return <LoadingSpinner fullScreen text="Loading The Base..." />;
+  }
+
   return (
-    <Router>
-      <Toaster 
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-        }}
-      />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="savings" element={<Savings />} />
-          <Route path="investments" element={<Investments />} />
-          <Route path="education" element={<Education />} />
-          <Route path="calculators" element={<Calculators />} />
-          <Route path="challenges" element={<Challenges />} />
-          <Route path="goals" element={<Goals />} />
-          <Route path="budget" element={<Budget />} />
-          <Route path="ai-coach" element={<AICoach />} />
-          <Route path="community" element={<Community />} />
-          <Route path="resources" element={<Resources />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="help" element={<Help />} />
-        </Route>
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<Dashboard />} />
+        <Route path="transactions" element={<Transactions />} />
+        <Route path="savings" element={<Savings />} />
+        <Route path="investments" element={<Investments />} />
+        <Route path="calculators" element={<Calculators />} />
+        <Route path="education" element={<Education />} />
+        <Route path="ai-coach" element={<AICoach />} />
+        <Route
+          path="settings"
+          element={
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <Settings />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <Profile />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="help"
+          element={
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <Help />
+            </React.Suspense>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 
