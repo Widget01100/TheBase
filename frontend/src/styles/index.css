@@ -84,3 +84,9 @@
     #1B4D3E 100%
   );
 }
+
+/* Framer Motion needs a positioned ancestor for scroll tracking */
+#root {
+  position: relative;
+  min-height: 100vh;
+}

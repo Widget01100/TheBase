@@ -1,3 +1,22 @@
+// ─────────────────────────────────────────────────────────────
+// Dev-only: Silence Framer Motion's harmless non-static position
+// warning. This fires even when containers ARE positioned, due
+// to how the library measures scroll offsets during development.
+// It has NO effect on production behavior.
+// ─────────────────────────────────────────────────────────────
+if (typeof window !== 'undefined' && import.meta.env.DEV) {
+  const originalWarn = console.warn.bind(console);
+  console.warn = (...args: unknown[]) => {
+    if (
+      typeof args[0] === 'string' &&
+      args[0].includes('Please ensure that the container has a non-static position')
+    ) {
+      return;
+    }
+    originalWarn(...args);
+  };
+}
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,7 +29,7 @@ import './styles/index.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppProvider>
           <App />
           <Toaster
