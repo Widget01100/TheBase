@@ -50,6 +50,7 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
+  MoreVertical,
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -1009,7 +1010,7 @@ const Investments: React.FC = () => {
                 </h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
+                    <ReLineChart
                       data={[
                         { year: 2024, value: totalInvestments },
                         { year: 2025, value: totalInvestments * 1.1 },
@@ -1026,7 +1027,7 @@ const Investments: React.FC = () => {
                       <Tooltip
                         formatter={(value: any) => formatCurrency(value)}
                       />
-                    </LineChart>
+                    </ReLineChart>
                   </ResponsiveContainer>
                 </div>
                 <div className="mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
