@@ -103,13 +103,12 @@ const MainLayout: React.FC = () => {
       </AnimatePresence>
 
       {/* Sidebar */}
-      <motion.aside
-        initial={{ x: -300 }}
-        animate={{ x: sidebarOpen ? 0 : -300 }}
-        transition={{ type: 'spring', damping: 20 }}
+      <aside
         className={cn(
-          'fixed top-0 left-0 z-50 h-full w-72 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 shadow-2xl',
-          'lg:translate-x-0 lg:static lg:z-0 transition-transform duration-300'
+          'fixed top-0 left-0 z-50 h-full w-72 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 shadow-2xl',
+          'transition-transform duration-300 ease-in-out',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full',
+          'lg:translate-x-0'
         )}
       >
         <div className="flex flex-col h-full">
@@ -211,19 +210,16 @@ const MainLayout: React.FC = () => {
             </motion.button>
           </div>
         </div>
-      </motion.aside>
+      </aside>
 
       {/* Main Content */}
       <div className="lg:ml-72">
         {/* Header */}
-        <motion.header
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
+        <header
           className={cn(
             'sticky top-0 z-30 transition-all duration-300',
-            scrolled
-              ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg'
-              : 'bg-transparent'
+            'bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl',
+            scrolled && 'shadow-lg'
           )}
         >
           <div className="px-4 sm:px-6 lg:px-8 py-4">
@@ -301,10 +297,10 @@ const MainLayout: React.FC = () => {
               </div>
             </div>
           </div>
-        </motion.header>
+        </header>
 
         {/* Page Content */}
-        <main className="relative p-4 sm:p-6 lg:p-8">
+        <main className="relative px-4 sm:px-6 lg:px-8 py-6">
           <Outlet />
         </main>
 

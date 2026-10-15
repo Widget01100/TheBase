@@ -133,19 +133,9 @@ const Dashboard: React.FC = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   
   // Refs
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   
   // Motion values for scroll effects
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-  
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0.9]);
-  const headerBlur = useTransform(scrollYProgress, [0, 0.1], [0, 8]);
-  const headerScale = useTransform(scrollYProgress, [0, 0.1], [1, 0.98]);
   
   // Spring animations
   const springProps = useSpringAnimation({
@@ -158,15 +148,6 @@ const Dashboard: React.FC = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (rect) {
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      mouseX.set(x);
-      mouseY.set(y);
-    }
-  }, []);
 
   // Keyboard shortcuts
   useHotkeys('ctrl+k', () => {
@@ -363,192 +344,13 @@ const Dashboard: React.FC = () => {
       )}
       
       <motion.div
-        ref={containerRef}
-        onMouseMove={handleMouseMove}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="relative min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
+        className="space-y-6"
       >
-        {/* Animated background blobs */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <motion.div
-            animate={{
-              x: mouseX.get() * 100,
-              y: mouseY.get() * 100,
-            }}
-            transition={{ type: 'spring', stiffness: 50 }}
-            className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
-          />
-          <motion.div
-            animate={{
-              x: mouseX.get() * -100,
-              y: mouseY.get() * -100,
-            }}
-            transition={{ type: 'spring', stiffness: 50 }}
-            className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"
-          />
-          <motion.div
-            animate={{
-              x: mouseX.get() * 50,
-              y: mouseY.get() * -50,
-            }}
-            transition={{ type: 'spring', stiffness: 50 }}
-            className="absolute top-40 left-1/3 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"
-          />
-        </div>
 
         {/* Premium Header with Glass Effect */}
-        <motion.header
-          ref={headerRef}
-          style={{
-            opacity: headerOpacity,
-            backdropFilter: `blur(${headerBlur}px)`,
-            scale: headerScale,
-          }}
-          className="sticky top-0 z-50 glass border-b border-gray-200/50 dark:border-gray-800/50"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16 md:h-20">
-              {/* Logo and Brand */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-center space-x-4"
-              >
-                <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000}>
-                  <motion.div
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                    className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-600 via-primary-500 to-primary-400 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/30 cursor-pointer"
-                  >
-                    <span className="text-white font-bold text-xl md:text-2xl">B</span>
-                  </motion.div>
-                </Tilt>
-                <div>
-                  <motion.h1 
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-lg md:text-xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent"
-                  >
-                    The Base
-                  </motion.h1>
-                  <motion.p 
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="text-xs md:text-sm text-gray-500 dark:text-gray-400"
-                  >
-                    Financial Command Center
-                  </motion.p>
-                </div>
-              </motion.div>
-
-              {/* Search Bar - Desktop */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 }}
-                className="hidden md:flex items-center flex-1 max-w-md mx-4"
-              >
-                <div className="relative w-full">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                  <input
-                    id="search-input"
-                    type="text"
-                    placeholder="Search transactions or ask Malkia... (Ctrl+K)"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
-                    ⌘K
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Right Side Icons */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="flex items-center space-x-2 md:space-x-4"
-              >
-                {/* Weather Widget */}
-                <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={1000}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="hidden lg:flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-xl shadow-lg cursor-pointer"
-                    onClick={() => {
-                      const cities = ['nairobi', 'mombasa', 'kisumu'] as const;
-                      const next = cities[(cities.indexOf(selectedCity) + 1) % cities.length];
-                      setSelectedCity(next);
-                    }}
-                  >
-                    <WeatherIcon size={18} />
-                    <span className="font-medium">{weatherData[selectedCity].temp}°C</span>
-                    <span className="text-xs opacity-80">{weatherData[selectedCity].condition}</span>
-                  </motion.div>
-                </Tilt>
-
-                {/* M-Pesa Status */}
-                <MpesaStatus />
-
-                {/* Notifications */}
-                <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={1000}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative cursor-pointer"
-                    onClick={() => setNotifications(0)}
-                  >
-                    <div className="p-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl hover:bg-white dark:hover:bg-gray-800 transition-colors">
-                      <Bell size={20} className="text-gray-700 dark:text-gray-300" />
-                    </div>
-                    {notifications > 0 && (
-                      <motion.span
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center"
-                      >
-                        {notifications}
-                      </motion.span>
-                    )}
-                  </motion.div>
-                </Tilt>
-
-                {/* Dark Mode Toggle */}
-                <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={1000}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl cursor-pointer hover:bg-white dark:hover:bg-gray-800 transition-colors"
-                    onClick={() => {
-                      setDarkMode(!darkMode);
-                      document.documentElement.classList.toggle('dark');
-                    }}
-                  >
-                    {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-                  </motion.div>
-                </Tilt>
-
-                {/* User Menu */}
-                <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={1000}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className="flex items-center space-x-2 cursor-pointer bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl p-1.5 pr-3"
-                  >
-                    <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-primary-400 rounded-lg flex items-center justify-center">
-                      <User size={18} className="text-white" />
-                    </div>
-                    <span className="hidden md:block text-sm font-medium">Francis</span>
-                    <ChevronDown size={16} className="hidden md:block text-gray-500" />
-                  </motion.div>
-                </Tilt>
-              </motion.div>
-            </div>
-          </div>
-        </motion.header>
 
         {/* Mobile Search Bar */}
         <AnimatePresence>
