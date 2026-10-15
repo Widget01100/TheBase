@@ -1,4 +1,4 @@
-﻿import { DailyActivity, FinancialQuote } from '@/types';
+import type { DailyActivity, FinancialQuote } from '@/types';
 import { addDays } from 'date-fns';
 
 export const generateMockContributionData = (year: number): DailyActivity[] => {

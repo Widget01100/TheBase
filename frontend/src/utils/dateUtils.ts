@@ -1,4 +1,4 @@
-﻿import { format, formatDistance, subDays, eachDayOfInterval, startOfYear, endOfYear } from 'date-fns';
+import { format, formatDistance, subDays, eachDayOfInterval, startOfYear, endOfYear } from 'date-fns';
 
 export const formatDate = (date: Date | string, formatStr: string = 'PPP'): string => {
   const d = typeof date === 'string' ? new Date(date) : date;

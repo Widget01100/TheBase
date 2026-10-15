@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { format, eachDayOfInterval, startOfYear, endOfYear, getMonth } from 'date-fns';
 
 interface DailyActivity {

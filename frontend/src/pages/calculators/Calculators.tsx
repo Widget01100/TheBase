@@ -1,4 +1,4 @@
-﻿// src/pages/calculators/Calculators.tsx
+// src/pages/calculators/Calculators.tsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -51,7 +51,6 @@ import {
   Thermometer,
   Landmark,
   Building,
-  Bank,
   Wallet,
   CreditCard,
   Smartphone,

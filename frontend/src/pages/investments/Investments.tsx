@@ -1,4 +1,4 @@
-﻿// src/pages/investments/Investments.tsx
+// src/pages/investments/Investments.tsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {

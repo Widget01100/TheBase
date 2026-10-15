@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { 
   Wallet, 
@@ -95,7 +95,7 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { generateMockContributionData, mockQuotes, mockGoals, mockBudgets } from '@/data/mockData';
-import { DailyActivity, FinancialQuote } from '@/types';
+import type { DailyActivity, FinancialQuote } from '@/types';
 import { formatCurrency } from '@/utils/formatters';
 import { cn } from '@/lib/utils';
 import Confetti from 'react-confetti';
