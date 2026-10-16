@@ -1,6 +1,6 @@
 // src/components/layout/MainLayout.tsx
 import React, { useState, useEffect, useRef } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
@@ -27,6 +27,7 @@ import {
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import { useNotifications } from '@/contexts/NotificationsContext';
 import CurrencySwitcher from '@/components/shared/CurrencySwitcher';
 
 interface NavItem {
@@ -47,37 +48,70 @@ const navItems: NavItem[] = [
   { path: '/ai-coach', name: 'Malkia AI', icon: Brain, color: 'from-red-600 to-red-400', badge: 3 },
 ];
 
-// Sample notifications for the dropdown
-const sampleNotifications = [
-  { id: 1, title: '💰 Budget Alert', message: "You've used 80% of your Food budget", time: '5 min ago', unread: true },
-  { id: 2, title: '🎯 Goal Progress', message: "You're 50% to your Emergency Fund goal", time: '1 hour ago', unread: true },
-  { id: 3, title: '📈 Investment Update', message: 'Your CIC MMF earned KSh 1,200 this month', time: '2 hours ago', unread: true },
-  { id: 4, title: '🏆 Achievement', message: 'You earned the "Saving Shark" badge!', time: '5 hours ago', unread: true },
-  { id: 5, title: '⚡ M-Pesa Sync', message: 'Synced 12 new transactions', time: '1 day ago', unread: true },
-];
-
 const MainLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const { notifications, unreadCount, markAllRead, markOneRead } = useNotifications();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mpesaTooltipOpen, setMpesaTooltipOpen] = useState(false);
-  const [notifications, setNotifications] = useState(sampleNotifications);
+
 
   // Live clock — updates every second
   const [now, setNow] = useState(new Date());
 
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const notificationsRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-
-  const unreadCount = notifications.filter(n => n.unread).length;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // ─── Close dropdowns on outside click / Esc ───
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+
+      if (
+        notificationsOpen &&
+        notificationsRef.current &&
+        !notificationsRef.current.contains(target)
+      ) {
+        setNotificationsOpen(false);
+      }
+
+      if (
+        userMenuOpen &&
+        userMenuRef.current &&
+        !userMenuRef.current.contains(target)
+      ) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setNotificationsOpen(false);
+        setUserMenuOpen(false);
+      }
+    };
+
+    if (notificationsOpen || userMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEsc);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [notificationsOpen, userMenuOpen]);
 
   useEffect(() => {
     setSidebarOpen(false);
@@ -114,9 +148,7 @@ const MainLayout: React.FC = () => {
     document.documentElement.classList.toggle('dark');
   };
 
-  const markAllRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, unread: false })));
-  };
+
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
@@ -132,24 +164,7 @@ const MainLayout: React.FC = () => {
           />
         )}
       </AnimatePresence>
-
-      {/* Click-outside overlay for dropdowns */}
-      <AnimatePresence>
-        {(notificationsOpen || userMenuOpen) && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40"
-            onClick={() => {
-              setNotificationsOpen(false);
-              setUserMenuOpen(false);
-            }}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Sidebar */}
+{/* Sidebar */}
       <aside
         className={cn(
           'fixed top-0 left-0 z-50 h-full w-72 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 shadow-2xl',
@@ -366,7 +381,7 @@ const MainLayout: React.FC = () => {
                 </button>
 
                 {/* Notifications Dropdown */}
-                <div className="relative">
+                <div className="relative" ref={notificationsRef}>
                   <button
                     onClick={() => {
                       setNotificationsOpen(!notificationsOpen);
@@ -412,19 +427,19 @@ const MainLayout: React.FC = () => {
                                 key={n.id}
                                 className={cn(
                                   'px-4 py-3 border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer transition-colors',
-                                  n.unread && 'bg-primary-50/50 dark:bg-primary-900/10'
+                                  !n.read && 'bg-primary-50/50 dark:bg-primary-900/10'
                                 )}
                                 onClick={() => {
-                                  setNotifications(notifications.map(x => x.id === n.id ? { ...x, unread: false } : x));
+                                  markOneRead(n.id);
                                 }}
                               >
                                 <div className="flex items-start gap-3">
-                                  {n.unread && <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0" />}
-                                  {!n.unread && <div className="w-2 flex-shrink-0" />}
+                                  {!n.read && <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0" />}
+                                  {!n.read && <div className="w-2 flex-shrink-0" />}
                                   <div className="flex-1 min-w-0">
                                     <p className="text-sm font-medium text-gray-900 dark:text-white">{n.title}</p>
                                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{n.message}</p>
-                                    <p className="text-[10px] text-gray-400 mt-1">{n.time}</p>
+                                    <p className="text-[10px] text-gray-400 mt-1">{n.timestamp}</p>
                                   </div>
                                 </div>
                               </div>
@@ -432,7 +447,13 @@ const MainLayout: React.FC = () => {
                           )}
                         </div>
                         <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-800 text-center">
-                          <button className="text-xs text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium">
+                          <button
+                            onClick={() => {
+                              setNotificationsOpen(false);
+                              navigate('/notifications');
+                            }}
+                            className="text-xs text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium"
+                          >
                             View all notifications
                           </button>
                         </div>
@@ -442,7 +463,7 @@ const MainLayout: React.FC = () => {
                 </div>
 
                 {/* User Menu Dropdown */}
-                <div className="relative">
+                <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => {
                       setUserMenuOpen(!userMenuOpen);

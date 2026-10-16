@@ -15,6 +15,7 @@ import { useApp } from './contexts/AppContext';
 const Settings = React.lazy(() => import('./pages/settings/Settings'));
 const Profile = React.lazy(() => import('./pages/profile/Profile'));
 const Help = React.lazy(() => import('./pages/help/Help'));
+const Notifications = React.lazy(() => import('./pages/notifications/Notifications'));
 
 function App() {
   const { loading } = useApp();
@@ -54,6 +55,14 @@ function App() {
           element={
             <React.Suspense fallback={<LoadingSpinner />}>
               <Help />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="notifications"
+          element={
+            <React.Suspense fallback={<LoadingSpinner />}>
+              <Notifications />
             </React.Suspense>
           }
         />

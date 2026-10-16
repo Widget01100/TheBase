@@ -24,6 +24,7 @@ import { Toaster } from 'react-hot-toast';
 import App from './App';
 import { AppProvider } from './contexts/AppContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
+import { NotificationsProvider } from './contexts/NotificationsContext';
 import ErrorBoundary from './components/shared/ErrorBoundary';
 import './styles/index.css';
 
@@ -33,7 +34,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppProvider>
           <CurrencyProvider>
-            <App />
+            <NotificationsProvider>
+              <App />
+            </NotificationsProvider>
           </CurrencyProvider>
           <Toaster
             position="top-right"
