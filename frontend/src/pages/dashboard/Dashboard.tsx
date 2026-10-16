@@ -94,6 +94,7 @@ import ContributionGrid from '@/components/contribution-grid/ContributionGrid';
 import MpesaStatus from '@/components/shared/MpesaStatus';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import EmptyState from '@/components/shared/EmptyState';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { generateMockContributionData, mockQuotes, mockGoals, mockBudgets } from '@/data/mockData';
 import { initialTransactions } from '@/data/transactions';

@@ -52,6 +52,7 @@ import {
   Gift as GiftIcon,
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
+import EmptyState from '@/components/shared/EmptyState';
 import Button from '@/components/ui/Button';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatCurrency } from '@/utils/formatters';
@@ -594,7 +595,17 @@ const Savings: React.FC = () => {
 
               {/* Goals Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {savingsGoals.map((goal, index) => {
+                {savingsGoals.length === 0 ? (
+              <EmptyState
+                icon={Target}
+                title="No savings goals yet"
+                description="Create your first savings goal and watch your money grow. Set a target and deadline to get started."
+                actionLabel="Create Goal"
+                onAction={() => setShowAddGoal(true)}
+                color="green"
+              />
+            ) : (
+              savingsGoals.map((goal, index) => {
                   const Icon = goal.icon;
                   const progress = (goal.current / goal.target) * 100;
                   return (
@@ -661,7 +672,8 @@ const Savings: React.FC = () => {
                       </Card>
                     </motion.div>
                   );
-                })}
+                })
+            )}
               </div>
 
               {/* Goal Tips */}

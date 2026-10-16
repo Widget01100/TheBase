@@ -27,6 +27,7 @@ import {
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import PageTransition from '@/components/shared/PageTransition';
 import { useNotifications } from '@/contexts/NotificationsContext';
 import CurrencySwitcher from '@/components/shared/CurrencySwitcher';
 
@@ -548,7 +549,9 @@ const MainLayout: React.FC = () => {
 
         {/* Page Content */}
         <main className="relative px-4 sm:px-6 lg:px-8 py-6">
-          <Outlet />
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
         </main>
 
         {/* Footer */}

@@ -53,6 +53,7 @@ import {
   MoreVertical,
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
+import EmptyState from '@/components/shared/EmptyState';
 import Button from '@/components/ui/Button';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatCurrency, formatPercentage } from '@/utils/formatters';
@@ -345,6 +346,19 @@ const Investments: React.FC = () => {
             exit={{ opacity: 0, y: -20 }}
             className="space-y-6"
           >
+            {totalInvestments === 0 ? (
+              <Card variant="glass" className="p-6">
+                <EmptyState
+                  icon={TrendingUp}
+                  title="No investments yet"
+                  description="Explore MMFs, Saccos, and NSE stocks to start building wealth. Diversify across different asset classes for better returns."
+                  actionLabel="Add Investment"
+                  onAction={() => setShowAddInvestment(true)}
+                  color="purple"
+                />
+              </Card>
+            ) : (
+            <>
             {/* Allocation Chart */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card variant="glass" className="p-6">
@@ -500,6 +514,8 @@ const Investments: React.FC = () => {
                 </div>
               </div>
             </Card>
+            </>
+            )}
           </motion.div>
         )}
 

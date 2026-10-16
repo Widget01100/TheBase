@@ -1,4 +1,6 @@
 import React from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -19,13 +21,15 @@ const Notifications = React.lazy(() => import('./pages/notifications/Notificatio
 
 function App() {
   const { loading } = useApp();
+  const location = useLocation();
 
   if (loading) {
     return <LoadingSpinner fullScreen text="Loading The Base..." />;
   }
 
   return (
-    <Routes>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="transactions" element={<Transactions />} />
@@ -67,7 +71,8 @@ function App() {
           }
         />
       </Route>
-    </Routes>
+      </Routes>
+    </AnimatePresence>
   );
 }
 
