@@ -9,6 +9,7 @@ interface CardProps {
   interactive?: boolean;
   className?: string;
   onClick?: () => void;
+  style?: React.CSSProperties;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -18,6 +19,7 @@ const Card: React.FC<CardProps> = ({
   interactive = false,
   className,
   onClick,
+  style,
 }) => {
   const variants = {
     default: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800',
@@ -39,6 +41,7 @@ const Card: React.FC<CardProps> = ({
         className
       )}
       onClick={onClick}
+      style={style}
     >
       {children}
     </motion.div>

@@ -85,7 +85,14 @@ import ReactMarkdown from 'react-markdown';
 import { VictoryPie, VictoryLine, VictoryChart, VictoryTheme } from 'victory';
 
 // Mock conversation history
-const initialMessages = [
+const initialMessages: Array<{
+  id: number;
+  role: string;
+  content: string;
+  timestamp: Date;
+  suggestions?: string[];
+  insights?: Record<string, any>;
+}> = [
   {
     id: 1,
     role: 'assistant',

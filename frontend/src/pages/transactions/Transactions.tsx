@@ -7,37 +7,39 @@ import {
   ShoppingBag, Car, Home, Coffee, Film, BookOpen,
   Briefcase, TrendingUp, PiggyBank, ArrowUpRight,
   ArrowDownRight, MoreVertical, Edit2, Trash2,
-  Copy, FileText, Camera, Mic, X, Check
+  Copy, FileText, Camera, Mic, X, Check, Eye,
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
+import ExportModal from '@/components/shared/ExportModal';
+import RowMenu from '@/components/shared/RowMenu';
+import ConfirmModal from '@/components/shared/ConfirmModal';
+import toast from 'react-hot-toast';
+import { initialTransactions, type AppTransaction } from '@/data/transactions';
+import type { ExportableTransaction } from '@/utils/export/exportUtils';
 import Button from '@/components/ui/Button';
 import { formatCurrency } from '@/utils/formatters';
 import { cn } from '@/lib/utils';
 
 const Transactions: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState('all');
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<{ open: boolean; ids: string[] }>({ open: false, ids: [] });
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState('This Month');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedTransactions, setSelectedTransactions] = useState<string[]>([]);
 
   const filters = ['All', 'Income', 'Expenses', 'Investments', 'Savings'];
-  
-  const transactions = [
-    { id: 1, description: 'Salary - KPLC', amount: 85000, type: 'income', category: 'Salary', date: '2024-01-15', time: '09:30 AM', icon: Briefcase, merchant: 'KPLC', status: 'completed', tags: ['monthly', 'salary'] },
-    { id: 2, description: 'M-PESA to KCB Savings', amount: -5000, type: 'expense', category: 'Savings', date: '2024-01-14', time: '02:15 PM', icon: PiggyBank, merchant: 'KCB', status: 'completed', tags: ['savings', 'automated'] },
-    { id: 3, description: 'Netflix Subscription', amount: -1450, type: 'expense', category: 'Entertainment', date: '2024-01-13', time: '11:20 AM', icon: Film, merchant: 'Netflix', status: 'completed', tags: ['subscription', 'recurring'] },
-    { id: 4, description: 'Naivas Supermarket', amount: -3200, type: 'expense', category: 'Groceries', date: '2024-01-12', time: '06:45 PM', icon: ShoppingBag, merchant: 'Naivas', status: 'completed', tags: ['groceries', 'essential'] },
-    { id: 5, description: 'CIC MMF Investment', amount: -10000, type: 'investment', category: 'Investment', date: '2024-01-11', time: '10:00 AM', icon: TrendingUp, merchant: 'CIC', status: 'pending', tags: ['investment', 'mmf'] },
-    { id: 6, description: 'Safaricom Airtime', amount: -500, type: 'expense', category: 'Airtime', date: '2024-01-10', time: '08:30 AM', icon: Smartphone, merchant: 'Safaricom', status: 'completed', tags: ['airtime', 'mobile'] },
-    { id: 7, description: 'Uber - Westlands', amount: -850, type: 'expense', category: 'Transport', date: '2024-01-09', time: '07:15 PM', icon: Car, merchant: 'Uber', status: 'completed', tags: ['transport', 'travel'] },
-    { id: 8, description: 'Interest - CIC MMF', amount: 1250, type: 'income', category: 'Investment Returns', date: '2024-01-08', time: '09:00 AM', icon: TrendingUp, merchant: 'CIC', status: 'completed', tags: ['interest', 'investment'] },
-  ];
+  // ─────────────────────────────────────────────────────────
+  // Transactions — pulled from shared data source
+  // ─────────────────────────────────────────────────────────
+  const transactions: AppTransaction[] = initialTransactions;
+  const [transactionsList, setTransactionsList] = useState<AppTransaction[]>(transactions);
 
   const getCategoryIcon = (category: string) => {
     switch(category.toLowerCase()) {
       case 'salary': return Briefcase;
-      case 'savings': return PiggyBank;
+      case 'saving': return PiggyBank;
       case 'entertainment': return Film;
       case 'groceries': return ShoppingBag;
       case 'investment': return TrendingUp;
@@ -62,6 +64,50 @@ const Transactions: React.FC = () => {
     } else {
       setSelectedTransactions(transactions.map(t => t.id.toString()));
     }
+  };
+
+  const handleBulkDelete = () => {
+    const ids = [...selectedTransactions];
+    setTransactionsList(prev => prev.filter(t => !ids.includes(t.id.toString())));
+    setSelectedTransactions([]);
+    toast.success(`${ids.length} transaction${ids.length > 1 ? 's' : ''} deleted`);
+  };
+
+  const handleBulkDuplicate = () => {
+    const ids = [...selectedTransactions];
+    const toDuplicate = transactionsList.filter(t => ids.includes(t.id.toString()));
+    const copies = toDuplicate.map(t => ({
+      ...t,
+      id: String(Date.now() + Math.random()),
+      description: `${t.description} (copy)`,
+    }));
+    setTransactionsList(prev => [...copies, ...prev]);
+    setSelectedTransactions([]);
+    toast.success(`${ids.length} transaction${ids.length > 1 ? 's' : ''} duplicated`);
+  };
+
+  const handleBulkExport = () => {
+    setShowExportModal(true);
+  };
+
+  const handleRowDelete = (id: string) => {
+    setConfirmDelete({ open: true, ids: [id] });
+  };
+
+  const handleRowDuplicate = (id: string) => {
+    const orig = transactionsList.find(t => t.id.toString() === id);
+    if (!orig) return;
+    const copy = { ...orig, id: String(Date.now() + Math.random()), description: `${orig.description} (copy)` };
+    setTransactionsList(prev => [copy, ...prev]);
+    toast.success('Transaction duplicated');
+  };
+
+  const handleRowView = (id: string) => {
+    toast.success(`Viewing transaction #${id}`);
+  };
+
+  const handleRowEdit = (id: string) => {
+    toast.success(`Edit transaction #${id}`);
   };
 
   const handleSelect = (id: string) => {
@@ -104,7 +150,7 @@ const Transactions: React.FC = () => {
           <Button
             variant="outline"
             icon={<Download size={18} />}
-            onClick={() => alert('Export feature coming soon!')}
+            onClick={() => setShowExportModal(true)}
           >
             Export
           </Button>
@@ -217,13 +263,25 @@ const Transactions: React.FC = () => {
         >
           <span className="font-medium">{selectedTransactions.length} transactions selected</span>
           <div className="flex items-center space-x-3">
-            <button className="p-2 hover:bg-white/20 rounded-lg transition-colors">
+            <button
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              onClick={handleBulkExport}
+              title="Export selected"
+            >
               <Download size={18} />
             </button>
-            <button className="p-2 hover:bg-white/20 rounded-lg transition-colors">
+            <button
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              onClick={() => setConfirmDelete({ open: true, ids: [...selectedTransactions] })}
+              title="Delete selected"
+            >
               <Trash2 size={18} />
             </button>
-            <button className="p-2 hover:bg-white/20 rounded-lg transition-colors">
+            <button
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              onClick={handleBulkDuplicate}
+              title="Duplicate selected"
+            >
               <Copy size={18} />
             </button>
             <button 
@@ -309,7 +367,9 @@ const Transactions: React.FC = () => {
                   </div>
                   <div className="col-span-2 flex items-center">
                     <div>
-                      <p className="text-sm text-gray-900 dark:text-white">{transaction.date}</p>
+                      <p className="text-sm text-gray-900 dark:text-white">
+                        {new Date(transaction.date).toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">{transaction.time}</p>
                     </div>
                   </div>
@@ -319,9 +379,32 @@ const Transactions: React.FC = () => {
                     </span>
                   </div>
                   <div className="col-span-1 flex items-center justify-end">
-                    <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                      <MoreVertical size={16} className="text-gray-500" />
-                    </button>
+                    <RowMenu
+                      items={[
+                        {
+                          label: 'View details',
+                          icon: Eye,
+                          onClick: () => handleRowView(transaction.id.toString()),
+                        },
+                        {
+                          label: 'Edit',
+                          icon: Edit2,
+                          onClick: () => handleRowEdit(transaction.id.toString()),
+                        },
+                        {
+                          label: 'Duplicate',
+                          icon: Copy,
+                          onClick: () => handleRowDuplicate(transaction.id.toString()),
+                        },
+                        {
+                          label: 'Delete',
+                          icon: Trash2,
+                          variant: 'danger',
+                          divider: true,
+                          onClick: () => handleRowDelete(transaction.id.toString()),
+                        },
+                      ]}
+                    />
                   </div>
                 </motion.div>
               );
@@ -490,7 +573,43 @@ const Transactions: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    
+      <ExportModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+        transactions={transactions.map((t): ExportableTransaction => ({
+          id: t.id.toString(),
+          description: t.description,
+          category: t.category,
+          type: t.type as any,
+          date: new Date(t.date).toISOString().split('T')[0],
+          time: t.time,
+          amount: t.amount,
+          merchant: t.merchant,
+          tags: t.tags,
+        }))}
+        title="Export Transactions"
+      />
+
+      <ConfirmModal
+        isOpen={confirmDelete.open}
+        onClose={() => setConfirmDelete({ open: false, ids: [] })}
+        onConfirm={() => {
+          const ids = confirmDelete.ids;
+          setTransactionsList(prev => prev.filter(t => !ids.includes(t.id.toString())));
+          setSelectedTransactions(prev => prev.filter(id => !ids.includes(id)));
+          toast.success(`${ids.length} transaction${ids.length > 1 ? 's' : ''} deleted`);
+        }}
+        title={confirmDelete.ids.length > 1 ? `Delete ${confirmDelete.ids.length} transactions?` : 'Delete transaction?'}
+        message={
+          confirmDelete.ids.length > 1
+            ? `You're about to delete ${confirmDelete.ids.length} transactions. This action cannot be undone.`
+            : `You're about to delete this transaction. This action cannot be undone.`
+        }
+        confirmText="Delete"
+        variant="danger"
+      />
+</motion.div>
   );
 };
 

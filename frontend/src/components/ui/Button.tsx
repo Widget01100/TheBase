@@ -57,7 +57,7 @@ const Button: React.FC<ButtonProps> = ({
         className
       )}
       disabled={disabled || isLoading}
-      {...props}
+      {...(props as any)}
     >
       {isLoading && (
         <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">

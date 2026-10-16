@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { format } from 'date-fns';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { 
   Wallet, 
@@ -95,14 +96,19 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { generateMockContributionData, mockQuotes, mockGoals, mockBudgets } from '@/data/mockData';
+import { initialTransactions } from '@/data/transactions';
+import { buildContributionData } from '@/utils/contributionData';
 import type { DailyActivity, FinancialQuote } from '@/types';
 import { formatCurrency } from '@/utils/formatters';
+import ExportModal from '@/components/shared/ExportModal';
+import toast from 'react-hot-toast';
+import { exportToPDF } from '@/utils/export/exportUtils';
 import { cn } from '@/lib/utils';
 import Confetti from 'react-confetti';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Tilt from 'react-parallax-tilt';
 import { useSpring as useSpringAnimation, animated } from '@react-spring/web';
-import { VictoryPie, VictoryLine, VictoryChart, VictoryTheme, VictoryAxis } from 'victory';
+import { VictoryPie, VictoryLine, VictoryBar, VictoryScatter, VictoryChart, VictoryTheme, VictoryAxis, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 
 // Mock weather data for Kenyan cities
 const weatherData = {
@@ -118,6 +124,7 @@ const Dashboard: React.FC = () => {
   const [selectedDay, setSelectedDay] = useState<DailyActivity | null>(null);
   const [quote, setQuote] = useState<FinancialQuote | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
   const [balanceVisible, setBalanceVisible] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
@@ -134,6 +141,7 @@ const Dashboard: React.FC = () => {
   
   // Refs
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const hasLoadedOnceRef = useRef(false);
   
   // Motion values for scroll effects
   
@@ -183,18 +191,253 @@ const Dashboard: React.FC = () => {
   });
 
   // Effects
+  // ─────────────────────────────────────────────────────────
+  // Recent transactions — pulled from shared data source
+  // ─────────────────────────────────────────────────────────
+  const recentTransactions = initialTransactions;
+
+  // ─────────────────────────────────────────────────────────
+  // Spending Overview — real data derived from transactions
+  // ─────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────
+  // Spending time-series — real per-day/week/month totals
+  // Adapts to selectedTimeframe: 1W (7 days), 1M (30 days),
+  // 3M (12 weeks), 1Y (12 months)
+  // ─────────────────────────────────────────────────────────
+  const spendingTimeSeries = useMemo(() => {
+    const now = new Date();
+
+    // ─── 1Y: 12 monthly buckets ───
+    if (selectedTimeframe === '1Y') {
+      const buckets: { x: number; y: number; label: string }[] = [];
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        buckets.push({
+          x: 12 - i,
+          y: 0,
+          label: format(d, 'MMM'),
+        });
+      }
+      recentTransactions.forEach((t) => {
+        if (t.type !== 'expense') return;
+        const td = new Date(t.date);
+        // Match by month + year
+        const bucketIdx = 11 - (
+          (now.getFullYear() - td.getFullYear()) * 12 +
+          (now.getMonth() - td.getMonth())
+        );
+        if (bucketIdx >= 0 && bucketIdx < 12) {
+          buckets[bucketIdx].y += Math.abs(t.amount);
+        }
+      });
+      return buckets;
+    }
+
+    // ─── 3M: 12 weekly buckets ───
+    if (selectedTimeframe === '3M') {
+      const buckets: { x: number; y: number; label: string }[] = [];
+      const startOfCurrentWeek = new Date(now);
+      startOfCurrentWeek.setDate(now.getDate() - now.getDay()); // Sunday
+      startOfCurrentWeek.setHours(0, 0, 0, 0);
+
+      for (let i = 11; i >= 0; i--) {
+        const weekStart = new Date(startOfCurrentWeek);
+        weekStart.setDate(startOfCurrentWeek.getDate() - i * 7);
+        buckets.push({
+          x: 12 - i,
+          y: 0,
+          label: format(weekStart, 'dd MMM'),
+        });
+      }
+
+      recentTransactions.forEach((t) => {
+        if (t.type !== 'expense') return;
+        const td = new Date(t.date);
+        for (let i = 0; i < 12; i++) {
+          const weekStart = new Date(startOfCurrentWeek);
+          weekStart.setDate(startOfCurrentWeek.getDate() - (11 - i) * 7);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setDate(weekStart.getDate() + 6);
+          weekEnd.setHours(23, 59, 59, 999);
+
+          if (td >= weekStart && td <= weekEnd) {
+            buckets[i].y += Math.abs(t.amount);
+            break;
+          }
+        }
+      });
+      return buckets;
+    }
+
+    // ─── 1W: 7 daily buckets ───
+    // ─── 1M: 30 daily buckets ───
+    const dayCount = selectedTimeframe === '1W' ? 7 : 30;
+    const buckets: { x: number; y: number; label: string }[] = [];
+
+    for (let i = dayCount - 1; i >= 0; i--) {
+      const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      d.setHours(0, 0, 0, 0);
+      buckets.push({
+        x: dayCount - i,
+        y: 0,
+        label: selectedTimeframe === '1W' ? format(d, 'EEE') : format(d, 'dd'),
+      });
+    }
+
+    recentTransactions.forEach((t) => {
+      if (t.type !== 'expense') return;
+      const td = new Date(t.date);
+      const daysAgo = Math.floor(
+        (now.getTime() - td.getTime()) / (24 * 60 * 60 * 1000)
+      );
+      if (daysAgo >= 0 && daysAgo < dayCount) {
+        const idx = dayCount - 1 - daysAgo;
+        buckets[idx].y += Math.abs(t.amount);
+      }
+    });
+
+    return buckets;
+  }, [recentTransactions, selectedTimeframe]);
+
+  // ─────────────────────────────────────────────────────────
+  // Chart presentation helpers — adaptive per timeframe
+  // ─────────────────────────────────────────────────────────
+  const chartBarWidth = useMemo(() => {
+    switch (selectedTimeframe) {
+      case '1W': return 38;
+      case '1M': return 16;
+      case '3M': return 30;
+      default: return 22;
+    }
+  }, [selectedTimeframe]);
+
+  // Smart Y-max
+
+  // ─────────────────────────────────────────────────────────
+  // Color palette per timeframe — makes each timeframe unique
+  // ─────────────────────────────────────────────────────────
+  const chartPalette = useMemo(() => {
+    switch (selectedTimeframe) {
+      case '1W':
+        return {
+          name: 'emerald',
+          light: '#a7f3d0',
+          medium: '#34d399',
+          dark: '#10b981',
+          deep: '#059669',
+        };
+      case '1M':
+        return {
+          name: 'sky',
+          light: '#bae6fd',
+          medium: '#38bdf8',
+          dark: '#0ea5e9',
+          deep: '#0284c7',
+        };
+      case '3M':
+        return {
+          name: 'violet',
+          light: '#ddd6fe',
+          medium: '#a78bfa',
+          dark: '#8b5cf6',
+          deep: '#7c3aed',
+        };
+      case '1Y':
+        return {
+          name: 'amber',
+          light: '#fde68a',
+          medium: '#fbbf24',
+          dark: '#f59e0b',
+          deep: '#d97706',
+        };
+      default:
+        return {
+          name: 'sky',
+          light: '#bae6fd',
+          medium: '#38bdf8',
+          dark: '#0ea5e9',
+          deep: '#0284c7',
+        };
+    }
+  }, [selectedTimeframe]);
+
+  // Smart Y-max: use 95th percentile so one huge spike doesn't crush the rest
+  const chartYMax = useMemo(() => {
+    const values = spendingTimeSeries
+      .map((d) => d.y)
+      .filter((v) => v > 0)
+      .sort((a, b) => a - b);
+    if (values.length === 0) return 1000;
+    const p95Index = Math.floor(values.length * 0.95);
+    const p95 = values[p95Index] || values[values.length - 1];
+    // Round up to nice number
+    const magnitude = Math.pow(10, Math.floor(Math.log10(p95)));
+    return Math.ceil(p95 / magnitude) * magnitude * 1.1;
+  }, [spendingTimeSeries]);
+
+  // Tick stride: how often to show X-axis labels
+  const chartTickStride = useMemo(() => {
+    switch (selectedTimeframe) {
+      case '1W': return 1;   // every day
+      case '1M': return 3;   // every 3rd day
+      case '3M': return 1;   // every week
+      case '1Y': return 1;   // every month
+      default: return 1;
+    }
+  }, [selectedTimeframe]);
+
+  // ─────────────────────────────────────────────────────────
+  // Year navigation for contribution grid
+  // ─────────────────────────────────────────────────────────
+  const availableYears = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+
+    // Earliest transaction year (or current year if no transactions)
+    const earliestYear = initialTransactions.length > 0
+      ? initialTransactions.reduce((min, t) => {
+          const y = new Date(t.date).getFullYear();
+          return y < min ? y : min;
+        }, currentYear)
+      : currentYear;
+
+    // Build range: earliest → current year + 2 (planning ahead)
+    const years: number[] = [];
+    for (let y = earliestYear; y <= currentYear + 2; y++) {
+      years.push(y);
+    }
+    return years.reverse(); // newest first
+  }, []);
+
+  // Default to the year of the newest transaction
+  const [selectedYear, setSelectedYear] = useState<number>(() => {
+    const sorted = [...initialTransactions].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    return sorted[0] ? new Date(sorted[0].date).getFullYear() : new Date().getFullYear();
+  });
+
   useEffect(() => {
     // Load mock data
     const loadData = async () => {
-      setLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      const data = generateMockContributionData(new Date().getFullYear());
+      // Only show loading on the very first load
+      const isFirstLoad = !hasLoadedOnceRef.current;
+      if (isFirstLoad) setLoading(true);
+
+      // Small delay only on first load
+      if (isFirstLoad) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
+
+      const data = buildContributionData(recentTransactions, selectedYear);
       setContributionData(data);
       setLoading(false);
-      
-      // Trigger confetti on first load
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
+      hasLoadedOnceRef.current = true;
+
+      // Trigger confetti only on first load
+      if (isFirstLoad) {
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 3000);
+      }
     };
     
     loadData();
@@ -215,7 +458,7 @@ const Dashboard: React.FC = () => {
       clearTimeout(welcomeTimer);
       clearInterval(notificationTimer);
     };
-  }, []);
+  }, [selectedYear]);
 
   // Stats data with Kenyan context
   const stats = [
@@ -263,15 +506,6 @@ const Dashboard: React.FC = () => {
   ];
 
   // Recent transactions with Kenyan merchants
-  const recentTransactions = [
-    { id: 1, description: 'Salary - KPLC', amount: 85000, type: 'income', category: 'Salary', date: '2024-01-15', time: '09:30 AM', icon: Briefcase, merchant: 'KPLC', location: 'Nairobi' },
-    { id: 2, description: 'M-PESA to KCB Savings', amount: -5000, type: 'expense', category: 'Savings', date: '2024-01-14', time: '02:15 PM', icon: PiggyBank, merchant: 'KCB', location: 'Mombasa' },
-    { id: 3, description: 'Netflix Subscription', amount: -1450, type: 'expense', category: 'Entertainment', date: '2024-01-13', time: '11:20 AM', icon: Play, merchant: 'Netflix', location: 'Online' },
-    { id: 4, description: 'Naivas Supermarket', amount: -3200, type: 'expense', category: 'Groceries', date: '2024-01-12', time: '06:45 PM', icon: ShoppingBag, merchant: 'Naivas', location: 'Nairobi' },
-    { id: 5, description: 'CIC MMF Investment', amount: -10000, type: 'investment', category: 'Investment', date: '2024-01-11', time: '10:00 AM', icon: TrendingUp, merchant: 'CIC', location: 'Nairobi' },
-    { id: 6, description: 'Safaricom Airtime', amount: -500, type: 'expense', category: 'Airtime', date: '2024-01-10', time: '08:30 AM', icon: Smartphone, merchant: 'Safaricom', location: 'Online' },
-    { id: 7, description: 'Uber - Westlands', amount: -850, type: 'expense', category: 'Transport', date: '2024-01-09', time: '07:15 PM', icon: Car, merchant: 'Uber', location: 'Nairobi' },
-  ];
 
   // Kenyan achievements
   const achievements = [
@@ -305,27 +539,53 @@ const Dashboard: React.FC = () => {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     await new Promise(resolve => setTimeout(resolve, 1500));
-    const data = generateMockContributionData(new Date().getFullYear());
+    const data = buildContributionData(recentTransactions, selectedYear);
     setContributionData(data);
     setQuote(mockQuotes[Math.floor(Math.random() * mockQuotes.length)]);
     setIsRefreshing(false);
   };
 
   const handleShare = async () => {
+    const shareData = {
+      title: 'The Base — My Financial Dashboard',
+      text: `💰 I've saved KSh 245,800 on The Base!\n📈 Savings rate: 39%\n🎯 Goal: 50% to my Emergency Fund\n\nJoin me on Kenya's best personal finance platform!`,
+      url: window.location.href,
+    };
     try {
-      await navigator.share({
-        title: 'The Base - My Financial Dashboard',
-        text: 'Check out my financial progress on The Base!',
-        url: window.location.href,
-      });
-    } catch (error) {
-      console.log('Share failed', error);
+      if (typeof navigator.share === 'function' && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+        toast.success('Shared successfully!');
+      } else {
+        await navigator.clipboard.writeText(`${shareData.text}\n\n${shareData.url}`);
+        toast.success('Copied to clipboard!');
+      }
+    } catch (error: any) {
+      if (error?.name !== 'AbortError') {
+        toast.error('Could not share');
+      }
     }
   };
 
+  const handlePrint = () => {
+    exportToPDF(
+      recentTransactions.map((t: any) => ({
+        id: t.id.toString(),
+        description: t.description,
+        category: t.category,
+        type: t.type,
+        date: t.date,
+        amount: t.amount,
+      })),
+      {
+        title: 'The Base — Dashboard Report',
+        subtitle: 'Generated from your dashboard',
+      }
+    );
+    toast.success('Report downloaded!');
+  };
+
   const handleExport = () => {
-    // Simulate export
-    alert('Exporting your financial data...');
+    setShowExportModal(true);
   };
 
   // Get weather icon for selected city
@@ -492,9 +752,11 @@ const Dashboard: React.FC = () => {
                   </div>
                 </Card>
               ) : (
-                <ContributionGrid 
-                  data={contributionData} 
-                  year={new Date().getFullYear()} 
+                <ContributionGrid
+                  data={contributionData}
+                  year={selectedYear}
+                  availableYears={availableYears}
+                  onYearChange={setSelectedYear}
                   onDayClick={handleDayClick}
                 />
               )}
@@ -522,46 +784,182 @@ const Dashboard: React.FC = () => {
                     ))}
                   </div>
                 </div>
-                <div className="h-64">
+                <motion.div
+                  key={selectedTimeframe}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className="h-64"
+                >
                   <VictoryChart
                     theme={VictoryTheme.material}
-                    domainPadding={20}
-                    width={600}
-                    height={250}
+                    domainPadding={{ x: selectedTimeframe === '1W' ? 40 : 15 }}
+                    style={{
+                      parent: { touchAction: 'auto' },
+                    }}
+                    width={700}
+                    height={320}
+                    padding={{ top: 40, bottom: 80, left: 130, right: 30 }}
+                    containerComponent={
+                      <VictoryVoronoiContainer
+                        voronoiDimension="x"
+                        activateData={true}
+                        activateLabels={true}
+                        labels={({ datum }) => {
+                          const amount = datum.y || 0;
+                          const formatted = amount >= 1000000
+                            ? `KES ${(amount / 1000000).toFixed(2)}M`
+                            : amount >= 1000
+                              ? `KES ${(amount / 1000).toFixed(1)}k`
+                              : `KES ${Math.round(amount)}`;
+                          return `${datum.label}\n${formatted}`;
+                        }}
+                        labelComponent={
+                          <VictoryTooltip
+                            flyoutStyle={{
+                              fill: '#1f2937',
+                              stroke: 'none',
+                              strokeWidth: 0,
+                            }}
+                            style={{
+                              fill: '#ffffff',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                              textAnchor: 'middle',
+                            }}
+                            flyoutPadding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+                            cornerRadius={6}
+                            pointerLength={6}
+                          />
+                        }
+                      />
+                    }
                   >
+                    {/* X-axis */}
                     <VictoryAxis
-                      tickFormat={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+                      label={(() => {
+                        switch (selectedTimeframe) {
+                          case '1W': return 'Day of Week';
+                          case '1M': return 'Day of Month';
+                          case '3M': return 'Week';
+                          case '1Y': return 'Month';
+                          default: return '';
+                        }
+                      })()}
+                      tickValues={spendingTimeSeries
+                        .filter((_, i) => {
+                          // Filter ticks based on timeframe
+                          if (selectedTimeframe === '1W') return true;
+                          if (selectedTimeframe === '1M') return i % 5 === 0; // every 5th day
+                          return true;
+                        })
+                        .map((d) => d.x)}
+                      tickFormat={spendingTimeSeries
+                        .filter((_, i) => {
+                          if (selectedTimeframe === '1W') return true;
+                          if (selectedTimeframe === '1M') return i % 5 === 0;
+                          return true;
+                        })
+                        .map((d) => d.label)}
                       style={{
-                        tickLabels: { fill: '#6B7280', fontSize: 12 },
+                        tickLabels: {
+                          fill: '#6B7280',
+                          fontSize: 11,
+                          fontFamily: 'Inter, sans-serif',
+                          padding: 8,
+                        },
+                        axisLabel: {
+                          fill: '#374151',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          fontFamily: 'Inter, sans-serif',
+                          padding: 35,
+                          letterSpacing: '0.05em',
+                        },
+                        grid: { stroke: 'transparent' },
+                        axis: { stroke: '#E5E7EB' },
+                        ticks: { stroke: 'transparent', size: 0 },
                       }}
                     />
+
+                    {/* Y-axis */}
                     <VictoryAxis
                       dependentAxis
-                      tickFormat={(x) => `KES ${x/1000}k`}
+                      label="Amount (KES)"
+                      domain={[0, chartYMax]}
+                      tickFormat={(x: number) => {
+                        if (x === 0) return 'KES 0';
+                        if (x >= 1_000_000_000) return `KES ${(x / 1_000_000_000).toFixed(1)}B`;
+                        if (x >= 1_000_000) return `KES ${(x / 1_000_000).toFixed(1)}M`;
+                        if (x >= 1_000) return `KES ${(x / 1_000).toFixed(0)}k`;
+                        return `KES ${Math.round(x)}`;
+                      }}
                       style={{
-                        tickLabels: { fill: '#6B7280', fontSize: 12 },
+                        tickLabels: {
+                          fill: '#6B7280',
+                          fontSize: 11,
+                          fontFamily: 'Inter, sans-serif',
+                          padding: 8,
+                        },
+                        axisLabel: {
+                          fill: '#374151',
+                          fontSize: 11,
+                          fontWeight: 600,
+                          fontFamily: 'Inter, sans-serif',
+                          padding: 65,
+                          letterSpacing: '0.05em',
+                        },
+                        grid: {
+                          stroke: '#F3F4F6',
+                          strokeDasharray: '4 4',
+                        },
+                        axis: { stroke: 'transparent' },
+                        ticks: { stroke: 'transparent', size: 0 },
                       }}
                     />
-                    <VictoryLine
-                      data={[
-                        { x: 1, y: 4500 },
-                        { x: 2, y: 6200 },
-                        { x: 3, y: 3800 },
-                        { x: 4, y: 7100 },
-                        { x: 5, y: 5300 },
-                        { x: 6, y: 8900 },
-                        { x: 7, y: 4200 },
-                      ]}
-                      style={{
-                        data: { stroke: '#0ea5e9', strokeWidth: 3 },
-                      }}
-                      animate={{
-                        duration: 2000,
-                        onLoad: { duration: 1000 },
-                      }}
-                    />
+
+                    {/* Bars for 1W, 1M, 3M */}
+                    {selectedTimeframe !== '1Y' && (
+                      <VictoryBar
+                        labels={() => ''}
+                        data={spendingTimeSeries.map(({ x, y }) => ({ x, y }))}
+                        cornerRadius={{ top: 5 }}
+                        barWidth={chartBarWidth}
+                        style={{
+                          data: {
+                            fill: ({ datum }) => {
+                              const max = Math.max(...spendingTimeSeries.map((d) => d.y), 1);
+                              const ratio = datum.y / max;
+
+                              // Use palette-specific colors per timeframe
+                              if (ratio > 0.75) return chartPalette.deep;
+                              if (ratio > 0.5) return chartPalette.dark;
+                              if (ratio > 0.25) return chartPalette.medium;
+                              if (ratio > 0.05) return chartPalette.light;
+                              return chartPalette.light;
+                            },
+                            opacity: 1,
+                          },
+                        }}
+                      />
+                    )}
+
+                    {/* Line for 1Y (trend over time) */}
+                    {selectedTimeframe === '1Y' && (
+                      <VictoryLine
+                        data={spendingTimeSeries}
+                        interpolation="monotoneX"
+                        style={{
+                          data: { stroke: chartPalette.dark, strokeWidth: 3 },
+                        }}
+                        animate={{
+                          duration: 800,
+                          onLoad: { duration: 400 },
+                        }}
+                      />
+                    )}
                   </VictoryChart>
-                </div>
+                </motion.div>
               </Card>
 
               {/* Selected Day Transactions */}
@@ -911,8 +1309,8 @@ const Dashboard: React.FC = () => {
             {[
               { icon: Download, label: 'Export Data', onClick: handleExport },
               { icon: Share2, label: 'Share Progress', onClick: handleShare },
-              { icon: Printer, label: 'Print Report', onClick: () => window.print() },
-              { icon: Camera, label: 'Scan Receipt', onClick: () => alert('Scan receipt feature coming soon!') },
+              { icon: Printer, label: 'Print Report', onClick: handlePrint },
+              { icon: Camera, label: 'Scan Receipt', onClick: () => toast.success('Receipt scanner coming soon — check back next week!') },
             ].map((action, index) => (
               <motion.button
                 key={action.label}
@@ -932,6 +1330,20 @@ const Dashboard: React.FC = () => {
             ))}
           </div>
         </main>
+      <ExportModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+        transactions={recentTransactions.map((t: any) => ({
+          id: t.id.toString(),
+          description: t.description,
+          category: t.category,
+          type: t.type,
+          date: t.date,
+          amount: t.amount,
+        }))}
+        title="Export Financial Data"
+      />
+
       </motion.div>
     </>
   );
