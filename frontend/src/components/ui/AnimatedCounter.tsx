@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
+// src/components/ui/AnimatedCounter.tsx
+// Animated number counter — skips animation when value hasn't changed
+
+import React, { useEffect, useState, useRef } from 'react';
+import { motion, useSpring } from 'framer-motion';
+import { useFormatCurrency } from '@/contexts/CurrencyContext';
 
 interface AnimatedCounterProps {
   value: number;
@@ -18,15 +22,26 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   suffix = '',
   className = '',
 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-  const spring = useSpring(0, { 
+  const [displayValue, setDisplayValue] = useState(value);
+  const lastValueRef = useRef(value);
+  const spring = useSpring(value, {
     stiffness: 100,
     damping: 30,
-    duration: duration * 1000 
+    duration: duration * 1000,
   });
-  
+
+  // Subscribe to currency changes so this component re-renders
+  const formatCurrency = useFormatCurrency();
+
   useEffect(() => {
-    spring.set(value);
+    // Only animate if the actual value changed
+    if (lastValueRef.current !== value) {
+      spring.set(value);
+      lastValueRef.current = value;
+    } else {
+      // Currency changed but value didn't — snap instantly, no animation
+      setDisplayValue(value);
+    }
   }, [value, spring]);
 
   useEffect(() => {
@@ -36,24 +51,16 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
     return () => unsubscribe();
   }, [spring]);
 
-  const formatNumber = (num: number): string => {
-    if (!format) return num.toString();
-    return new Intl.NumberFormat('en-KE', {
-      style: 'currency',
-      currency: 'KES',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(num).replace('KES', 'KSh');
-  };
+  const formatted = format ? formatCurrency(displayValue) : displayValue.toString();
 
   return (
     <motion.span
       className={className}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3 }}
     >
-      {prefix}{formatNumber(displayValue)}{suffix}
+      {prefix}{formatted}{suffix}
     </motion.span>
   );
 };

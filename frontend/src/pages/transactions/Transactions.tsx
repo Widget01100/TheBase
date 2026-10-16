@@ -18,9 +18,13 @@ import { initialTransactions, type AppTransaction } from '@/data/transactions';
 import type { ExportableTransaction } from '@/utils/export/exportUtils';
 import Button from '@/components/ui/Button';
 import { formatCurrency } from '@/utils/formatters';
+import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import { cn } from '@/lib/utils';
 
 const Transactions: React.FC = () => {
+  const format = useFormatCurrency();
+  const { currency } = useCurrency();
+
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [showExportModal, setShowExportModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<{ open: boolean; ids: string[] }>({ open: false, ids: [] });
@@ -171,7 +175,7 @@ const Transactions: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Income</p>
               <p className="text-2xl font-bold text-green-600 mt-1">
-                {formatCurrency(totalIncome)}
+                {format(totalIncome)}
               </p>
             </div>
             <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-xl">
@@ -186,7 +190,7 @@ const Transactions: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Expenses</p>
               <p className="text-2xl font-bold text-red-600 mt-1">
-                {formatCurrency(totalExpenses)}
+                {format(totalExpenses)}
               </p>
             </div>
             <div className="p-3 bg-red-100 dark:bg-red-900/20 rounded-xl">
@@ -201,7 +205,7 @@ const Transactions: React.FC = () => {
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Investments</p>
               <p className="text-2xl font-bold text-purple-600 mt-1">
-                {formatCurrency(totalInvestments)}
+                {format(totalInvestments)}
               </p>
             </div>
             <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-xl">
@@ -375,7 +379,7 @@ const Transactions: React.FC = () => {
                   </div>
                   <div className="col-span-1 flex items-center justify-end">
                     <span className={cn('font-semibold', getAmountColor(transaction.type))}>
-                      {transaction.amount > 0 ? '+' : ''}{formatCurrency(transaction.amount)}
+                      {transaction.amount > 0 ? '+' : ''}{format(transaction.amount)}
                     </span>
                   </div>
                   <div className="col-span-1 flex items-center justify-end">

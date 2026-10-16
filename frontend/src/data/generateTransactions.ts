@@ -188,19 +188,5 @@ export function generateTransactions(startYear = 2024, endDate = new Date()): Ap
 
   // Sort descending by date
   const sorted = transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  // 🔍 DEBUG: Log a summary
-  if (typeof window !== 'undefined') {
-    const byYear: Record<number, number> = {};
-    sorted.forEach((t) => {
-      const y = new Date(t.date).getFullYear();
-      byYear[y] = (byYear[y] || 0) + 1;
-    });
-    console.log('🔍 [generateTransactions] Total:', sorted.length);
-    console.log('🔍 [generateTransactions] By year:', byYear);
-    console.log('🔍 [generateTransactions] Date range:',
-      sorted[sorted.length - 1]?.date, '→', sorted[0]?.date);
-  }
-
   return sorted;
 }

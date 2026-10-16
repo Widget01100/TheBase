@@ -39,15 +39,9 @@ const ContributionGrid: React.FC<ContributionGridProps> = ({
   onDayClick,
 }) => {
 
-  // 🔍 DEBUG: Log received data
   if (typeof window !== 'undefined') {
     const activeDays = data.filter((d) => d.count > 0).length;
-    console.log('🔍 [ContributionGrid] year:', year);
-    console.log('🔍 [ContributionGrid] data.length:', data.length);
-    console.log('🔍 [ContributionGrid] active days (count>0):', activeDays);
-    console.log('🔍 [ContributionGrid] availableYears:', availableYears);
     if (activeDays === 0 && data.length > 0) {
-      console.log('🔍 [ContributionGrid] sample first 3 entries:', data.slice(0, 3).map(d => ({ date: d.date, count: d.count })));
     }
   }
   const [hoveredDay, setHoveredDay] = useState<{ day: DailyActivity; x: number; y: number } | null>(null);
@@ -502,4 +496,4 @@ const StatCard: React.FC<StatCardProps> = ({ icon: Icon, label, value, color, bg
   </div>
 );
 
-export default ContributionGrid;
+export default React.memo(ContributionGrid);

@@ -60,6 +60,7 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatCurrency, formatPercentage } from '@/utils/formatters';
+import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import { cn } from '@/lib/utils';
 import {
   LineChart as ReLineChart,
@@ -213,6 +214,9 @@ const universityFees = {
 };
 
 const Calculators: React.FC = () => {
+  const format = useFormatCurrency();
+  const { currency } = useCurrency();
+
   const [selectedCalculator, setSelectedCalculator] = useState<CalculatorType>('fire');
   const [showResults, setShowResults] = useState(false);
   const [savedCalculations, setSavedCalculations] = useState<any[]>([]);
@@ -713,7 +717,7 @@ const Calculators: React.FC = () => {
                   <div className="text-center">
                     <p className="text-sm text-gray-500 mb-1">You need</p>
                     <p className="text-4xl font-bold text-primary-600">
-                      {formatCurrency(fireResults.fireNumber)}
+                      {format(fireResults.fireNumber)}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       to retire at age {fireInputs.retirementAge}
@@ -724,13 +728,13 @@ const Calculators: React.FC = () => {
                     <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
                       <p className="text-xs text-gray-500">Projected Savings</p>
                       <p className="text-xl font-bold text-gray-900 dark:text-white">
-                        {formatCurrency(fireResults.totalAtRetirement)}
+                        {format(fireResults.totalAtRetirement)}
                       </p>
                     </div>
                     <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
                       <p className="text-xs text-gray-500">Monthly Income</p>
                       <p className="text-xl font-bold text-gray-900 dark:text-white">
-                        {formatCurrency(fireResults.monthlyIncome)}
+                        {format(fireResults.monthlyIncome)}
                       </p>
                     </div>
                   </div>
@@ -761,7 +765,7 @@ const Calculators: React.FC = () => {
                     <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg flex items-center space-x-3">
                       <AlertCircle className="text-yellow-600 flex-shrink-0" size={20} />
                       <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                        You need to save an additional {formatCurrency(fireResults.fireNumber - fireResults.totalAtRetirement)} 
+                        You need to save an additional {format(fireResults.fireNumber - fireResults.totalAtRetirement)} 
                         to reach your FIRE number.
                       </p>
                     </div>
@@ -792,7 +796,7 @@ const Calculators: React.FC = () => {
                     <YAxis />
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip 
-                      formatter={(value: any) => formatCurrency(value)}
+                      formatter={(value: any) => format(value)}
                       contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.9)',
                         borderRadius: '8px',
@@ -921,7 +925,7 @@ const Calculators: React.FC = () => {
                       <Landmark size={24} className="mx-auto text-purple-600 mb-2" />
                       <p className="text-xs text-gray-500">Sacco Future Value</p>
                       <p className="text-xl font-bold text-purple-600">
-                        {formatCurrency(saccoMMFResults.saccoFuture)}
+                        {format(saccoMMFResults.saccoFuture)}
                       </p>
                       <p className="text-xs text-green-600 mt-1">
                         +{saccoMMFResults.saccoReturns.toFixed(1)}%
@@ -931,7 +935,7 @@ const Calculators: React.FC = () => {
                       <TrendingUp size={24} className="mx-auto text-blue-600 mb-2" />
                       <p className="text-xs text-gray-500">MMF Future Value</p>
                       <p className="text-xl font-bold text-blue-600">
-                        {formatCurrency(saccoMMFResults.mmfFuture)}
+                        {format(saccoMMFResults.mmfFuture)}
                       </p>
                       <p className="text-xs text-green-600 mt-1">
                         +{saccoMMFResults.mmfReturns.toFixed(1)}%
@@ -948,11 +952,11 @@ const Calculators: React.FC = () => {
                     <p className="text-sm text-center font-medium">
                       {saccoMMFResults.better === 'Sacco' ? (
                         <span className="text-purple-700 dark:text-purple-300">
-                          🏦 Sacco is better by {formatCurrency(saccoMMFResults.difference)}
+                          🏦 Sacco is better by {format(saccoMMFResults.difference)}
                         </span>
                       ) : (
                         <span className="text-blue-700 dark:text-blue-300">
-                          📈 MMF is better by {formatCurrency(saccoMMFResults.difference)}
+                          📈 MMF is better by {format(saccoMMFResults.difference)}
                         </span>
                       )}
                     </p>
@@ -1061,13 +1065,13 @@ const Calculators: React.FC = () => {
                     <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
                       <p className="text-xs text-gray-500">Total Needed</p>
                       <p className="text-xl font-bold text-gray-900 dark:text-white">
-                        {formatCurrency(educationResults.totalNeeded)}
+                        {format(educationResults.totalNeeded)}
                       </p>
                     </div>
                     <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
                       <p className="text-xs text-gray-500">Projected Savings</p>
                       <p className="text-xl font-bold text-gray-900 dark:text-white">
-                        {formatCurrency(educationResults.totalSaved)}
+                        {format(educationResults.totalSaved)}
                       </p>
                     </div>
                   </div>
@@ -1099,12 +1103,12 @@ const Calculators: React.FC = () => {
                       <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg flex items-center space-x-3">
                         <AlertCircle className="text-yellow-600 flex-shrink-0" size={20} />
                         <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                          You need to save an additional {formatCurrency(educationResults.shortfall)}
+                          You need to save an additional {format(educationResults.shortfall)}
                         </p>
                       </div>
                       <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                         <p className="text-sm text-purple-700 dark:text-purple-300">
-                          Increase monthly savings to {formatCurrency(educationResults.monthlyNeeded)} to reach your goal
+                          Increase monthly savings to {format(educationResults.monthlyNeeded)} to reach your goal
                         </p>
                       </div>
                     </div>

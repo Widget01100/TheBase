@@ -23,15 +23,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import App from './App';
 import { AppProvider } from './contexts/AppContext';
+import { CurrencyProvider } from './contexts/CurrencyContext';
 import ErrorBoundary from './components/shared/ErrorBoundary';
 import './styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ErrorBoundary>
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppProvider>
-          <App />
+          <CurrencyProvider>
+            <App />
+          </CurrencyProvider>
           <Toaster
             position="top-right"
             toastOptions={{
@@ -59,5 +62,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </AppProvider>
       </BrowserRouter>
     </ErrorBoundary>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

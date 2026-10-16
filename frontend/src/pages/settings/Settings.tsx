@@ -15,6 +15,7 @@ import {
   Save
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
+import CurrencySwitcher from '@/components/shared/CurrencySwitcher';
 import Button from '@/components/ui/Button';
 
 const Settings: React.FC = () => {
@@ -172,11 +173,7 @@ const Settings: React.FC = () => {
               <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
                 Currency
               </label>
-              <select className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg">
-                <option>KES - Kenyan Shilling</option>
-                <option>USD - US Dollar</option>
-                <option>EUR - Euro</option>
-              </select>
+              <CurrencySwitcher variant="full" />
             </div>
             <div>
               <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">

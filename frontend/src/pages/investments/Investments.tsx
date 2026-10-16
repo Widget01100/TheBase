@@ -56,6 +56,7 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatCurrency, formatPercentage } from '@/utils/formatters';
+import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import { cn } from '@/lib/utils';
 import {
   LineChart as ReLineChart,
@@ -121,6 +122,9 @@ const nseIndices = [
 ];
 
 const Investments: React.FC = () => {
+  const format = useFormatCurrency();
+  const { currency } = useCurrency();
+
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAsset, setSelectedAsset] = useState<string | null>(null);
   const [showAddInvestment, setShowAddInvestment] = useState(false);
@@ -233,7 +237,7 @@ const Investments: React.FC = () => {
               </div>
             </div>
             <p className="text-white/80 text-sm mt-2">
-              +{formatCurrency(totalReturns)} returns this year
+              +{format(totalReturns)} returns this year
             </p>
           </Card>
         </motion.div>
@@ -248,7 +252,7 @@ const Investments: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">MMF Investments</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(totalMMF)}
+                  {format(totalMMF)}
                 </p>
               </div>
               <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-xl">
@@ -269,7 +273,7 @@ const Investments: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Sacco Savings</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(totalSacco)}
+                  {format(totalSacco)}
                 </p>
               </div>
               <div className="p-3 bg-pink-100 dark:bg-pink-900/20 rounded-xl">
@@ -290,7 +294,7 @@ const Investments: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Stocks Value</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                  {formatCurrency(totalStocks)}
+                  {format(totalStocks)}
                 </p>
               </div>
               <div className="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-xl">
@@ -364,7 +368,7 @@ const Investments: React.FC = () => {
                         ))}
                       </Pie>
                       <Tooltip
-                        formatter={(value: any) => formatCurrency(value)}
+                        formatter={(value: any) => format(value)}
                         contentStyle={{
                           backgroundColor: 'rgba(255, 255, 255, 0.9)',
                           borderRadius: '8px',
@@ -424,7 +428,7 @@ const Investments: React.FC = () => {
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
                       <Tooltip
-                        formatter={(value: any) => formatCurrency(value)}
+                        formatter={(value: any) => format(value)}
                         contentStyle={{
                           backgroundColor: 'rgba(255, 255, 255, 0.9)',
                           borderRadius: '8px',
@@ -476,21 +480,21 @@ const Investments: React.FC = () => {
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                   <p className="text-sm text-green-700 dark:text-green-300">Low Risk (MMF, T-Bills)</p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
-                    {formatCurrency(totalMMF + 100000)}
+                    {format(totalMMF + 100000)}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">65% of portfolio</p>
                 </div>
                 <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                   <p className="text-sm text-yellow-700 dark:text-yellow-300">Moderate Risk (Saccos)</p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
-                    {formatCurrency(totalSacco)}
+                    {format(totalSacco)}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">25% of portfolio</p>
                 </div>
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
                   <p className="text-sm text-red-700 dark:text-red-300">High Risk (Stocks)</p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
-                    {formatCurrency(totalStocks)}
+                    {format(totalStocks)}
                   </p>
                   <p className="text-xs text-gray-500 mt-1">10% of portfolio</p>
                 </div>
@@ -521,7 +525,7 @@ const Investments: React.FC = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-3xl font-bold">{formatCurrency(totalMMF)}</p>
+                  <p className="text-3xl font-bold">{format(totalMMF)}</p>
                   <p className="text-white/80 text-sm">Total invested</p>
                 </div>
               </div>
@@ -598,7 +602,7 @@ const Investments: React.FC = () => {
                         <div>
                           <p className="text-xs text-gray-500 dark:text-gray-400">Invested</p>
                           <p className="text-lg font-bold text-gray-900 dark:text-white">
-                            {formatCurrency(fund.amount)}
+                            {format(fund.amount)}
                           </p>
                         </div>
                         <div>
@@ -611,13 +615,13 @@ const Investments: React.FC = () => {
                     ) : (
                       <div className="mt-4">
                         <Button variant="outline" size="sm" icon={<Plus size={14} />}>
-                          Start Investing from {formatCurrency(fund.minInvestment)}
+                          Start Investing from {format(fund.minInvestment)}
                         </Button>
                       </div>
                     )}
 
                     <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
-                      <span>Min: {formatCurrency(fund.minInvestment)}</span>
+                      <span>Min: {format(fund.minInvestment)}</span>
                       <span>Liquidity: {fund.liquidity}</span>
                     </div>
                   </Card>
@@ -649,7 +653,7 @@ const Investments: React.FC = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-3xl font-bold">{formatCurrency(totalSacco)}</p>
+                  <p className="text-3xl font-bold">{format(totalSacco)}</p>
                   <p className="text-white/80 text-sm">Total savings</p>
                 </div>
               </div>
@@ -685,7 +689,7 @@ const Investments: React.FC = () => {
                       </div>
                       <div className="text-right">
                         <p className="text-xl font-bold text-gray-900 dark:text-white">
-                          {formatCurrency(sacco.amount)}
+                          {format(sacco.amount)}
                         </p>
                         <p className="text-xs text-gray-500">Total savings</p>
                       </div>
@@ -715,13 +719,13 @@ const Investments: React.FC = () => {
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">Monthly Deposit</p>
                               <p className="text-lg font-bold text-gray-900 dark:text-white">
-                                {formatCurrency(sacco.deposits)}
+                                {format(sacco.deposits)}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">Loan Balance</p>
                               <p className="text-lg font-bold text-red-600">
-                                {formatCurrency(sacco.loanBalance)}
+                                {format(sacco.loanBalance)}
                               </p>
                             </div>
                           </div>
@@ -813,7 +817,7 @@ const Investments: React.FC = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-3xl font-bold">{formatCurrency(totalStocks)}</p>
+                  <p className="text-3xl font-bold">{format(totalStocks)}</p>
                   <p className="text-white/80 text-sm">Portfolio value</p>
                 </div>
               </div>
@@ -886,7 +890,7 @@ const Investments: React.FC = () => {
                         {stock.shares}
                       </td>
                       <td className="py-4 font-medium text-gray-900 dark:text-white">
-                        {formatCurrency(stock.price)}
+                        {format(stock.price)}
                       </td>
                       <td className="py-4">
                         <div className={cn(
@@ -898,7 +902,7 @@ const Investments: React.FC = () => {
                         </div>
                       </td>
                       <td className="py-4 font-bold text-gray-900 dark:text-white">
-                        {formatCurrency(stock.value)}
+                        {format(stock.value)}
                       </td>
                       <td className="py-4 text-gray-600 dark:text-gray-400">
                         {stock.dividend}
@@ -1025,7 +1029,7 @@ const Investments: React.FC = () => {
                       <XAxis dataKey="year" />
                       <YAxis />
                       <Tooltip
-                        formatter={(value: any) => formatCurrency(value)}
+                        formatter={(value: any) => format(value)}
                       />
                     </ReLineChart>
                   </ResponsiveContainer>

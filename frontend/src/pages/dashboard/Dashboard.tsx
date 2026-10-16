@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, startTransition } from 'react';
 import { format } from 'date-fns';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { 
@@ -100,6 +100,7 @@ import { initialTransactions } from '@/data/transactions';
 import { buildContributionData } from '@/utils/contributionData';
 import type { DailyActivity, FinancialQuote } from '@/types';
 import { formatCurrency } from '@/utils/formatters';
+import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import ExportModal from '@/components/shared/ExportModal';
 import toast from 'react-hot-toast';
 import { exportToPDF } from '@/utils/export/exportUtils';
@@ -117,7 +118,15 @@ const weatherData = {
   kisumu: { temp: 26, condition: 'Light Rain', icon: CloudRain, color: 'from-gray-400 to-gray-600' },
 };
 
+// Module-level cache: year → DailyActivity[]
+// Uses a plain object to avoid clashing with the lucide-react `Map` icon import.
+const contributionCache: Record<number, any[]> = {};
+
 const Dashboard: React.FC = () => {
+  // Currency-aware formatter — subscribing here causes re-render on currency change
+  const fmtMoney = useFormatCurrency();
+  const { currency } = useCurrency();
+
   // State management
   const [contributionData, setContributionData] = useState<DailyActivity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -375,6 +384,19 @@ const Dashboard: React.FC = () => {
     return Math.ceil(p95 / magnitude) * magnitude * 1.1;
   }, [spendingTimeSeries]);
 
+  // Memoized label formatter for chart bars — avoids re-computation on every render
+  const chartLabelFormatter = useMemo(() => {
+    return ({ datum }: { datum: any }) => {
+      const amount = datum.y || 0;
+      if (amount === 0) return '';
+      return amount >= 1_000_000
+        ? `${currency.symbol}${(amount / 1_000_000).toFixed(2)}M`
+        : amount >= 1_000
+          ? `${currency.symbol}${(amount / 1_000).toFixed(1)}k`
+          : `${currency.symbol}${Math.round(amount)}`;
+    };
+  }, [currency.symbol]);
+
   // Tick stride: how often to show X-axis labels
   const chartTickStride = useMemo(() => {
     switch (selectedTimeframe) {
@@ -416,49 +438,63 @@ const Dashboard: React.FC = () => {
     return sorted[0] ? new Date(sorted[0].date).getFullYear() : new Date().getFullYear();
   });
 
+  // ─────────────────────────────────────────────────────────
+  // Effect 1: Build contribution data from selected year
+  // Re-runs only when the year changes
+  // ─────────────────────────────────────────────────────────
   useEffect(() => {
-    // Load mock data
-    const loadData = async () => {
-      // Only show loading on the very first load
-      const isFirstLoad = !hasLoadedOnceRef.current;
-      if (isFirstLoad) setLoading(true);
+    const isFirstLoad = !hasLoadedOnceRef.current;
 
-      // Small delay only on first load
-      if (isFirstLoad) {
-        await new Promise(resolve => setTimeout(resolve, 800));
-      }
-
-      const data = buildContributionData(recentTransactions, selectedYear);
-      setContributionData(data);
-      setLoading(false);
-      hasLoadedOnceRef.current = true;
-
-      // Trigger confetti only on first load
-      if (isFirstLoad) {
+    if (isFirstLoad) {
+      setLoading(true);
+      // Only delay + confetti on first mount
+      const timer = setTimeout(() => {
+        let data = contributionCache[selectedYear];
+        if (!data) {
+          data = buildContributionData(recentTransactions, selectedYear);
+          contributionCache[selectedYear] = data;
+        }
+        setContributionData(data);
+        setLoading(false);
+        hasLoadedOnceRef.current = true;
         setShowConfetti(true);
-        setTimeout(() => setShowConfetti(false), 3000);
+        setTimeout(() => setShowConfetti(false), 2500);
+      }, 800);
+      return () => clearTimeout(timer);
+    } else {
+      // Subsequent year changes: check cache first, then build
+      let data = contributionCache[selectedYear];
+      if (!data) {
+        data = buildContributionData(recentTransactions, selectedYear);
+        contributionCache[selectedYear] = data;
       }
-    };
-    
-    loadData();
-    
-    // Set random quote
+      setContributionData(data);
+    }
+  }, [selectedYear]);
+
+  // ─────────────────────────────────────────────────────────
+  // Effect 2: One-time setup (quote, welcome, notifications)
+  // Runs only on mount, never on year change
+  // ─────────────────────────────────────────────────────────
+  useEffect(() => {
+    // Random quote on first load
     const randomQuote = mockQuotes[Math.floor(Math.random() * mockQuotes.length)];
     setQuote(randomQuote);
 
-    // Hide welcome message after 5 seconds
+    // Hide welcome after 5s
     const welcomeTimer = setTimeout(() => setShowWelcome(false), 5000);
-    
-    // Check for notifications
+
+    // Notification ticker
     const notificationTimer = setInterval(() => {
-      setNotifications(prev => Math.min(prev + 1, 9));
+      setNotifications((prev) => Math.min(prev + 1, 9));
     }, 30000);
 
     return () => {
       clearTimeout(welcomeTimer);
       clearInterval(notificationTimer);
     };
-  }, [selectedYear]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Stats data with Kenyan context
   const stats = [
@@ -756,7 +792,7 @@ const Dashboard: React.FC = () => {
                   data={contributionData}
                   year={selectedYear}
                   availableYears={availableYears}
-                  onYearChange={setSelectedYear}
+                  onYearChange={(year) => startTransition(() => setSelectedYear(year))}
                   onDayClick={handleDayClick}
                 />
               )}
@@ -800,40 +836,6 @@ const Dashboard: React.FC = () => {
                     width={700}
                     height={320}
                     padding={{ top: 40, bottom: 80, left: 130, right: 30 }}
-                    containerComponent={
-                      <VictoryVoronoiContainer
-                        voronoiDimension="x"
-                        activateData={true}
-                        activateLabels={true}
-                        labels={({ datum }) => {
-                          const amount = datum.y || 0;
-                          const formatted = amount >= 1000000
-                            ? `KES ${(amount / 1000000).toFixed(2)}M`
-                            : amount >= 1000
-                              ? `KES ${(amount / 1000).toFixed(1)}k`
-                              : `KES ${Math.round(amount)}`;
-                          return `${datum.label}\n${formatted}`;
-                        }}
-                        labelComponent={
-                          <VictoryTooltip
-                            flyoutStyle={{
-                              fill: '#1f2937',
-                              stroke: 'none',
-                              strokeWidth: 0,
-                            }}
-                            style={{
-                              fill: '#ffffff',
-                              fontSize: 12,
-                              fontWeight: 'bold',
-                              textAnchor: 'middle',
-                            }}
-                            flyoutPadding={{ top: 8, bottom: 8, left: 12, right: 12 }}
-                            cornerRadius={6}
-                            pointerLength={6}
-                          />
-                        }
-                      />
-                    }
                   >
                     {/* X-axis */}
                     <VictoryAxis
@@ -885,14 +887,14 @@ const Dashboard: React.FC = () => {
                     {/* Y-axis */}
                     <VictoryAxis
                       dependentAxis
-                      label="Amount (KES)"
+                      label={`Amount (${currency.code})`}
                       domain={[0, chartYMax]}
                       tickFormat={(x: number) => {
-                        if (x === 0) return 'KES 0';
-                        if (x >= 1_000_000_000) return `KES ${(x / 1_000_000_000).toFixed(1)}B`;
-                        if (x >= 1_000_000) return `KES ${(x / 1_000_000).toFixed(1)}M`;
-                        if (x >= 1_000) return `KES ${(x / 1_000).toFixed(0)}k`;
-                        return `KES ${Math.round(x)}`;
+                        if (x === 0) return `${currency.symbol}0`;
+                        if (x >= 1_000_000_000) return `${currency.symbol}${(x / 1_000_000_000).toFixed(1)}B`;
+                        if (x >= 1_000_000) return `${currency.symbol}${(x / 1_000_000).toFixed(1)}M`;
+                        if (x >= 1_000) return `${currency.symbol}${(x / 1_000).toFixed(0)}k`;
+                        return `${currency.symbol}${Math.round(x)}`;
                       }}
                       style={{
                         tickLabels: {
@@ -921,10 +923,36 @@ const Dashboard: React.FC = () => {
                     {/* Bars for 1W, 1M, 3M */}
                     {selectedTimeframe !== '1Y' && (
                       <VictoryBar
-                        labels={() => ''}
-                        data={spendingTimeSeries.map(({ x, y }) => ({ x, y }))}
+                        data={spendingTimeSeries}
                         cornerRadius={{ top: 5 }}
                         barWidth={chartBarWidth}
+                        labels={({ datum }) => {
+                          const amount = datum.y || 0;
+                          if (amount === 0) return '';
+                          return amount >= 1_000_000
+                            ? `${currency.symbol}${(amount / 1_000_000).toFixed(2)}M`
+                            : amount >= 1_000
+                              ? `${currency.symbol}${(amount / 1_000).toFixed(1)}k`
+                              : `${currency.symbol}${Math.round(amount)}`;
+                        }}
+                        labelComponent={
+                          <VictoryTooltip
+                            flyoutStyle={{
+                              fill: chartPalette.deep,
+                              stroke: 'none',
+                            }}
+                            style={{
+                              fill: '#ffffff',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                            }}
+                            flyoutPadding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+                            cornerRadius={6}
+                            pointerLength={6}
+                            constrainToVisibleArea={true}
+                            dy={-12}
+                          />
+                        }
                         style={{
                           data: {
                             fill: ({ datum }) => {
@@ -949,6 +977,33 @@ const Dashboard: React.FC = () => {
                       <VictoryLine
                         data={spendingTimeSeries}
                         interpolation="monotoneX"
+                        labels={({ datum }) => {
+                          const amount = datum.y || 0;
+                          if (amount === 0) return '';
+                          return amount >= 1_000_000
+                            ? `${currency.symbol}${(amount / 1_000_000).toFixed(2)}M`
+                            : amount >= 1_000
+                              ? `${currency.symbol}${(amount / 1_000).toFixed(1)}k`
+                              : `${currency.symbol}${Math.round(amount)}`;
+                        }}
+                        labelComponent={
+                          <VictoryTooltip
+                            flyoutStyle={{
+                              fill: chartPalette.deep,
+                              stroke: 'none',
+                            }}
+                            style={{
+                              fill: '#ffffff',
+                              fontSize: 12,
+                              fontWeight: 'bold',
+                            }}
+                            flyoutPadding={{ top: 8, bottom: 8, left: 12, right: 12 }}
+                            cornerRadius={6}
+                            pointerLength={6}
+                            constrainToVisibleArea={true}
+                            dy={-12}
+                          />
+                        }
                         style={{
                           data: { stroke: chartPalette.dark, strokeWidth: 3 },
                         }}
@@ -1020,7 +1075,7 @@ const Dashboard: React.FC = () => {
                                 'font-semibold',
                                 transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
                               )}>
-                                {transaction.amount > 0 ? '+' : ''}{formatCurrency(Math.abs(transaction.amount))}
+                                {transaction.amount > 0 ? '+' : ''}{fmtMoney(Math.abs(transaction.amount))}
                               </span>
                             </motion.div>
                           ))}
@@ -1092,7 +1147,7 @@ const Dashboard: React.FC = () => {
                         />
                       </div>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        {formatCurrency(goal.currentAmount)} / {formatCurrency(goal.targetAmount)}
+                        {fmtMoney(goal.currentAmount)} / {fmtMoney(goal.targetAmount)}
                       </p>
                     </motion.div>
                   ))}
@@ -1128,7 +1183,7 @@ const Dashboard: React.FC = () => {
                             isCloseToLimit && 'text-yellow-600',
                             !isOverBudget && !isCloseToLimit && 'text-green-600'
                           )}>
-                            {formatCurrency(budget.spent)} / {formatCurrency(budget.amount)}
+                            {fmtMoney(budget.spent)} / {fmtMoney(budget.amount)}
                           </span>
                         </div>
                         <div className="progress-bar">
@@ -1251,7 +1306,7 @@ const Dashboard: React.FC = () => {
                         'text-sm font-medium',
                         transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
                       )}>
-                        {transaction.amount > 0 ? '+' : ''}{formatCurrency(transaction.amount)}
+                        {transaction.amount > 0 ? '+' : ''}{fmtMoney(transaction.amount)}
                       </span>
                     </motion.div>
                   ))}
@@ -1288,7 +1343,7 @@ const Dashboard: React.FC = () => {
                       <span className={cn('text-sm font-medium text-green-600')}>{investment.returns}</span>
                     </div>
                     <p className="text-xl font-bold text-gray-900 dark:text-white">
-                      {formatCurrency(investment.amount)}
+                      {fmtMoney(investment.amount)}
                     </p>
                     <div className="mt-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <motion.div

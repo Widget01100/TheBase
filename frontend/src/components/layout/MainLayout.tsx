@@ -27,6 +27,7 @@ import {
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import CurrencySwitcher from '@/components/shared/CurrencySwitcher';
 
 interface NavItem {
   path: string;
@@ -347,6 +348,11 @@ const MainLayout: React.FC = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
+                </div>
+
+                {/* Currency Switcher */}
+                <div className="hidden sm:block">
+                  <CurrencySwitcher variant="compact" />
                 </div>
 
                 {/* Dark Mode Toggle */}

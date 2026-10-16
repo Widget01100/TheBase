@@ -86,6 +86,7 @@ import {
   Shield,
   Flame
 } from 'lucide-react';
+import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -288,6 +289,9 @@ const articles = [
 ];
 
 const Education: React.FC = () => {
+  const format = useFormatCurrency();
+  const { currency } = useCurrency();
+
   const [activeTab, setActiveTab] = useState('learn');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');

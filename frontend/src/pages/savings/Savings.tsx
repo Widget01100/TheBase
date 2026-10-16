@@ -55,6 +55,7 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatCurrency } from '@/utils/formatters';
+import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import { cn } from '@/lib/utils';
 import Confetti from 'react-confetti';
 import { LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
@@ -93,6 +94,9 @@ const achievements = [
 ];
 
 const Savings: React.FC = () => {
+  const format = useFormatCurrency();
+  const { currency } = useCurrency();
+
   const [activeTab, setActiveTab] = useState('challenges');
   const [selectedChallenge, setSelectedChallenge] = useState<'52week' | 'roundup' | 'goals'>('52week');
   const [showConfetti, setShowConfetti] = useState(false);
@@ -213,7 +217,7 @@ const Savings: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Round-Up Savings</p>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                    {formatCurrency(totalRoundUp)}
+                    {format(totalRoundUp)}
                   </p>
                 </div>
                 <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-xl">
@@ -298,7 +302,7 @@ const Savings: React.FC = () => {
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="text-center">
-                      <p className="text-3xl font-bold">{formatCurrency(137800)}</p>
+                      <p className="text-3xl font-bold">{format(137800)}</p>
                       <p className="text-sm text-white/80">Potential total savings</p>
                     </div>
                     <div className="h-12 w-px bg-white/20"></div>
@@ -350,7 +354,7 @@ const Savings: React.FC = () => {
                       Next milestone: Week {completedWeeks + 1}
                     </p>
                     <p className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
-                      Save {formatCurrency((completedWeeks + 1) * 100)}
+                      Save {format((completedWeeks + 1) * 100)}
                     </p>
                   </div>
                 </Card>
@@ -398,7 +402,7 @@ const Savings: React.FC = () => {
                   >
                     <span className="text-xs font-medium">W{week.week}</span>
                     <span className="text-xs mt-1">
-                      {week.completed ? '✓' : formatCurrency(week.amount)}
+                      {week.completed ? '✓' : format(week.amount)}
                     </span>
                     {week.completed && (
                       <motion.div
@@ -521,7 +525,7 @@ const Savings: React.FC = () => {
                         <div className="flex justify-between text-sm mb-1">
                           <span className="text-gray-600 dark:text-gray-400">{month.name}</span>
                           <span className="font-medium text-gray-900 dark:text-white">
-                            {formatCurrency(month.saved)}
+                            {format(month.saved)}
                           </span>
                         </div>
                         <div className="progress-bar">
@@ -558,7 +562,7 @@ const Savings: React.FC = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-green-600">+{formatCurrency(i * 75)}</p>
+                        <p className="font-semibold text-green-600">+{format(i * 75)}</p>
                         <p className="text-xs text-gray-500">rounded up</p>
                       </div>
                     </div>
@@ -635,10 +639,10 @@ const Savings: React.FC = () => {
                           </div>
                           <div className="flex justify-between text-sm mt-2">
                             <span className="text-gray-600 dark:text-gray-400">
-                              {formatCurrency(goal.current)}
+                              {format(goal.current)}
                             </span>
                             <span className="text-gray-900 dark:text-white font-medium">
-                              {formatCurrency(goal.target)}
+                              {format(goal.target)}
                             </span>
                           </div>
                         </div>
