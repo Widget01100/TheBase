@@ -1,5 +1,6 @@
 // src/pages/savings/Savings.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { initialTransactions } from '@/data/transactions';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   PiggyBank,
@@ -106,6 +107,40 @@ const Savings: React.FC = () => {
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
   const [roundUpEnabled, setRoundUpEnabled] = useState(true);
   const [roundUpMultiplier, setRoundUpMultiplier] = useState(1);
+
+  // ─── Computed round-up data from real transactions ───
+  const roundUpHistory = useMemo(() => {
+    const expenses = initialTransactions.filter((t) => t.type === 'expense');
+
+    // Group by date
+    const byDate = new Map<string, { total: number; count: number; transactions: any[] }>();
+    expenses.forEach((t) => {
+      const abs = Math.abs(t.amount);
+      const rounded = Math.ceil(abs / 100) * 100;
+      const diff = rounded - abs;
+      if (diff > 0) {
+        const key = new Date(t.date).toISOString().split('T')[0];
+        if (!byDate.has(key)) byDate.set(key, { total: 0, count: 0, transactions: [] });
+        const entry = byDate.get(key)!;
+        entry.total += diff;
+        entry.count += 1;
+        entry.transactions.push({ ...t, roundUp: diff });
+      }
+    });
+
+    return Array.from(byDate.entries())
+      .map(([date, data]) => ({ date, ...data }))
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 10);
+  }, []);
+
+  const roundUpStats = useMemo(() => {
+    const totalRoundUps = roundUpHistory.reduce((sum, d) => sum + d.count, 0);
+    const totalSaved = roundUpHistory.reduce((sum, d) => sum + d.total, 0);
+    const avg = totalRoundUps > 0 ? totalSaved / totalRoundUps : 0;
+    return { count: totalRoundUps, total: totalSaved, avg };
+  }, [roundUpHistory]);
+
   
   // Calculate totals
   const totalSaved52Week = week52Data.reduce((sum, week) => sum + week.saved, 0);
@@ -509,7 +544,7 @@ const Savings: React.FC = () => {
                     <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
                       <p className="text-sm text-blue-800 dark:text-blue-200">
                         <Info size={16} className="inline mr-2" />
-                        You've rounded up 128 transactions this month
+                        You've rounded up {roundUpStats.count} transactions this month
                       </p>
                     </div>
                   </div>
@@ -541,33 +576,70 @@ const Savings: React.FC = () => {
                 </Card>
               </div>
 
+              {/* Round-Up Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card variant="glass" className="p-4">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Total Saved</p>
+                  <p className="text-xl font-bold text-green-600 mt-1">
+                    {format(roundUpStats.total)}
+                  </p>
+                </Card>
+                <Card variant="glass" className="p-4">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Round-Ups</p>
+                  <p className="text-xl font-bold text-purple-600 mt-1">
+                    {roundUpStats.count}
+                  </p>
+                </Card>
+                <Card variant="glass" className="p-4">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Average</p>
+                  <p className="text-xl font-bold text-blue-600 mt-1">
+                    {format(roundUpStats.avg)}
+                  </p>
+                </Card>
+              </div>
+
               {/* Recent Round-Ups */}
               <Card variant="glass" className="p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Recent Round-Ups
                 </h3>
                 <div className="space-y-3">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                          <RefreshCw size={18} className="text-purple-600" />
+                  {roundUpHistory.length === 0 ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-6">
+                      No round-ups yet. Make an M-PESA transaction to get started.
+                    </p>
+                  ) : (
+                    roundUpHistory.slice(0, 5).map((day) => (
+                      <div
+                        key={day.date}
+                        className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
+                            <RefreshCw size={18} className="text-purple-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900 dark:text-white">
+                              {new Date(day.date).toLocaleDateString('en-KE', { 
+                                weekday: 'short', 
+                                day: 'numeric', 
+                                month: 'short' 
+                              })}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              {day.count} transaction{day.count > 1 ? 's' : ''} rounded up
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            M-PESA to {['Naivas', 'KPLC', 'Safaricom', 'Uber', 'Java'][i-1]}
+                        <div className="text-right">
+                          <p className="font-semibold text-green-600">
+                            +{format(day.total)}
                           </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {`${i} hour${i > 1 ? 's' : ''} ago`}
-                          </p>
+                          <p className="text-xs text-gray-500">rounded up</p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-semibold text-green-600">+{format(i * 75)}</p>
-                        <p className="text-xs text-gray-500">rounded up</p>
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </Card>
             </motion.div>
@@ -725,13 +797,22 @@ const Savings: React.FC = () => {
               </div>
 
               {/* Achievements Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.06 } },
+                }}
+                className="grid grid-cols-2 md:grid-cols-3 gap-4"
+              >
                 {achievements.map((achievement, index) => (
                   <motion.div
                     key={achievement.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.05 }}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.9 },
+                      visible: { opacity: 1, scale: 1 },
+                    }}
                   >
                     <Card
                       variant={achievement.earned ? 'gradient' : 'glass'}
@@ -765,7 +846,7 @@ const Savings: React.FC = () => {
                     </Card>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
 
               {/* Next Achievements */}
               <Card variant="glass" className="p-6">

@@ -96,6 +96,7 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import EmptyState from '@/components/shared/EmptyState';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import { StatCardSkeleton, ChartSkeleton } from '@/components/shared/Skeleton';
 import { generateMockContributionData, mockQuotes, mockGoals, mockBudgets } from '@/data/mockData';
 import { initialTransactions } from '@/data/transactions';
 import { buildContributionData } from '@/utils/contributionData';
@@ -1125,13 +1126,22 @@ const Dashboard: React.FC = () => {
                   </h3>
                   <Target className="text-gray-400" size={20} />
                 </div>
-                <div className="space-y-6">
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.1 } },
+                  }}
+                  className="space-y-6"
+                >
                   {mockGoals.map((goal, index) => (
                     <motion.div
                       key={goal.id}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+                      variants={{
+                        hidden: { opacity: 0, x: 20 },
+                        visible: { opacity: 1, x: 0 },
+                      }}
                     >
                       <div className="flex justify-between text-sm mb-1">
                         <span className="text-gray-700 dark:text-gray-300">{goal.name}</span>
@@ -1152,7 +1162,7 @@ const Dashboard: React.FC = () => {
                       </p>
                     </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </Card>
 
               {/* Budget Overview */}

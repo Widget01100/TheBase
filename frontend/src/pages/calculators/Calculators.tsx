@@ -57,6 +57,7 @@ import {
   Trash2
 } from 'lucide-react';
 import Card from '@/components/ui/Card';
+import EmptyState from '@/components/shared/EmptyState';
 import Button from '@/components/ui/Button';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { formatCurrency, formatPercentage } from '@/utils/formatters';
@@ -218,6 +219,71 @@ const Calculators: React.FC = () => {
   const { currency } = useCurrency();
 
   const [selectedCalculator, setSelectedCalculator] = useState<CalculatorType>('fire');
+
+  // ─── Validation helpers ───
+  const getFireValidation = (): string | null => {
+    if (fireInputs.retirementAge <= fireInputs.currentAge) {
+      return 'Retirement age must be greater than current age';
+    }
+    if (fireInputs.monthlySavings <= 0) {
+      return 'Monthly savings must be positive';
+    }
+    if (fireInputs.expectedReturn <= 0 || fireInputs.expectedReturn > 30) {
+      return 'Expected return should be between 0% and 30%';
+    }
+    if (fireInputs.desiredMonthlyIncome <= 0) {
+      return 'Desired monthly income must be positive';
+    }
+    return null;
+  };
+
+  const getSaccoMMFValidation = (): string | null => {
+    if (saccoMMFInputs.years <= 0) {
+      return 'Investment period must be at least 1 year';
+    }
+    if (saccoMMFInputs.saccoRate < 0 || saccoMMFInputs.saccoRate > 30) {
+      return 'Sacco rate should be between 0% and 30%';
+    }
+    if (saccoMMFInputs.mmfRate < 0 || saccoMMFInputs.mmfRate > 30) {
+      return 'MMF rate should be between 0% and 30%';
+    }
+    return null;
+  };
+
+  const getEducationValidation = (): string | null => {
+    if (educationInputs.universityAge <= educationInputs.childAge) {
+      return 'University age must be greater than child age';
+    }
+    if (educationInputs.currentSavings < 0) {
+      return 'Current savings cannot be negative';
+    }
+    return null;
+  };
+
+  // ─── Reset-to-defaults helpers ───
+  const resetFireInputs = () => {
+    setFireInputs({
+      currentAge: 30,
+      retirementAge: 50,
+      currentSavings: 500000,
+      monthlySavings: 20000,
+      expectedReturn: 8,
+      inflationRate: 5,
+      desiredMonthlyIncome: 100000,
+      safeWithdrawalRate: 4,
+    });
+  };
+
+  const resetSaccoMMFInputs = () => {
+    setSaccoMMFInputs({
+      initialAmount: 100000,
+      monthlyContribution: 5000,
+      years: 10,
+      saccoRate: 12,
+      mmfRate: 8.5,
+    });
+  };
+
   const [showResults, setShowResults] = useState(false);
   const [savedCalculations, setSavedCalculations] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<'calculators' | 'saved' | 'compare'>('calculators');
@@ -633,9 +699,19 @@ const Calculators: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Input Form */}
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Your Details
-                </h3>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Your Details
+                  </h3>
+                  <button
+                    onClick={resetFireInputs}
+                    className="text-xs text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium flex items-center gap-1"
+                    title="Reset to defaults"
+                  >
+                    <RefreshCw size={12} />
+                    Reset
+                  </button>
+                </div>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -773,6 +849,16 @@ const Calculators: React.FC = () => {
                 </div>
               </Card>
             </div>
+
+            {/* Validation warning */}
+            {getFireValidation() && (
+              <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg flex items-center space-x-3">
+                <AlertCircle className="text-yellow-600 flex-shrink-0" size={20} />
+                <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                  {getFireValidation()}
+                </p>
+              </div>
+            )}
 
             {/* Projection Chart */}
             <Card variant="glass" className="p-6">
