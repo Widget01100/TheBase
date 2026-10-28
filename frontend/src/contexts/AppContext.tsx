@@ -47,7 +47,10 @@ interface AppProviderProps {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return document.documentElement.classList.contains('dark');
+  });
   const [notifications, setNotifications] = useState(0);
 
   useEffect(() => {
@@ -80,18 +83,20 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
     loadUser();
 
-    // Check for saved dark mode preference
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(savedDarkMode);
-    if (savedDarkMode) {
-      document.documentElement.classList.add('dark');
-    }
+    // Dark mode is already applied by index.html boot script — just sync state
+    const isDark = document.documentElement.classList.contains('dark');
+    setDarkMode(isDark);
   }, []);
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', (!darkMode).toString());
-    document.documentElement.classList.toggle('dark');
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.classList.toggle('dark', next);
+    try {
+      localStorage.setItem('thebase.theme', next ? 'dark' : 'light');
+    } catch (e) {
+      // ignore
+    }
   };
 
   const updatePreferences = (preferences: Partial<UserPreferences>) => {

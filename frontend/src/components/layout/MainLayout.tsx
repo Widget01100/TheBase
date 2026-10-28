@@ -51,7 +51,10 @@ const navItems: NavItem[] = [
 
 const MainLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return document.documentElement.classList.contains('dark');
+  });
   const [scrolled, setScrolled] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const { notifications, unreadCount, markAllRead, markOneRead } = useNotifications();
@@ -72,6 +75,17 @@ const MainLayout: React.FC = () => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // ─── Keep darkMode state in sync with <html> class changes ───
+  // (e.g. if another tab toggles theme, or user's OS theme changes)
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setDarkMode(isDark);
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
   }, []);
 
   // ─── Close dropdowns on outside click / Esc ───
@@ -145,8 +159,14 @@ const MainLayout: React.FC = () => {
   }, []);
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.classList.toggle('dark', next);
+    try {
+      localStorage.setItem('thebase.theme', next ? 'dark' : 'light');
+    } catch (e) {
+      // localStorage might be blocked
+    }
   };
 
 
