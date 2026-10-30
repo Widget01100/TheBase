@@ -1,0 +1,52 @@
+Currency symbol sweep - 2026-10-30T07:27:46.861280
+======================================================================
+Total suspects: 16
+
+src/pages/dashboard/Dashboard.tsx:395
+    ? `${currency.symbol}${(amount / 1_000_000).toFixed(2)}M`
+
+src/pages/dashboard/Dashboard.tsx:397
+    ? `${currency.symbol}${(amount / 1_000).toFixed(1)}k`
+
+src/pages/dashboard/Dashboard.tsx:398
+    : `${currency.symbol}${Math.round(amount)}`;
+
+src/pages/dashboard/Dashboard.tsx:400
+    }, [currency.symbol]);
+
+src/pages/dashboard/Dashboard.tsx:895
+    if (x === 0) return `${currency.symbol}0`;
+
+src/pages/dashboard/Dashboard.tsx:896
+    if (x >= 1_000_000_000) return `${currency.symbol}${(x / 1_000_000_000).toFixed(1)}B`;
+
+src/pages/dashboard/Dashboard.tsx:897
+    if (x >= 1_000_000) return `${currency.symbol}${(x / 1_000_000).toFixed(1)}M`;
+
+src/pages/dashboard/Dashboard.tsx:898
+    if (x >= 1_000) return `${currency.symbol}${(x / 1_000).toFixed(0)}k`;
+
+src/pages/dashboard/Dashboard.tsx:899
+    return `${currency.symbol}${Math.round(x)}`;
+
+src/pages/dashboard/Dashboard.tsx:935
+    ? `${currency.symbol}${(amount / 1_000_000).toFixed(2)}M`
+
+src/pages/dashboard/Dashboard.tsx:937
+    ? `${currency.symbol}${(amount / 1_000).toFixed(1)}k`
+
+src/pages/dashboard/Dashboard.tsx:938
+    : `${currency.symbol}${Math.round(amount)}`;
+
+src/pages/dashboard/Dashboard.tsx:986
+    ? `${currency.symbol}${(amount / 1_000_000).toFixed(2)}M`
+
+src/pages/dashboard/Dashboard.tsx:988
+    ? `${currency.symbol}${(amount / 1_000).toFixed(1)}k`
+
+src/pages/dashboard/Dashboard.tsx:989
+    : `${currency.symbol}${Math.round(amount)}`;
+
+src/components/shared/CurrencySwitcher.tsx:57
+    <span className="text-gray-500 dark:text-gray-400 hidden sm:inline">{currency.symbol}</span>
+

@@ -103,6 +103,7 @@ import { buildContributionData } from '@/utils/contributionData';
 import type { DailyActivity, FinancialQuote } from '@/types';
 import { formatCurrency } from '@/utils/formatters';
 import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
+import { useApp } from '@/contexts/AppContext';
 import ExportModal from '@/components/shared/ExportModal';
 import toast from 'react-hot-toast';
 import { exportToPDF } from '@/utils/export/exportUtils';
@@ -111,7 +112,7 @@ import Confetti from 'react-confetti';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Tilt from 'react-parallax-tilt';
 import { useSpring as useSpringAnimation, animated } from '@react-spring/web';
-import { VictoryPie, VictoryLine, VictoryBar, VictoryScatter, VictoryChart, VictoryTheme, VictoryAxis, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
+import { VictoryPie, VictoryLine, VictoryBar, VictoryScatter, VictoryChart, VictoryTheme, VictoryAxis, VictoryTooltip } from 'victory';
 
 // Mock weather data for Kenyan cities
 const weatherData = {
@@ -127,7 +128,8 @@ const contributionCache: Record<number, any[]> = {};
 const Dashboard: React.FC = () => {
   // Currency-aware formatter — subscribing here causes re-render on currency change
   const fmtMoney = useFormatCurrency();
-  const { currency } = useCurrency();
+  const { currency, convert } = useCurrency();
+  const { darkMode, toggleDarkMode } = useApp();
 
   // State management
   const [contributionData, setContributionData] = useState<DailyActivity[]>([]);
@@ -137,7 +139,6 @@ const Dashboard: React.FC = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [balanceVisible, setBalanceVisible] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [showWelcome, setShowWelcome] = useState(true);
   const [notifications, setNotifications] = useState(3);
   const [searchQuery, setSearchQuery] = useState('');
@@ -179,8 +180,7 @@ const Dashboard: React.FC = () => {
   });
 
   useHotkeys('ctrl+d', () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
+    toggleDarkMode();
   });
 
   useHotkeys('ctrl+f', () => {
@@ -238,7 +238,7 @@ const Dashboard: React.FC = () => {
           (now.getMonth() - td.getMonth())
         );
         if (bucketIdx >= 0 && bucketIdx < 12) {
-          buckets[bucketIdx].y += Math.abs(t.amount);
+          buckets[bucketIdx].y += convert(Math.abs(t.amount));
         }
       });
       return buckets;
@@ -272,7 +272,7 @@ const Dashboard: React.FC = () => {
           weekEnd.setHours(23, 59, 59, 999);
 
           if (td >= weekStart && td <= weekEnd) {
-            buckets[i].y += Math.abs(t.amount);
+            buckets[i].y += convert(Math.abs(t.amount));
             break;
           }
         }
@@ -303,12 +303,12 @@ const Dashboard: React.FC = () => {
       );
       if (daysAgo >= 0 && daysAgo < dayCount) {
         const idx = dayCount - 1 - daysAgo;
-        buckets[idx].y += Math.abs(t.amount);
+        buckets[idx].y += convert(Math.abs(t.amount));
       }
     });
 
     return buckets;
-  }, [recentTransactions, selectedTimeframe]);
+  }, [recentTransactions, selectedTimeframe, convert]);
 
   // ─────────────────────────────────────────────────────────
   // Chart presentation helpers — adaptive per timeframe
@@ -867,13 +867,13 @@ const Dashboard: React.FC = () => {
                         .map((d) => d.label)}
                       style={{
                         tickLabels: {
-                          fill: '#6B7280',
+                          fill: darkMode ? '#9CA3AF' : '#6B7280',
                           fontSize: 11,
                           fontFamily: 'Inter, sans-serif',
                           padding: 8,
                         },
                         axisLabel: {
-                          fill: '#374151',
+                          fill: darkMode ? '#9CA3AF' : '#374151',
                           fontSize: 11,
                           fontWeight: 600,
                           fontFamily: 'Inter, sans-serif',
@@ -881,7 +881,7 @@ const Dashboard: React.FC = () => {
                           letterSpacing: '0.05em',
                         },
                         grid: { stroke: 'transparent' },
-                        axis: { stroke: '#E5E7EB' },
+                        axis: { stroke: darkMode ? '#4B5563' : '#E5E7EB' },
                         ticks: { stroke: 'transparent', size: 0 },
                       }}
                     />
@@ -900,13 +900,13 @@ const Dashboard: React.FC = () => {
                       }}
                       style={{
                         tickLabels: {
-                          fill: '#6B7280',
+                          fill: darkMode ? '#9CA3AF' : '#6B7280',
                           fontSize: 11,
                           fontFamily: 'Inter, sans-serif',
                           padding: 8,
                         },
                         axisLabel: {
-                          fill: '#374151',
+                          fill: darkMode ? '#9CA3AF' : '#374151',
                           fontSize: 11,
                           fontWeight: 600,
                           fontFamily: 'Inter, sans-serif',
@@ -914,7 +914,7 @@ const Dashboard: React.FC = () => {
                           letterSpacing: '0.05em',
                         },
                         grid: {
-                          stroke: '#F3F4F6',
+                          stroke: darkMode ? '#374151' : '#F3F4F6',
                           strokeDasharray: '4 4',
                         },
                         axis: { stroke: 'transparent' },

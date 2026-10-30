@@ -17,14 +17,12 @@ import {
 import Card from '@/components/ui/Card';
 import CurrencySwitcher from '@/components/shared/CurrencySwitcher';
 import Button from '@/components/ui/Button';
+import { useApp } from '@/contexts/AppContext';
 
 const Settings: React.FC = () => {
-  const [darkMode, setDarkMode] = React.useState(false);
+  const { darkMode, toggleDarkMode } = useApp();
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
-  };
+  // toggleDarkMode comes from useApp() — AppContext handles <html> class
 
   return (
     <motion.div
