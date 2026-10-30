@@ -25,7 +25,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   const colors = {
     primary: 'text-primary-600',
     white: 'text-white',
-    gray: 'text-gray-500',
+    gray: 'text-ink-500',
   };
 
   const spinner = (
@@ -52,13 +52,13 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           />
         </svg>
       </motion.div>
-      {text && <p className="text-sm text-gray-600 dark:text-gray-400">{text}</p>}
+      {text && <p className="text-sm text-ink-600 dark:text-ink-400">{text}</p>}
     </div>
   );
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-ink-50/80 dark:bg-ink-900/80 backdrop-blur-sm z-50 flex items-center justify-center">
         {spinner}
       </div>
     );

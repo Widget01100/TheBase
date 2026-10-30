@@ -23,7 +23,7 @@ interface EmptyStateProps {
 const colorMap = {
   primary: { bg: 'bg-primary-100 dark:bg-primary-900/20', fg: 'text-primary-600 dark:text-primary-400' },
   green:   { bg: 'bg-green-100 dark:bg-green-900/20',     fg: 'text-green-600 dark:text-green-400' },
-  blue:    { bg: 'bg-blue-100 dark:bg-blue-900/20',       fg: 'text-blue-600 dark:text-blue-400' },
+  blue:    { bg: 'bg-blue-100 dark:bg-blue-900/20',       fg: 'text-brand-600 dark:text-brand-600' },
   purple:  { bg: 'bg-purple-100 dark:bg-purple-900/20',   fg: 'text-purple-600 dark:text-purple-400' },
   amber:   { bg: 'bg-amber-100 dark:bg-amber-900/20',     fg: 'text-amber-600 dark:text-amber-400' },
   red:     { bg: 'bg-red-100 dark:bg-red-900/20',         fg: 'text-red-600 dark:text-red-400' },
@@ -59,7 +59,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
         className={cn(
           'mb-6 flex items-center justify-center relative',
-          illustration === 'circle' ? 'rounded-full w-24 h-24' : 'rounded-3xl w-24 h-24',
+          illustration === 'circle' ? 'rounded-full w-24 h-24' : 'rounded-xl w-24 h-24',
           colors.bg
         )}
       >
@@ -71,7 +71,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           className={cn(
             'absolute inset-0 border-2',
-            illustration === 'circle' ? 'rounded-full' : 'rounded-3xl',
+            illustration === 'circle' ? 'rounded-full' : 'rounded-xl',
             colors.fg,
             'opacity-30'
           )}
@@ -82,7 +82,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="text-xl font-bold text-gray-900 dark:text-white mb-2"
+        className="text-xl font-bold text-ink-900 dark:text-ink-50 mb-2"
       >
         {title}
       </motion.h3>
@@ -91,7 +91,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mb-6 leading-relaxed"
+        className="text-sm text-ink-500 dark:text-ink-400 max-w-sm mb-6 leading-relaxed"
       >
         {description}
       </motion.p>

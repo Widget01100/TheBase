@@ -57,7 +57,7 @@ const formatOptions: {
     name: 'JSON Data',
     description: 'Raw data export. Best for developers and backups.',
     icon: FileJson,
-    color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/20',
+    color: 'text-brand-600 bg-blue-100 dark:bg-blue-900/20',
     extension: '.json',
   },
 ];
@@ -140,28 +140,28 @@ const ExportModal: React.FC<ExportModalProps> = ({
           animate={{ scale: 1, y: 0, opacity: 1 }}
           exit={{ scale: 0.95, y: 20, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+          className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-center justify-between p-6 border-b border-ink-200 dark:border-ink-800">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-primary-100 dark:bg-primary-900/20 rounded-xl">
                 <Download className="text-primary-600" size={22} />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50">{title}</h2>
+                <p className="text-xs text-ink-500 dark:text-ink-400">
                   {transactions.length} transactions available
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
               aria-label="Close"
             >
-              <X size={20} className="text-gray-500" />
+              <X size={20} className="text-ink-500" />
             </button>
           </div>
 
@@ -169,7 +169,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {/* Format selection */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
+              <h3 className="text-sm font-semibold text-ink-900 dark:text-ink-50 mb-3 uppercase tracking-wide">
                 Choose Format
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -184,7 +184,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
                         'relative p-4 rounded-xl border-2 text-left transition-all',
                         isSelected
                           ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 shadow-lg'
-                          : 'border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
+                          : 'border-ink-200 dark:border-ink-800 hover:border-ink-300 dark:hover:border-gray-700'
                       )}
                     >
                       {isSelected && (
@@ -199,10 +199,10 @@ const ExportModal: React.FC<ExportModalProps> = ({
                       <div className={cn('p-2 rounded-lg inline-block mb-3', option.color)}>
                         <Icon size={20} />
                       </div>
-                      <h4 className="font-semibold text-sm text-gray-900 dark:text-white mb-1">
+                      <h4 className="font-semibold text-sm text-ink-900 dark:text-ink-50 mb-1">
                         {option.name}
                       </h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                      <p className="text-xs text-ink-500 dark:text-ink-400 leading-relaxed">
                         {option.description}
                       </p>
                     </button>
@@ -215,7 +215,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Date range */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-ink-900 dark:text-ink-50 mb-3 uppercase tracking-wide flex items-center gap-2">
                   <Calendar size={14} />
                   Date Range
                 </h3>
@@ -228,7 +228,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
                         'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
                         dateRange === range
                           ? 'bg-primary-600 text-white'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                          : 'bg-ink-100 dark:bg-ink-800 text-ink-700 dark:text-ink-300 hover:bg-ink-200 dark:hover:bg-gray-700'
                       )}
                     >
                       {range === 'all' ? 'All Time' : range === 'month' ? 'Last 30 days' : 'Last 7 days'}
@@ -239,7 +239,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
 
               {/* Type filter */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 uppercase tracking-wide flex items-center gap-2">
+                <h3 className="text-sm font-semibold text-ink-900 dark:text-ink-50 mb-3 uppercase tracking-wide flex items-center gap-2">
                   <Filter size={14} />
                   Transaction Type
                 </h3>
@@ -252,7 +252,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
                         'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors capitalize',
                         typeFilter === type
                           ? 'bg-primary-600 text-white'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                          : 'bg-ink-100 dark:bg-ink-800 text-ink-700 dark:text-ink-300 hover:bg-ink-200 dark:hover:bg-gray-700'
                       )}
                     >
                       {type === 'all' ? 'All' : type}
@@ -263,18 +263,18 @@ const ExportModal: React.FC<ExportModalProps> = ({
             </div>
 
             {/* Preview */}
-            <div className="p-4 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 rounded-xl border border-primary-100 dark:border-primary-900/30">
+            <div className="p-4 bg-ink-50 dark:bg-ink-900 dark:from-primary-900/20 dark:to-blue-900/20 rounded-xl border border-primary-100 dark:border-primary-900/30">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles size={16} className="text-primary-600" />
-                <span className="text-sm font-semibold text-gray-900 dark:text-white">Export Preview</span>
+                <span className="text-sm font-semibold text-ink-900 dark:text-ink-50">Export Preview</span>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-ink-600 dark:text-ink-400">
                 You're about to export <strong className="text-primary-600">{filteredTransactions.length}</strong> transactions
                 as a <strong className="text-primary-600">{formatOptions.find(f => f.id === selectedFormat)?.name}</strong>.
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+              <p className="text-xs text-ink-500 dark:text-ink-500 mt-2">
                 📅 Generated at:{' '}
-                <strong className="text-gray-700 dark:text-gray-300">
+                <strong className="text-ink-700 dark:text-ink-300">
                   {new Date().toLocaleString('en-KE', {
                     year: 'numeric',
                     month: '2-digit',
@@ -295,8 +295,8 @@ const ExportModal: React.FC<ExportModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+          <div className="flex items-center justify-between p-6 border-t border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-800/50">
+            <p className="text-xs text-ink-500 dark:text-ink-400">
               File will download automatically
             </p>
             <div className="flex items-center space-x-3">

@@ -106,7 +106,7 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
     timestampMs: Date.now() - 60 * 60 * 1000,
     read: false,
     icon: Target,
-    color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/20',
+    color: 'text-brand-600 bg-blue-100 dark:bg-blue-900/20',
   },
   {
     id: 3,

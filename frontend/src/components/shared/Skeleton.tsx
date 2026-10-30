@@ -15,7 +15,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   variant = 'rectangular',
   style,
 }) => {
-  const baseClass = 'animate-pulse bg-gray-200 dark:bg-gray-800';
+  const baseClass = 'animate-pulse bg-ink-200 dark:bg-ink-800';
 
   const variantClass = {
     text: 'h-4 rounded',
@@ -30,7 +30,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 // ─── Pre-composed skeletons ───
 
 export const StatCardSkeleton: React.FC = () => (
-  <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+  <div className="bg-ink-50 dark:bg-ink-900 rounded-xl shadow-sm border border-ink-200 dark:border-ink-800 p-6">
     <div className="flex items-center justify-between">
       <div className="space-y-2 flex-1">
         <Skeleton className="h-3 w-24" />
@@ -60,7 +60,7 @@ export const TransactionRowSkeleton: React.FC = () => (
 );
 
 export const ContributionGridSkeleton: React.FC = () => (
-  <div className="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800">
+  <div className="p-6 bg-ink-50 dark:bg-ink-900 rounded-lg shadow-sm border border-ink-200 dark:border-ink-800">
     <div className="flex items-center justify-between mb-6">
       <div className="space-y-2">
         <Skeleton className="h-5 w-40" />
@@ -73,7 +73,7 @@ export const ContributionGridSkeleton: React.FC = () => (
         <Skeleton key={i} className="aspect-square" />
       ))}
     </div>
-    <div className="grid grid-cols-4 gap-4 mt-6 pt-5 border-t border-gray-200 dark:border-gray-800">
+    <div className="grid grid-cols-4 gap-4 mt-6 pt-5 border-t border-ink-200 dark:border-ink-800">
       {[...Array(4)].map((_, i) => (
         <div key={i} className="flex items-center gap-3">
           <Skeleton variant="rounded" className="w-8 h-8" />
@@ -88,7 +88,7 @@ export const ContributionGridSkeleton: React.FC = () => (
 );
 
 export const ChartSkeleton: React.FC = () => (
-  <div className="p-6 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+  <div className="p-6 bg-ink-50 dark:bg-ink-900 rounded-xl shadow-sm border border-ink-200 dark:border-ink-800">
     <div className="flex items-center justify-between mb-6">
       <Skeleton className="h-5 w-32" />
       <div className="flex gap-1">
@@ -111,7 +111,7 @@ export const ChartSkeleton: React.FC = () => (
 );
 
 export const NotificationSkeleton: React.FC = () => (
-  <div className="flex items-start gap-3 p-4 border-b border-gray-100 dark:border-gray-800">
+  <div className="flex items-start gap-3 p-4 border-b border-gray-100 dark:border-ink-800">
     <Skeleton variant="circular" className="w-2 h-2 mt-2" />
     <div className="flex-1 space-y-2">
       <Skeleton className="h-4 w-3/4" />

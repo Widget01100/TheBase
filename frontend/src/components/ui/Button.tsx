@@ -27,12 +27,12 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const variants = {
     primary: 'bg-primary-600 hover:bg-primary-700 text-white shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40',
-    secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white',
+    secondary: 'bg-ink-200 hover:bg-gray-300 text-ink-900 dark:bg-ink-800 dark:hover:bg-gray-700 dark:text-ink-50',
     outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:border-primary-400 dark:hover:bg-primary-950',
-    ghost: 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800',
+    ghost: 'text-ink-700 hover:bg-ink-100 dark:text-ink-300 dark:hover:bg-gray-800',
     danger: 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-500/30',
     success: 'bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-500/30',
-    mpesa: 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40',
+    mpesa: 'bg-brand-500 text-white shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40',
   };
 
   const sizes = {

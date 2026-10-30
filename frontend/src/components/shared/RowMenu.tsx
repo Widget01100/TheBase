@@ -50,12 +50,12 @@ const RowMenu: React.FC<RowMenuProps> = ({ items, align = 'right' }) => {
           setOpen(!open);
         }}
         className={cn(
-          'p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors',
-          open && 'bg-gray-100 dark:bg-gray-700'
+          'p-2 hover:bg-ink-100 dark:hover:bg-gray-700 rounded-lg transition-colors',
+          open && 'bg-ink-100 dark:bg-gray-700'
         )}
         aria-label="More actions"
       >
-        <MoreVertical size={16} className="text-gray-500" />
+        <MoreVertical size={16} className="text-ink-500" />
       </button>
 
       <AnimatePresence>
@@ -66,7 +66,7 @@ const RowMenu: React.FC<RowMenuProps> = ({ items, align = 'right' }) => {
             exit={{ opacity: 0, y: -5, scale: 0.95 }}
             transition={{ duration: 0.12 }}
             className={cn(
-              'absolute top-full mt-1 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 z-50 overflow-hidden',
+              'absolute top-full mt-1 w-48 bg-ink-50 dark:bg-ink-900 rounded-xl shadow-2xl border border-ink-200 dark:border-ink-800 z-50 overflow-hidden',
               align === 'right' ? 'right-0' : 'left-0'
             )}
           >
@@ -76,7 +76,7 @@ const RowMenu: React.FC<RowMenuProps> = ({ items, align = 'right' }) => {
                 return (
                   <React.Fragment key={i}>
                     {item.divider && i > 0 && (
-                      <div className="my-1 border-t border-gray-100 dark:border-gray-800" />
+                      <div className="my-1 border-t border-gray-100 dark:border-ink-800" />
                     )}
                     <button
                       onClick={(e) => {
@@ -88,7 +88,7 @@ const RowMenu: React.FC<RowMenuProps> = ({ items, align = 'right' }) => {
                         'w-full flex items-center gap-3 px-3 py-2 text-sm transition-colors',
                         item.variant === 'danger'
                           ? 'text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                          : 'text-ink-700 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-gray-800'
                       )}
                     >
                       {Icon && <Icon size={15} />}

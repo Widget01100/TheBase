@@ -46,7 +46,7 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
         onClick={() => setOpen(!open)}
         className={cn(
           'flex items-center gap-2 px-3 py-2 rounded-xl transition-colors',
-          'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700',
+          'bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700',
           'hover:border-primary-400 dark:hover:border-primary-500',
           variant === 'compact' ? 'text-sm' : 'text-sm font-medium'
         )}
@@ -54,12 +54,12 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
         <span className="text-lg leading-none">{currency.flag}</span>
         <span className="font-semibold">{currency.code}</span>
         {variant === 'full' && (
-          <span className="text-gray-500 dark:text-gray-400 hidden sm:inline">{currency.symbol}</span>
+          <span className="text-ink-500 dark:text-ink-400 hidden sm:inline">{currency.symbol}</span>
         )}
         {loadingRates && <RefreshCw size={12} className="animate-spin text-primary-500" />}
         <ChevronDown
           size={14}
-          className={cn('text-gray-400 transition-transform', open && 'rotate-180')}
+          className={cn('text-ink-400 transition-transform', open && 'rotate-180')}
         />
       </button>
 
@@ -70,18 +70,18 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-800 z-50 overflow-hidden"
+            className="absolute right-0 top-full mt-2 w-80 bg-ink-50 dark:bg-ink-900 rounded-xl shadow-2xl border border-ink-200 dark:border-ink-800 z-50 overflow-hidden"
           >
             {/* Header */}
-            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+            <div className="px-4 py-3 border-b border-ink-200 dark:border-ink-800">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-gray-900 dark:text-white">Currency</h3>
+                <h3 className="font-semibold text-ink-900 dark:text-ink-50">Currency</h3>
                 <button
                   onClick={(e) => { e.stopPropagation(); refreshRates(); }}
-                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded"
+                  className="p-1 hover:bg-ink-100 dark:hover:bg-gray-800 rounded"
                   title="Refresh rates"
                 >
-                  <RefreshCw size={14} className={cn('text-gray-500', loadingRates && 'animate-spin')} />
+                  <RefreshCw size={14} className={cn('text-ink-500', loadingRates && 'animate-spin')} />
                 </button>
               </div>
               <input
@@ -89,7 +89,7 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
                 placeholder="Search currencies..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-800 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-white placeholder:text-gray-500"
+                className="w-full px-3 py-1.5 text-sm bg-ink-100 dark:bg-ink-800 rounded-lg border-0 focus:ring-2 focus:ring-primary-500 text-ink-900 dark:text-ink-50 placeholder:text-ink-500"
               />
             </div>
 
@@ -97,7 +97,7 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
             <div className="max-h-96 overflow-y-auto">
               {fiat.length > 0 && (
                 <>
-                  <div className="px-4 py-2 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-800/50">
+                  <div className="px-4 py-2 text-[10px] font-bold text-ink-500 dark:text-ink-400 uppercase tracking-wider bg-ink-50 dark:bg-ink-800/50">
                     Fiat
                   </div>
                   {fiat.map((c) => (
@@ -107,14 +107,14 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
                         startTransition(() => setCurrencyCode(c.code));
                         setOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-ink-50 dark:hover:bg-gray-800 transition-colors"
                     >
                       <span className="text-xl leading-none">{c.flag}</span>
                       <div className="flex-1 text-left">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">{c.code}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">{c.name}</div>
+                        <div className="text-sm font-medium text-ink-900 dark:text-ink-50">{c.code}</div>
+                        <div className="text-xs text-ink-500 dark:text-ink-400">{c.name}</div>
                       </div>
-                      <span className="text-sm text-gray-400">{c.symbol}</span>
+                      <span className="text-sm text-ink-400">{c.symbol}</span>
                       {c.code === currency.code && (
                         <Check size={14} className="text-primary-500" strokeWidth={3} />
                       )}
@@ -125,7 +125,7 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
 
               {crypto.length > 0 && (
                 <>
-                  <div className="px-4 py-2 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider bg-gray-50 dark:bg-gray-800/50">
+                  <div className="px-4 py-2 text-[10px] font-bold text-ink-500 dark:text-ink-400 uppercase tracking-wider bg-ink-50 dark:bg-ink-800/50">
                     Crypto
                   </div>
                   {crypto.map((c) => (
@@ -135,14 +135,14 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
                         startTransition(() => setCurrencyCode(c.code));
                         setOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-ink-50 dark:hover:bg-gray-800 transition-colors"
                     >
                       <span className="text-xl leading-none">{c.flag}</span>
                       <div className="flex-1 text-left">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">{c.code}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">{c.name}</div>
+                        <div className="text-sm font-medium text-ink-900 dark:text-ink-50">{c.code}</div>
+                        <div className="text-xs text-ink-500 dark:text-ink-400">{c.name}</div>
                       </div>
-                      <span className="text-sm text-gray-400">{c.symbol}</span>
+                      <span className="text-sm text-ink-400">{c.symbol}</span>
                       {c.code === currency.code && (
                         <Check size={14} className="text-primary-500" strokeWidth={3} />
                       )}
@@ -152,7 +152,7 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
               )}
 
               {filtered.length === 0 && (
-                <div className="px-4 py-8 text-center text-sm text-gray-500">
+                <div className="px-4 py-8 text-center text-sm text-ink-500">
                   No currencies match "{search}"
                 </div>
               )}
@@ -160,7 +160,7 @@ const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({ variant = 'full' })
 
             {/* Footer */}
             {lastUpdated && (
-              <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-800 text-[10px] text-gray-500 dark:text-gray-400">
+              <div className="px-4 py-2 border-t border-ink-200 dark:border-ink-800 text-[10px] text-ink-500 dark:text-ink-400">
                 Rates updated {lastUpdated.toLocaleTimeString()}
               </div>
             )}

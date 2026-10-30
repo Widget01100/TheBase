@@ -18,7 +18,7 @@ const MpesaStatus: React.FC<MpesaStatusProps> = ({ showDetails = false }) => {
 
   if (showDetails) {
     return (
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl p-4 shadow-lg">
+      <div className="bg-brand-500 text-white rounded-xl p-4 shadow-lg">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
             <Smartphone size={20} />

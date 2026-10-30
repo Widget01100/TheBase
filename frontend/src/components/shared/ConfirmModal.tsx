@@ -49,33 +49,33 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           animate={{ scale: 1, y: 0, opacity: 1 }}
           exit={{ scale: 0.95, y: 20, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+          className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-2xl max-w-md w-full overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-start justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-start justify-between p-6 border-b border-ink-200 dark:border-ink-800">
             <div className="flex items-center space-x-3">
               <div className={cn('p-3 rounded-xl', iconColors[variant])}>
                 <AlertTriangle size={22} />
               </div>
-              <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
+              <h2 className="text-lg font-bold text-ink-900 dark:text-ink-50">{title}</h2>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+              className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg"
               aria-label="Close"
             >
-              <X size={18} className="text-gray-500" />
+              <X size={18} className="text-ink-500" />
             </button>
           </div>
 
           {/* Body */}
           <div className="p-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{message}</p>
+            <p className="text-sm text-ink-600 dark:text-ink-400 leading-relaxed">{message}</p>
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex items-center justify-end gap-3 p-4 bg-ink-50 dark:bg-ink-800/50 border-t border-ink-200 dark:border-ink-800">
             <Button variant="outline" onClick={onClose}>
               {cancelText}
             </Button>

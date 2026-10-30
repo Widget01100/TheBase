@@ -36,10 +36,10 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="w-20 h-20 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertCircle size={40} className="text-red-600" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50 mb-2">
               Oops! Something went wrong
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-ink-600 dark:text-ink-400 mb-6">
               {this.state.error?.message || 'An unexpected error occurred'}
             </p>
             <div className="flex space-x-4">

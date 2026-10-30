@@ -22,11 +22,11 @@ const Card: React.FC<CardProps> = ({
   style,
 }) => {
   const variants = {
-    default: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800',
-    glass: 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl backdrop-saturate-150 border border-white/20 dark:border-gray-800/20',
-    premium: 'bg-gradient-to-br from-white/90 to-white/70 dark:from-gray-900/90 dark:to-gray-900/70 backdrop-blur-xl border border-white/20 dark:border-gray-800/20',
+    default: 'bg-ink-50 dark:bg-ink-900 border border-ink-200 dark:border-ink-800',
+    glass: 'bg-ink-50/80 dark:bg-ink-900/80 backdrop-blur-xl backdrop-saturate-150 border border-white/20 dark:border-ink-800/20',
+    premium: 'bg-gradient-to-br from-white/90 to-white/70 dark:from-gray-900/90 dark:to-gray-900/70 backdrop-blur-xl border border-white/20 dark:border-ink-800/20',
     mpesa: 'bg-gradient-to-br from-green-600 via-green-500 to-green-400 text-white',
-    gradient: 'bg-gradient-to-br from-primary-600 to-primary-400 text-white',
+    gradient: 'bg-ink-50 dark:bg-ink-900 text-white',
   };
 
   return (
@@ -34,7 +34,7 @@ const Card: React.FC<CardProps> = ({
       whileHover={interactive ? { scale: 1.02, y: -5 } : undefined}
       whileTap={interactive ? { scale: 0.98 } : undefined}
       className={cn(
-        'rounded-2xl shadow-lg transition-all duration-300',
+        'rounded-lg shadow-lg transition-all duration-300',
         variants[variant],
         glow && 'shadow-glow',
         interactive && 'cursor-pointer hover:shadow-xl',
