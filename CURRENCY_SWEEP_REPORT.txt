@@ -50,3 +50,51 @@ src/pages/dashboard/Dashboard.tsx:989
 src/components/shared/CurrencySwitcher.tsx:57
     <span className="text-gray-500 dark:text-gray-400 hidden sm:inline">{currency.symbol}</span>
 
+
+======================================================================
+TRIAGE VERDICT (2026-10-30, commit b3c0d19)
+======================================================================
+
+All 16 suspects reviewed and classified. NO CODE CHANGES NEEDED.
+
+Classification:
+
+[A] Dashboard.tsx lines 395-400 — chartLabelFormatter useMemo
+    VERDICT: FINE. `datum.y` comes from Victory rendering
+    spendingTimeSeries, which was converted at source in Step 0.
+    Line 400 is a useMemo dependency array, not a display.
+
+[B] Dashboard.tsx lines 895-899 — Y-axis tickFormat
+    VERDICT: FINE. `x` is the rendered value from Victory, i.e. the
+    already-converted spendingTimeSeries value. No double-conversion
+    needed.
+
+[C] Dashboard.tsx lines 935-938 — VictoryBar tooltip labels
+    VERDICT: FINE. `datum.y` is already-converted.
+
+[D] Dashboard.tsx lines 986-989 — VictoryLine tooltip labels
+    VERDICT: FINE. `datum.y` is already-converted.
+
+[E] CurrencySwitcher.tsx:57 — dropdown symbol display
+    VERDICT: FINE. Displays the currency symbol itself ($, KSh, £),
+    no numeric value attached. Intentional.
+
+SUMMARY: The Dashboard chart bug (which was fixed in commit b3c0d19)
+was the ONLY real currency-conversion bug in the codebase. Every
+other suspect was already correct because:
+  - `spendingTimeSeries` is the single source of converted chart data
+  - All formatters consume that data downstream
+  - The CurrencySwitcher displays symbol-only
+
+Regression guard: frontend/src/utils/__tests__/currency-conversion.test.ts
+covers the shape of the fix (data conversion at source). It will fail
+if anyone reintroduces symbol+raw-KES in a chart data pipeline.
+
+Re-run this sweep if:
+  - A new chart is added
+  - A new page displays monetary values
+  - The Chart data pipeline in spendingTimeSeries is refactored
+
+Scanner false-positive rate: 16/16 (100%). The scanner catches
+`currency.symbol` usage but cannot tell already-converted from
+raw values. Manual triage is always required.
