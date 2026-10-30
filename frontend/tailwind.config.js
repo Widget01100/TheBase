@@ -1,123 +1,81 @@
-﻿/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-          950: '#082f49',
+        // ── Brand: forest green (dark mode) / deep emerald (light) ──
+        brand: {
+          50:  '#f0f7f4',
+          100: '#d9ebe2',
+          200: '#b3d7c6',
+          300: '#7fba9d',
+          400: '#4d9973',
+          500: '#2b7a55',
+          600: '#1e5f42',
+          700: '#184a34',
+          800: '#123828',
+          900: '#0c281c',
+          950: '#061a11',
         },
+        // ── Kenya-specific accents (keep as brand heritage) ──
         kenya: {
           green: '#1B4D3E',
-          red: '#B22222',
-          black: '#000000',
-          white: '#FFFFFF',
+          red:   '#B22222',
+          black: '#0a0a0a',
         },
         mpesa: {
           green: '#4CAF50',
-          dark: '#2E7D32',
+          dark:  '#2E7D32',
           light: '#C8E6C9',
+        },
+        // ── Neutral scale: warm-tinted, not stock gray ──
+        ink: {
+          50:  '#f7f7f6',
+          100: '#e9e8e6',
+          200: '#d3d1cd',
+          300: '#b0ada7',
+          400: '#87837c',
+          500: '#66625c',
+          600: '#4f4c47',
+          700: '#3d3a36',
+          800: '#2a2825',
+          900: '#1a1816',
+          950: '#0d0c0b',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans:    ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Bricolage Grotesque', 'Inter', 'system-ui', 'sans-serif'],
+        mono:    ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
+      // ── Single radius scale — intentional, not the Tailwind default ladder ──
+      borderRadius: {
+        'sm':  '6px',
+        DEFAULT: '10px',
+        'md':  '10px',
+        'lg':  '14px',
+        'xl':  '20px',
+        '2xl': '28px',
+        '3xl': '36px',
+      },
+      // ── Sharp, low-spread shadows — no default Tailwind shadow-md ──
+      boxShadow: {
+        'card':     '0 1px 0 0 rgba(26,24,22,0.04), 0 1px 3px 0 rgba(26,24,22,0.06)',
+        'card-hover': '0 1px 0 0 rgba(26,24,22,0.05), 0 4px 12px 0 rgba(26,24,22,0.08)',
+        'popover':  '0 4px 16px 0 rgba(26,24,22,0.10), 0 1px 4px 0 rgba(26,24,22,0.06)',
+        'brand-glow': '0 0 0 1px rgba(43,122,85,0.18), 0 4px 16px 0 rgba(43,122,85,0.14)',
+      },
+      // ── Keep only animations we actually use; delete the rest as you clean up ──
       animation: {
-        'blob': 'blob 7s infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
         'shimmer': 'shimmer 2s infinite',
-        'kenya-wave': 'kenyaWave 10s ease infinite',
-        'gradient': 'gradient 15s ease infinite',
-        'ripple': 'ripple 0.6s ease-out',
-        'confetti': 'confetti 1s ease-out forwards',
       },
       keyframes: {
-        blob: {
-          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
-          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        'pulse-glow': {
-          '0%, 100%': { 
-            boxShadow: '0 0 20px rgba(14, 165, 233, 0.5)',
-            opacity: 1,
-          },
-          '50%': { 
-            boxShadow: '0 0 40px rgba(14, 165, 233, 0.8)',
-            opacity: 0.8,
-          },
-        },
         shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
+          '0%':   { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
         },
-        kenyaWave: {
-          '0%, 100%': { backgroundPosition: '0% 0%' },
-          '50%': { backgroundPosition: '100% 100%' },
-        },
-        gradient: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        ripple: {
-          'to': {
-            transform: 'scale(4)',
-            opacity: '0',
-          },
-        },
-        confetti: {
-          '0%': {
-            opacity: '0',
-            transform: 'translate(-50%, -50%) scale(0)',
-          },
-          '50%': {
-            opacity: '1',
-            transform: 'translate(-50%, -50%) scale(1.5)',
-          },
-          '100%': {
-            opacity: '0',
-            transform: 'translate(-50%, -50%) scale(2)',
-          },
-        },
-      },
-      backgroundImage: {
-        'kenya-flag': "linear-gradient(135deg, #000000 0%, #000000 20%, #B22222 20%, #B22222 40%, #1B4D3E 40%, #1B4D3E 60%, #000000 60%, #000000 80%, #B22222 80%, #B22222 100%)",
-        'mpesa-gradient': "linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)",
-      },
-      boxShadow: {
-        'glow': '0 0 20px rgba(14, 165, 233, 0.5)',
-        'glow-green': '0 0 20px rgba(76, 175, 80, 0.5)',
-        'glow-purple': '0 0 20px rgba(147, 51, 234, 0.5)',
-        'glow-red': '0 0 20px rgba(239, 68, 68, 0.5)',
-        'neon': '0 0 10px rgba(14, 165, 233, 0.5), inset 0 0 10px rgba(14, 165, 233, 0.3)',
-      },
-      backdropBlur: {
-        'xs': '2px',
-      },
-      transitionTimingFunction: {
-        'bounce-soft': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
       },
     },
   },

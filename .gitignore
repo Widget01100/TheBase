@@ -46,3 +46,7 @@ coverage/
 # Database
 *.db
 *.sqlite
+*.bak
+*.bak.*
+*.backup-*
+*.bak.v*

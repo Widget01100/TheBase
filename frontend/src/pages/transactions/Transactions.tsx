@@ -27,7 +27,7 @@ import type { ExportableTransaction } from '@/utils/export/exportUtils';
 // ─────────────────────────────────────────────────────────────
 const CATEGORY_META: Record<string, { color: string; bg: string }> = {
   Food: { color: 'text-orange-600', bg: 'bg-orange-100 dark:bg-orange-900/20' },
-  Transport: { color: 'text-blue-600', bg: 'bg-blue-100 dark:bg-blue-900/20' },
+  Transport: { color: 'text-brand-600', bg: 'bg-blue-100 dark:bg-blue-900/20' },
   Housing: { color: 'text-purple-600', bg: 'bg-purple-100 dark:bg-purple-900/20' },
   Utilities: { color: 'text-yellow-600', bg: 'bg-yellow-100 dark:bg-yellow-900/20' },
   Entertainment: { color: 'text-pink-600', bg: 'bg-pink-100 dark:bg-pink-900/20' },
@@ -35,18 +35,18 @@ const CATEGORY_META: Record<string, { color: string; bg: string }> = {
   Shopping: { color: 'text-indigo-600', bg: 'bg-indigo-100 dark:bg-indigo-900/20' },
   Healthcare: { color: 'text-red-600', bg: 'bg-red-100 dark:bg-red-900/20' },
   Education: { color: 'text-cyan-600', bg: 'bg-cyan-100 dark:bg-cyan-900/20' },
-  Salary: { color: 'text-emerald-600', bg: 'bg-emerald-100 dark:bg-emerald-900/20' },
+  Salary: { color: 'text-brand-600', bg: 'bg-emerald-100 dark:bg-emerald-900/20' },
   Business: { color: 'text-teal-600', bg: 'bg-teal-100 dark:bg-teal-900/20' },
   Investment: { color: 'text-violet-600', bg: 'bg-violet-100 dark:bg-violet-900/20' },
   'Investment Returns': { color: 'text-violet-600', bg: 'bg-violet-100 dark:bg-violet-900/20' },
   Savings: { color: 'text-lime-600', bg: 'bg-lime-100 dark:bg-lime-900/20' },
   Airtime: { color: 'text-rose-600', bg: 'bg-rose-100 dark:bg-rose-900/20' },
-  Travel: { color: 'text-sky-600', bg: 'bg-sky-100 dark:bg-sky-900/20' },
+  Travel: { color: 'text-brand-600', bg: 'bg-sky-100 dark:bg-sky-900/20' },
   Gift: { color: 'text-fuchsia-600', bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/20' },
 };
 
 const getCategoryMeta = (category: string) =>
-  CATEGORY_META[category] || { color: 'text-gray-600', bg: 'bg-gray-100 dark:bg-gray-800' };
+  CATEGORY_META[category] || { color: 'text-ink-600', bg: 'bg-ink-100 dark:bg-ink-800' };
 
 // ─────────────────────────────────────────────────────────────
 // Date helpers
@@ -316,7 +316,7 @@ const Transactions: React.FC<TransactionsProps> = () => {
         exit={{ opacity: 0, x: -12 }}
         transition={{ delay: Math.min(index * 0.015, 0.25) }}
         className={cn(
-          'grid grid-cols-12 gap-4 p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group',
+          'grid grid-cols-12 gap-4 p-4 hover:bg-ink-50 dark:hover:bg-gray-800/50 transition-colors group',
           selectedTransactions.includes(t.id) && 'bg-primary-50 dark:bg-primary-900/20'
         )}
       >
@@ -325,7 +325,7 @@ const Transactions: React.FC<TransactionsProps> = () => {
             type="checkbox"
             checked={selectedTransactions.includes(t.id)}
             onChange={() => handleSelect(t.id)}
-            className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+            className="rounded border-ink-300 text-primary-600 focus:ring-primary-500"
           />
         </div>
         <div className="col-span-5 flex items-center space-x-3 min-w-0">
@@ -333,10 +333,10 @@ const Transactions: React.FC<TransactionsProps> = () => {
             <Icon className={meta.color} size={18} />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-medium text-gray-900 dark:text-white truncate">
+            <p className="font-medium text-ink-900 dark:text-ink-50 truncate">
               {t.description}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+            <p className="text-xs text-ink-500 dark:text-ink-400 truncate">
               {t.merchant} • {t.tags?.slice(0, 2).join(', ')}
             </p>
           </div>
@@ -348,10 +348,10 @@ const Transactions: React.FC<TransactionsProps> = () => {
         </div>
         <div className="col-span-2 flex items-center">
           <div>
-            <p className="text-sm text-gray-900 dark:text-white">
+            <p className="text-sm text-ink-900 dark:text-ink-50">
               {new Date(t.date).toLocaleDateString('en-KE', { day: '2-digit', month: 'short' })}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{t.time}</p>
+            <p className="text-xs text-ink-500 dark:text-ink-400">{t.time}</p>
           </div>
         </div>
         <div className="col-span-1 flex items-center justify-end">
@@ -382,10 +382,10 @@ const Transactions: React.FC<TransactionsProps> = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">
             Transactions
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-ink-600 dark:text-ink-400 mt-1">
             {summary.count} of {transactionsList.length} transactions shown
           </p>
         </div>
@@ -410,19 +410,19 @@ const Transactions: React.FC<TransactionsProps> = () => {
       {/* Summary Card */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card variant="glass" className="p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Income</p>
+          <p className="text-xs text-ink-500 dark:text-ink-400">Income</p>
           <p className="text-lg font-bold text-green-600 mt-1">{fmtMoney(summary.income)}</p>
         </Card>
         <Card variant="glass" className="p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Expenses</p>
+          <p className="text-xs text-ink-500 dark:text-ink-400">Expenses</p>
           <p className="text-lg font-bold text-red-600 mt-1">{fmtMoney(summary.expenses)}</p>
         </Card>
         <Card variant="glass" className="p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Investments</p>
+          <p className="text-xs text-ink-500 dark:text-ink-400">Investments</p>
           <p className="text-lg font-bold text-purple-600 mt-1">{fmtMoney(summary.investments)}</p>
         </Card>
         <Card variant="glass" className="p-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Savings</p>
+          <p className="text-xs text-ink-500 dark:text-ink-400">Savings</p>
           <p className="text-lg font-bold text-lime-600 mt-1">{fmtMoney(summary.savings)}</p>
         </Card>
       </div>
@@ -432,18 +432,18 @@ const Transactions: React.FC<TransactionsProps> = () => {
         <div className="flex flex-col lg:flex-row gap-3">
           {/* Search */}
           <div className="flex-1 relative min-w-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400" size={18} />
             <input
               type="text"
               placeholder="Search by description, merchant, category, or tag..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              className="w-full pl-10 pr-10 py-2 bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-600"
               >
                 <X size={16} />
               </button>
@@ -460,7 +460,7 @@ const Transactions: React.FC<TransactionsProps> = () => {
                   'px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-1.5',
                   selectedFilter === f.id
                     ? 'bg-primary-600 text-white'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    : 'bg-ink-100 dark:bg-ink-800 text-ink-700 dark:text-ink-300 hover:bg-ink-200 dark:hover:bg-gray-700'
                 )}
               >
                 {f.label}
@@ -468,8 +468,8 @@ const Transactions: React.FC<TransactionsProps> = () => {
                   className={cn(
                     'px-1.5 py-0.5 rounded-full text-[10px] font-bold',
                     selectedFilter === f.id
-                      ? 'bg-white/20'
-                      : 'bg-gray-200 dark:bg-gray-700'
+                      ? 'bg-ink-50/20'
+                      : 'bg-ink-200 dark:bg-ink-950'
                   )}
                 >
                   {filterCounts[f.id]}
@@ -479,14 +479,14 @@ const Transactions: React.FC<TransactionsProps> = () => {
           </div>
 
           {/* View toggle */}
-          <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-ink-100 dark:bg-ink-800 rounded-lg p-1">
             <button
               onClick={() => setViewMode('timeline')}
               className={cn(
-                'p-2 rounded-md transition-colors',
+                'p-2 rounded-lg transition-colors',
                 viewMode === 'timeline'
-                  ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-sm'
+                  : 'text-ink-500 hover:text-ink-700 dark:hover:text-gray-300'
               )}
               title="Timeline view"
             >
@@ -495,10 +495,10 @@ const Transactions: React.FC<TransactionsProps> = () => {
             <button
               onClick={() => setViewMode('category')}
               className={cn(
-                'p-2 rounded-md transition-colors',
+                'p-2 rounded-lg transition-colors',
                 viewMode === 'category'
-                  ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                  ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-sm'
+                  : 'text-ink-500 hover:text-ink-700 dark:hover:text-gray-300'
               )}
               title="Category view"
             >
@@ -513,11 +513,11 @@ const Transactions: React.FC<TransactionsProps> = () => {
         <div className="flex flex-wrap items-center gap-3">
           {/* Category filter */}
           <div className="flex items-center gap-2">
-            <Filter size={16} className="text-gray-500" />
+            <Filter size={16} className="text-ink-500" />
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-white"
+              className="text-sm bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-primary-500 text-ink-900 dark:text-ink-50"
             >
               {availableCategories.map((cat) => (
                 <option key={cat} value={cat}>
@@ -529,11 +529,11 @@ const Transactions: React.FC<TransactionsProps> = () => {
 
           {/* Sort */}
           <div className="flex items-center gap-2">
-            <ArrowUpDown size={16} className="text-gray-500" />
+            <ArrowUpDown size={16} className="text-ink-500" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortBy)}
-              className="text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-white"
+              className="text-sm bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-primary-500 text-ink-900 dark:text-ink-50"
             >
               <option value="date-desc">Newest First</option>
               <option value="date-asc">Oldest First</option>
@@ -570,28 +570,28 @@ const Transactions: React.FC<TransactionsProps> = () => {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setShowExportModal(true)}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                className="p-2 hover:bg-ink-50/20 rounded-lg transition-colors"
                 title="Export selected"
               >
                 <Download size={16} />
               </button>
               <button
                 onClick={() => setConfirmDelete({ open: true, ids: [...selectedTransactions] })}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                className="p-2 hover:bg-ink-50/20 rounded-lg transition-colors"
                 title="Delete selected"
               >
                 <Trash2 size={16} />
               </button>
               <button
                 onClick={handleBulkDuplicate}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                className="p-2 hover:bg-ink-50/20 rounded-lg transition-colors"
                 title="Duplicate"
               >
                 <Copy size={16} />
               </button>
               <button
                 onClick={() => setSelectedTransactions([])}
-                className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                className="p-2 hover:bg-ink-50/20 rounded-lg transition-colors"
                 title="Clear selection"
               >
                 <X size={16} />
@@ -604,13 +604,13 @@ const Transactions: React.FC<TransactionsProps> = () => {
       {/* Transactions list */}
       <Card variant="glass" className="overflow-hidden">
         {/* Table header */}
-        <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800 text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+        <div className="grid grid-cols-12 gap-4 p-4 bg-ink-50 dark:bg-ink-800/50 border-b border-ink-200 dark:border-ink-800 text-xs font-semibold text-ink-600 dark:text-ink-400 uppercase tracking-wide">
           <div className="col-span-1 flex items-center">
             <input
               type="checkbox"
               checked={filtered.length > 0 && selectedTransactions.length === filtered.length}
               onChange={handleSelectAll}
-              className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+              className="rounded border-ink-300 text-primary-600 focus:ring-primary-500"
             />
           </div>
           <div className="col-span-5">Description</div>
@@ -658,20 +658,20 @@ const Transactions: React.FC<TransactionsProps> = () => {
                     {/* Group header */}
                     <button
                       onClick={() => toggleGroup(`date:${group.label}`)}
-                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50/50 dark:bg-gray-800/30 hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors"
+                      className="w-full flex items-center justify-between px-4 py-3 bg-ink-50/50 dark:bg-ink-800/30 hover:bg-ink-100 dark:hover:bg-gray-800/50 transition-colors"
                     >
                       <div className="flex items-center gap-2">
                         <ChevronRight
                           size={16}
                           className={cn(
-                            'text-gray-400 transition-transform',
+                            'text-ink-400 transition-transform',
                             !isCollapsed && 'rotate-90'
                           )}
                         />
-                        <span className="font-semibold text-sm text-gray-900 dark:text-white">
+                        <span className="font-semibold text-sm text-ink-900 dark:text-ink-50">
                           {group.label}
                         </span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-ink-500">
                           ({group.transactions.length})
                         </span>
                       </div>
@@ -716,23 +716,23 @@ const Transactions: React.FC<TransactionsProps> = () => {
                     {/* Category header */}
                     <button
                       onClick={() => toggleGroup(`cat:${group.label}`)}
-                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50/50 dark:bg-gray-800/30 hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors"
+                      className="w-full flex items-center justify-between px-4 py-3 bg-ink-50/50 dark:bg-ink-800/30 hover:bg-ink-100 dark:hover:bg-gray-800/50 transition-colors"
                     >
                       <div className="flex items-center gap-2">
                         <ChevronRight
                           size={16}
                           className={cn(
-                            'text-gray-400 transition-transform',
+                            'text-ink-400 transition-transform',
                             !isCollapsed && 'rotate-90'
                           )}
                         />
-                        <div className={cn('p-1.5 rounded-md', meta.bg)}>
+                        <div className={cn('p-1.5 rounded-lg', meta.bg)}>
                           <Icon size={14} className={meta.color} />
                         </div>
-                        <span className="font-semibold text-sm text-gray-900 dark:text-white">
+                        <span className="font-semibold text-sm text-ink-900 dark:text-ink-50">
                           {group.label}
                         </span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-ink-500">
                           ({group.transactions.length})
                         </span>
                       </div>
@@ -780,13 +780,13 @@ const Transactions: React.FC<TransactionsProps> = () => {
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-md w-full p-6"
+              className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-xl max-w-md w-full p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mb-4">
                 Add Transaction
               </h2>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm text-ink-500 mb-4">
                 Coming soon — full form with M-Pesa import.
               </p>
               <Button variant="primary" fullWidth onClick={() => setShowAddModal(false)}>

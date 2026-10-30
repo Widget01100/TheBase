@@ -162,10 +162,10 @@ const Investments: React.FC = () => {
       {/* Header with Market Summary */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-brand-500 bg-clip-text text-transparent">
             Investment Portfolio
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-ink-600 dark:text-ink-400 mt-2">
             Track your MMFs, Saccos, and NSE investments in one place
           </p>
         </div>
@@ -199,8 +199,8 @@ const Investments: React.FC = () => {
             <Card variant="glass" className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{index.name}</p>
-                  <p className="text-xl font-bold text-gray-900 dark:text-white mt-1">
+                  <p className="text-sm text-ink-600 dark:text-ink-400">{index.name}</p>
+                  <p className="text-xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                     {index.value.toFixed(2)}
                   </p>
                 </div>
@@ -233,7 +233,7 @@ const Investments: React.FC = () => {
                   className="text-2xl font-bold mt-1"
                 />
               </div>
-              <div className="p-3 bg-white/20 rounded-xl">
+              <div className="p-3 bg-ink-50/20 rounded-xl">
                 <Briefcase size={24} />
               </div>
             </div>
@@ -251,13 +251,13 @@ const Investments: React.FC = () => {
           <Card variant="glass" className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">MMF Investments</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                <p className="text-sm text-ink-600 dark:text-ink-400">MMF Investments</p>
+                <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                   {format(totalMMF)}
                 </p>
               </div>
               <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-xl">
-                <TrendingUp className="text-blue-600" size={24} />
+                <TrendingUp className="text-brand-600" size={24} />
               </div>
             </div>
             <p className="text-sm text-green-600 mt-2">Avg. 8.4% returns</p>
@@ -272,8 +272,8 @@ const Investments: React.FC = () => {
           <Card variant="glass" className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Sacco Savings</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                <p className="text-sm text-ink-600 dark:text-ink-400">Sacco Savings</p>
+                <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                   {format(totalSacco)}
                 </p>
               </div>
@@ -293,8 +293,8 @@ const Investments: React.FC = () => {
           <Card variant="glass" className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Stocks Value</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                <p className="text-sm text-ink-600 dark:text-ink-400">Stocks Value</p>
+                <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                   {format(totalStocks)}
                 </p>
               </div>
@@ -308,7 +308,7 @@ const Investments: React.FC = () => {
       </div>
 
       {/* Main Navigation Tabs */}
-      <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+      <div className="flex space-x-1 bg-ink-100 dark:bg-ink-800 p-1 rounded-xl">
         {[
           { id: 'overview', label: 'Portfolio Overview', icon: PieChart },
           { id: 'mmf', label: 'Money Market Funds', icon: TrendingUp },
@@ -324,8 +324,8 @@ const Investments: React.FC = () => {
               className={cn(
                 'flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium transition-all',
                 activeTab === tab.id
-                  ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-lg'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-lg'
+                  : 'text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white'
               )}
             >
               <Icon size={18} />
@@ -362,7 +362,7 @@ const Investments: React.FC = () => {
             {/* Allocation Chart */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Asset Allocation
                 </h3>
                 <div className="h-64">
@@ -397,7 +397,7 @@ const Investments: React.FC = () => {
                   {allocationData.map((item) => (
                     <div key={item.name} className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                      <span className="text-xs text-gray-600 dark:text-gray-400">{item.name}</span>
+                      <span className="text-xs text-ink-600 dark:text-ink-400">{item.name}</span>
                       <span className="text-xs font-medium ml-auto">
                         {((item.value / totalInvestments) * 100).toFixed(1)}%
                       </span>
@@ -409,7 +409,7 @@ const Investments: React.FC = () => {
               {/* Performance Chart */}
               <Card variant="glass" className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Performance History
                   </h3>
                   <div className="flex items-center space-x-2">
@@ -421,7 +421,7 @@ const Investments: React.FC = () => {
                           'px-2 py-1 text-xs rounded-lg transition-colors',
                           timeframe === t
                             ? 'bg-primary-600 text-white'
-                            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                            : 'hover:bg-ink-100 dark:hover:bg-gray-800'
                         )}
                       >
                         {t}
@@ -467,7 +467,7 @@ const Investments: React.FC = () => {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <Shield className="text-primary-600" size={24} />
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Risk Profile
                   </h3>
                 </div>
@@ -482,7 +482,7 @@ const Investments: React.FC = () => {
                           ? risk === 'Low' ? 'bg-green-600 text-white' :
                             risk === 'Moderate' ? 'bg-yellow-600 text-white' :
                             'bg-red-600 text-white'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                          : 'bg-ink-100 dark:bg-ink-800 text-ink-700 dark:text-ink-300'
                       )}
                     >
                       {risk}
@@ -493,24 +493,24 @@ const Investments: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
                   <p className="text-sm text-green-700 dark:text-green-300">Low Risk (MMF, T-Bills)</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-2">
                     {format(totalMMF + 100000)}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">65% of portfolio</p>
+                  <p className="text-xs text-ink-500 mt-1">65% of portfolio</p>
                 </div>
                 <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                   <p className="text-sm text-yellow-700 dark:text-yellow-300">Moderate Risk (Saccos)</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-2">
                     {format(totalSacco)}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">25% of portfolio</p>
+                  <p className="text-xs text-ink-500 mt-1">25% of portfolio</p>
                 </div>
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
                   <p className="text-sm text-red-700 dark:text-red-300">High Risk (Stocks)</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-2">
                     {format(totalStocks)}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">10% of portfolio</p>
+                  <p className="text-xs text-ink-500 mt-1">10% of portfolio</p>
                 </div>
               </div>
             </Card>
@@ -532,7 +532,7 @@ const Investments: React.FC = () => {
             <Card variant="gradient" className="p-6 text-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white/20 rounded-xl">
+                  <div className="p-3 bg-ink-50/20 rounded-xl">
                     <TrendingUp size={32} />
                   </div>
                   <div>
@@ -549,7 +549,7 @@ const Investments: React.FC = () => {
 
             {/* MMF Comparison Chart */}
             <Card variant="glass" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                 Returns Comparison
               </h3>
               <div className="h-64">
@@ -598,17 +598,17 @@ const Investments: React.FC = () => {
                           <TrendingUp style={{ color: fund.color }} size={24} />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900 dark:text-white">
+                          <h3 className="font-semibold text-ink-900 dark:text-ink-50">
                             {fund.name}
                           </h3>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-sm text-ink-500 dark:text-ink-400">
                             {fund.provider}
                           </p>
                         </div>
                       </div>
                       {fund.amount > 0 && (
-                        <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-                          <MoreVertical size={16} className="text-gray-500" />
+                        <button className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg">
+                          <MoreVertical size={16} className="text-ink-500" />
                         </button>
                       )}
                     </div>
@@ -616,13 +616,13 @@ const Investments: React.FC = () => {
                     {fund.amount > 0 ? (
                       <div className="mt-4 grid grid-cols-2 gap-4">
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Invested</p>
-                          <p className="text-lg font-bold text-gray-900 dark:text-white">
+                          <p className="text-xs text-ink-500 dark:text-ink-400">Invested</p>
+                          <p className="text-lg font-bold text-ink-900 dark:text-ink-50">
                             {format(fund.amount)}
                           </p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">Returns p.a.</p>
+                          <p className="text-xs text-ink-500 dark:text-ink-400">Returns p.a.</p>
                           <p className="text-lg font-bold text-green-600">
                             {fund.returns}%
                           </p>
@@ -636,7 +636,7 @@ const Investments: React.FC = () => {
                       </div>
                     )}
 
-                    <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
+                    <div className="mt-4 flex items-center justify-between text-xs text-ink-500">
                       <span>Min: {format(fund.minInvestment)}</span>
                       <span>Liquidity: {fund.liquidity}</span>
                     </div>
@@ -660,7 +660,7 @@ const Investments: React.FC = () => {
             <Card variant="gradient" className="p-6 text-white" style={{ background: 'linear-gradient(135deg, #ec4899, #8b5cf6)' }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white/20 rounded-xl">
+                  <div className="p-3 bg-ink-50/20 rounded-xl">
                     <Building size={32} />
                   </div>
                   <div>
@@ -695,19 +695,19 @@ const Investments: React.FC = () => {
                           <Building style={{ color: sacco.color }} size={24} />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-lg">
+                          <h3 className="font-semibold text-ink-900 dark:text-ink-50 text-lg">
                             {sacco.name}
                           </h3>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-sm text-ink-500 dark:text-ink-400">
                             {sacco.provider}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-xl font-bold text-gray-900 dark:text-white">
+                        <p className="text-xl font-bold text-ink-900 dark:text-ink-50">
                           {format(sacco.amount)}
                         </p>
-                        <p className="text-xs text-gray-500">Total savings</p>
+                        <p className="text-xs text-ink-500">Total savings</p>
                       </div>
                     </div>
 
@@ -717,29 +717,29 @@ const Investments: React.FC = () => {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800"
+                          className="mt-4 pt-4 border-t border-ink-200 dark:border-ink-800"
                         >
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">Shares</p>
-                              <p className="text-lg font-bold text-gray-900 dark:text-white">
+                              <p className="text-xs text-ink-500 dark:text-ink-400">Shares</p>
+                              <p className="text-lg font-bold text-ink-900 dark:text-ink-50">
                                 {sacco.shares.toLocaleString()}
                               </p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">Dividend Rate</p>
+                              <p className="text-xs text-ink-500 dark:text-ink-400">Dividend Rate</p>
                               <p className="text-lg font-bold text-green-600">
                                 {sacco.dividends}%
                               </p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">Monthly Deposit</p>
-                              <p className="text-lg font-bold text-gray-900 dark:text-white">
+                              <p className="text-xs text-ink-500 dark:text-ink-400">Monthly Deposit</p>
+                              <p className="text-lg font-bold text-ink-900 dark:text-ink-50">
                                 {format(sacco.deposits)}
                               </p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-500 dark:text-gray-400">Loan Balance</p>
+                              <p className="text-xs text-ink-500 dark:text-ink-400">Loan Balance</p>
                               <p className="text-lg font-bold text-red-600">
                                 {format(sacco.loanBalance)}
                               </p>
@@ -767,38 +767,38 @@ const Investments: React.FC = () => {
 
             {/* Sacco Calculator */}
             <Card variant="glass" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                 Sacco Dividend Calculator
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                     Monthly Contribution
                   </label>
                   <input
                     type="number"
                     placeholder="5000"
-                    className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                    className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                     Dividend Rate (%)
                   </label>
                   <input
                     type="number"
                     placeholder="12"
-                    className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                    className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                     Years
                   </label>
                   <input
                     type="number"
                     placeholder="5"
-                    className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                    className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                   />
                 </div>
               </div>
@@ -824,7 +824,7 @@ const Investments: React.FC = () => {
             <Card variant="gradient" className="p-6 text-white" style={{ background: 'linear-gradient(135deg, #f59e0b, #ef4444)' }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="p-3 bg-white/20 rounded-xl">
+                  <div className="p-3 bg-ink-50/20 rounded-xl">
                     <BarChart3 size={32} />
                   </div>
                   <div>
@@ -842,7 +842,7 @@ const Investments: React.FC = () => {
             {/* Watchlist */}
             <Card variant="glass" className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                   Your Watchlist
                 </h3>
                 <Button variant="ghost" size="sm" icon={<Plus size={14} />}>
@@ -858,7 +858,7 @@ const Investments: React.FC = () => {
                       'px-3 py-1 rounded-lg text-sm font-medium transition-colors flex items-center space-x-1',
                       watchlist.includes(symbol)
                         ? 'bg-primary-600 text-white'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'
+                        : 'bg-ink-100 dark:bg-ink-800 text-ink-700 dark:text-ink-300'
                     )}
                   >
                     <span>{symbol}</span>
@@ -876,7 +876,7 @@ const Investments: React.FC = () => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="text-left text-sm text-gray-600 dark:text-gray-400">
+                  <tr className="text-left text-sm text-ink-600 dark:text-ink-400">
                     <th className="pb-4">Symbol</th>
                     <th className="pb-4">Company</th>
                     <th className="pb-4">Shares</th>
@@ -894,18 +894,18 @@ const Investments: React.FC = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                      className="hover:bg-ink-50 dark:hover:bg-gray-800/50 transition-colors"
                     >
-                      <td className="py-4 font-medium text-gray-900 dark:text-white">
+                      <td className="py-4 font-medium text-ink-900 dark:text-ink-50">
                         {stock.symbol}
                       </td>
-                      <td className="py-4 text-gray-600 dark:text-gray-400">
+                      <td className="py-4 text-ink-600 dark:text-ink-400">
                         {stock.name}
                       </td>
-                      <td className="py-4 text-gray-900 dark:text-white">
+                      <td className="py-4 text-ink-900 dark:text-ink-50">
                         {stock.shares}
                       </td>
-                      <td className="py-4 font-medium text-gray-900 dark:text-white">
+                      <td className="py-4 font-medium text-ink-900 dark:text-ink-50">
                         {format(stock.price)}
                       </td>
                       <td className="py-4">
@@ -917,15 +917,15 @@ const Investments: React.FC = () => {
                           <span>{stock.changePercent.toFixed(2)}%</span>
                         </div>
                       </td>
-                      <td className="py-4 font-bold text-gray-900 dark:text-white">
+                      <td className="py-4 font-bold text-ink-900 dark:text-ink-50">
                         {format(stock.value)}
                       </td>
-                      <td className="py-4 text-gray-600 dark:text-gray-400">
+                      <td className="py-4 text-ink-600 dark:text-ink-400">
                         {stock.dividend}
                       </td>
                       <td className="py-4">
-                        <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-                          <ExternalLink size={16} className="text-gray-500" />
+                        <button className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg">
+                          <ExternalLink size={16} className="text-ink-500" />
                         </button>
                       </td>
                     </motion.tr>
@@ -936,7 +936,7 @@ const Investments: React.FC = () => {
 
             {/* Market News */}
             <Card variant="glass" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                 Market News
               </h3>
               <div className="space-y-3">
@@ -945,12 +945,12 @@ const Investments: React.FC = () => {
                   { title: 'KCB Group posts KSh 15B profit', source: 'Nation', time: '5h ago' },
                   { title: 'NSE lifts suspension on EABL shares', source: 'Standard', time: '1d ago' },
                 ].map((news, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">
+                  <div key={i} className="flex items-center justify-between p-3 hover:bg-ink-50 dark:hover:bg-gray-800 rounded-lg">
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">{news.title}</p>
-                      <p className="text-xs text-gray-500 mt-1">{news.source} • {news.time}</p>
+                      <p className="font-medium text-ink-900 dark:text-ink-50">{news.title}</p>
+                      <p className="text-xs text-ink-500 mt-1">{news.source} • {news.time}</p>
                     </div>
-                    <ChevronRight size={16} className="text-gray-400" />
+                    <ChevronRight size={16} className="text-ink-400" />
                   </div>
                 ))}
               </div>
@@ -974,48 +974,48 @@ const Investments: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Future Value Calculator
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Current Investment
                     </label>
                     <input
                       type="number"
                       value={totalInvestments}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Monthly Contribution
                     </label>
                     <input
                       type="number"
                       placeholder="10000"
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Expected Return (%)
                     </label>
                     <input
                       type="number"
                       value={averageReturn.toFixed(1)}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Years
                     </label>
                     <input
                       type="number"
                       placeholder="10"
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <Button variant="primary" fullWidth>
@@ -1025,7 +1025,7 @@ const Investments: React.FC = () => {
               </Card>
 
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Projected Growth
                 </h3>
                 <div className="h-64">
@@ -1075,19 +1075,19 @@ const Investments: React.FC = () => {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-md w-full p-6"
+              className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-xl max-w-md w-full p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mb-4">
                 Add Investment
               </h2>
               
               <form className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                     Investment Type
                   </label>
-                  <select className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg">
+                  <select className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg">
                     <option>Money Market Fund</option>
                     <option>Sacco</option>
                     <option>Stocks (NSE)</option>
@@ -1096,34 +1096,34 @@ const Investments: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                     Fund/Stock Name
                   </label>
                   <input
                     type="text"
                     placeholder="e.g., CIC Money Market Fund"
-                    className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                    className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                     Amount Invested (KES)
                   </label>
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                    className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                     Purchase Date
                   </label>
                   <input
                     type="date"
-                    className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                    className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                   />
                 </div>
 

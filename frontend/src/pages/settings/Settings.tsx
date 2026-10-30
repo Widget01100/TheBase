@@ -31,7 +31,7 @@ const Settings: React.FC = () => {
       className="space-y-6"
     >
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">
           Settings
         </h1>
         <Button variant="primary" icon={<Save size={18} />}>
@@ -44,39 +44,39 @@ const Settings: React.FC = () => {
         <Card variant="glass" className="p-6">
           <div className="flex items-center space-x-3 mb-4">
             <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-              <User className="text-blue-600" size={20} />
+              <User className="text-brand-600" size={20} />
             </div>
-            <h2 className="font-semibold text-gray-900 dark:text-white">Profile</h2>
+            <h2 className="font-semibold text-ink-900 dark:text-ink-50">Profile</h2>
           </div>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <label className="block text-sm text-ink-600 dark:text-ink-400 mb-1">
                 Full Name
               </label>
               <input
                 type="text"
                 defaultValue="Francis Kamau"
-                className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <label className="block text-sm text-ink-600 dark:text-ink-400 mb-1">
                 Email
               </label>
               <input
                 type="email"
                 defaultValue="francis@example.com"
-                className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <label className="block text-sm text-ink-600 dark:text-ink-400 mb-1">
                 Phone Number
               </label>
               <input
                 type="tel"
                 defaultValue="+254 712 345 678"
-                className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
               />
             </div>
           </div>
@@ -88,7 +88,7 @@ const Settings: React.FC = () => {
             <div className="p-2 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
               <Bell className="text-yellow-600" size={20} />
             </div>
-            <h2 className="font-semibold text-gray-900 dark:text-white">Notifications</h2>
+            <h2 className="font-semibold text-ink-900 dark:text-ink-50">Notifications</h2>
           </div>
           <div className="space-y-3">
             {[
@@ -99,10 +99,10 @@ const Settings: React.FC = () => {
               'Budget Alerts'
             ].map((item) => (
               <div key={item} className="flex items-center justify-between">
-                <span className="text-sm text-gray-700 dark:text-gray-300">{item}</span>
+                <span className="text-sm text-ink-700 dark:text-ink-300">{item}</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" className="sr-only peer" defaultChecked />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                  <div className="w-11 h-6 bg-ink-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-ink-950 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-ink-50 after:border-ink-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
                 </label>
               </div>
             ))}
@@ -115,25 +115,25 @@ const Settings: React.FC = () => {
             <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
               <Shield className="text-red-600" size={20} />
             </div>
-            <h2 className="font-semibold text-gray-900 dark:text-white">Security</h2>
+            <h2 className="font-semibold text-ink-900 dark:text-ink-50">Security</h2>
           </div>
           <div className="space-y-4">
-            <button className="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
+            <button className="w-full text-left p-3 hover:bg-ink-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Change Password</span>
-                <ChevronRight size={16} className="text-gray-400" />
+                <ChevronRight size={16} className="text-ink-400" />
               </div>
             </button>
-            <button className="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
+            <button className="w-full text-left p-3 hover:bg-ink-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Two-Factor Authentication</span>
-                <ChevronRight size={16} className="text-gray-400" />
+                <ChevronRight size={16} className="text-ink-400" />
               </div>
             </button>
-            <button className="w-full text-left p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
+            <button className="w-full text-left p-3 hover:bg-ink-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Connected Devices</span>
-                <ChevronRight size={16} className="text-gray-400" />
+                <ChevronRight size={16} className="text-ink-400" />
               </div>
             </button>
           </div>
@@ -145,13 +145,13 @@ const Settings: React.FC = () => {
             <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
               <Moon className="text-purple-600" size={20} />
             </div>
-            <h2 className="font-semibold text-gray-900 dark:text-white">Appearance</h2>
+            <h2 className="font-semibold text-ink-900 dark:text-ink-50">Appearance</h2>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-700 dark:text-gray-300">Dark Mode</span>
+            <span className="text-sm text-ink-700 dark:text-ink-300">Dark Mode</span>
             <button
               onClick={toggleDarkMode}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+              className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg"
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
@@ -164,20 +164,20 @@ const Settings: React.FC = () => {
             <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
               <Globe className="text-green-600" size={20} />
             </div>
-            <h2 className="font-semibold text-gray-900 dark:text-white">Preferences</h2>
+            <h2 className="font-semibold text-ink-900 dark:text-ink-50">Preferences</h2>
           </div>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <label className="block text-sm text-ink-600 dark:text-ink-400 mb-1">
                 Currency
               </label>
               <CurrencySwitcher variant="full" />
             </div>
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-1">
+              <label className="block text-sm text-ink-600 dark:text-ink-400 mb-1">
                 Language
               </label>
-              <select className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg">
+              <select className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg">
                 <option>English</option>
                 <option>Kiswahili</option>
                 <option>Sheng</option>
@@ -192,21 +192,21 @@ const Settings: React.FC = () => {
             <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
               <Smartphone className="text-green-600" size={20} />
             </div>
-            <h2 className="font-semibold text-gray-900 dark:text-white">M-PESA</h2>
+            <h2 className="font-semibold text-ink-900 dark:text-ink-50">M-PESA</h2>
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700 dark:text-gray-300">Auto-Sync</span>
+              <span className="text-sm text-ink-700 dark:text-ink-300">Auto-Sync</span>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                <div className="w-11 h-6 bg-ink-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-ink-950 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-ink-50 after:border-ink-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
               </label>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700 dark:text-gray-300">Round-Up Savings</span>
+              <span className="text-sm text-ink-700 dark:text-ink-300">Round-Up Savings</span>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
+                <div className="w-11 h-6 bg-ink-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 dark:peer-focus:ring-primary-800 rounded-full peer dark:bg-ink-950 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-ink-50 after:border-ink-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-600"></div>
               </label>
             </div>
           </div>

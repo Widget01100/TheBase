@@ -339,13 +339,13 @@ const Education: React.FC = () => {
     >
       {/* Header with Gamification */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400 rounded-3xl"></div>
+        <div className="absolute inset-0 bg-brand-500 rounded-xl"></div>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
         
         <div className="relative p-8 text-white">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center space-x-4">
-              <div className="p-4 bg-white/20 rounded-2xl">
+              <div className="p-4 bg-ink-50/20 rounded-lg">
                 <GraduationCap size={48} />
               </div>
               <div>
@@ -361,7 +361,7 @@ const Education: React.FC = () => {
                   <Trophy size={20} className="text-yellow-300" />
                   <span className="text-2xl font-bold">Level {level}</span>
                 </div>
-                <div className="w-32 h-2 bg-white/20 rounded-full mt-2">
+                <div className="w-32 h-2 bg-ink-50/20 rounded-full mt-2">
                   <div className="bg-yellow-400 h-2 rounded-full" style={{ width: `${xpProgress}%` }} />
                 </div>
               </div>
@@ -387,7 +387,7 @@ const Education: React.FC = () => {
             key={showProverb}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 p-4 bg-white/10 rounded-xl"
+            className="mt-6 p-4 bg-ink-50/10 rounded-xl"
           >
             <p className="text-lg italic">"{proverbs[showProverb].swahili}"</p>
             <p className="text-sm mt-1">{proverbs[showProverb].english}</p>
@@ -397,7 +397,7 @@ const Education: React.FC = () => {
       </div>
 
       {/* Main Navigation */}
-      <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+      <div className="flex space-x-1 bg-ink-100 dark:bg-ink-800 p-1 rounded-xl">
         {[
           { id: 'learn', label: 'Learn', icon: BookOpen },
           { id: 'videos', label: 'Videos', icon: Video },
@@ -413,8 +413,8 @@ const Education: React.FC = () => {
               className={cn(
                 'flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium transition-all',
                 activeTab === tab.id
-                  ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-lg'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-lg'
+                  : 'text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white'
               )}
             >
               <Icon size={18} />
@@ -427,13 +427,13 @@ const Education: React.FC = () => {
       {/* Search and Filter */}
       <div className="flex items-center space-x-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-400" size={18} />
           <input
             type="text"
             placeholder="Search lessons, videos, articles..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white/50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full pl-10 pr-4 py-3 bg-ink-50/50 dark:bg-ink-900/50 border border-ink-200 dark:border-ink-800 rounded-lg focus:ring-2 focus:ring-primary-500"
           />
         </div>
         <Button variant="outline" icon={<Filter size={18} />}>
@@ -484,7 +484,7 @@ const Education: React.FC = () => {
             </div>
 
             {/* Featured Articles */}
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+            <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mt-8 mb-4">
               Featured Articles
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -504,15 +504,15 @@ const Education: React.FC = () => {
                         {bookmarked.includes(article.id) ? (
                           <BookmarkCheck size={18} className="text-primary-600" />
                         ) : (
-                          <Bookmark size={18} className="text-gray-400" />
+                          <Bookmark size={18} className="text-ink-400" />
                         )}
                       </button>
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">
                       {article.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mb-4">By {article.author}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
+                    <p className="text-sm text-ink-500 mb-4">By {article.author}</p>
+                    <div className="flex items-center justify-between text-xs text-ink-500">
                       <span>{article.readTime} min read</span>
                       <span>❤️ {article.likes}</span>
                     </div>
@@ -523,7 +523,7 @@ const Education: React.FC = () => {
 
             {/* Learning Path Progress */}
             <Card variant="glass" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                 Your Learning Path
               </h3>
               <div className="space-y-4">
@@ -535,8 +535,8 @@ const Education: React.FC = () => {
                 ].map((step, i) => (
                   <div key={i}>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-700 dark:text-gray-300">{step.step}</span>
-                      <span className="text-gray-500">{step.progress}%</span>
+                      <span className="text-ink-700 dark:text-ink-300">{step.step}</span>
+                      <span className="text-ink-500">{step.progress}%</span>
                     </div>
                     <div className="progress-bar">
                       <div 
@@ -571,7 +571,7 @@ const Education: React.FC = () => {
                 transition={{ delay: index * 0.05 }}
               >
                 <Card variant="glass" className="p-4">
-                  <div className="relative aspect-video bg-gray-200 dark:bg-gray-800 rounded-lg mb-3 overflow-hidden group">
+                  <div className="relative aspect-video bg-ink-200 dark:bg-ink-800 rounded-lg mb-3 overflow-hidden group">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Play size={48} className="text-white opacity-50 group-hover:opacity-100 transition-opacity" />
                     </div>
@@ -582,22 +582,22 @@ const Education: React.FC = () => {
                   
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                      <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-1">
                         {video.title}
                       </h3>
-                      <p className="text-xs text-gray-500 mb-2">{video.description}</p>
+                      <p className="text-xs text-ink-500 mb-2">{video.description}</p>
                     </div>
                     <button onClick={() => toggleBookmark(video.id)}>
                       {bookmarked.includes(video.id) ? (
                         <BookmarkCheck size={16} className="text-primary-600" />
                       ) : (
-                        <Bookmark size={16} className="text-gray-400" />
+                        <Bookmark size={16} className="text-ink-400" />
                       )}
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between text-xs text-gray-500 mt-2">
-                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">
+                  <div className="flex items-center justify-between text-xs text-ink-500 mt-2">
+                    <span className="px-2 py-1 bg-ink-100 dark:bg-ink-800 rounded">
                       {video.level}
                     </span>
                     <span>👁️ {video.views.toLocaleString()}</span>
@@ -651,11 +651,11 @@ const Education: React.FC = () => {
                     </span>
                   </div>
 
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                  <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">
                     {quiz.title}
                   </h3>
                   
-                  <div className="flex items-center space-x-4 text-xs text-gray-500 mb-4">
+                  <div className="flex items-center space-x-4 text-xs text-ink-500 mb-4">
                     <span>{quiz.questions} questions</span>
                     <span>⭐ {quiz.rating}</span>
                     <span>{quiz.completed.toLocaleString()} taken</span>
@@ -695,12 +695,12 @@ const Education: React.FC = () => {
                             Featured
                           </span>
                         )}
-                        <span className="text-xs text-gray-500">{article.readTime} min read</span>
+                        <span className="text-xs text-ink-500">{article.readTime} min read</span>
                       </div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-2">
+                      <h3 className="font-semibold text-ink-900 dark:text-ink-50 text-lg mb-2">
                         {article.title}
                       </h3>
-                      <p className="text-sm text-gray-500 mb-3">By {article.author}</p>
+                      <p className="text-sm text-ink-500 mb-3">By {article.author}</p>
                       <div className="flex items-center space-x-4 text-sm">
                         <span className="flex items-center space-x-1">
                           <ThumbsUp size={14} />
@@ -716,7 +716,7 @@ const Education: React.FC = () => {
                       {bookmarked.includes(article.id) ? (
                         <BookmarkCheck size={20} className="text-primary-600" />
                       ) : (
-                        <Bookmark size={20} className="text-gray-400" />
+                        <Bookmark size={20} className="text-ink-400" />
                       )}
                     </button>
                   </div>
@@ -747,10 +747,10 @@ const Education: React.FC = () => {
                   className="p-6 cursor-pointer hover:shadow-lg transition-all"
                   onClick={() => setSelectedTerm(item.term)}
                 >
-                  <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-2">
+                  <h3 className="font-semibold text-ink-900 dark:text-ink-50 text-lg mb-2">
                     {item.term}
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-ink-600 dark:text-ink-400">
                     {item.definition}
                   </p>
                 </Card>
@@ -774,15 +774,15 @@ const Education: React.FC = () => {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-md w-full p-6"
+              className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-xl max-w-md w-full p-6"
               onClick={(e) => e.stopPropagation()}
             >
               {glossary.find(g => g.term === selectedTerm) && (
                 <>
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                  <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mb-4">
                     {selectedTerm}
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  <p className="text-ink-600 dark:text-ink-400 mb-6">
                     {glossary.find(g => g.term === selectedTerm)?.definition}
                   </p>
                   <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">

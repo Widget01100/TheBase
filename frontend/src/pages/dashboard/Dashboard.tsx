@@ -105,6 +105,7 @@ import { formatCurrency } from '@/utils/formatters';
 import { useFormatCurrency, useCurrency } from '@/contexts/CurrencyContext';
 import { useApp } from '@/contexts/AppContext';
 import ExportModal from '@/components/shared/ExportModal';
+import { StatLedger } from '@/components/dashboard/StatLedger';
 import toast from 'react-hot-toast';
 import { exportToPDF } from '@/utils/export/exportUtils';
 import { cn } from '@/lib/utils';
@@ -328,48 +329,13 @@ const Dashboard: React.FC = () => {
   // Color palette per timeframe — makes each timeframe unique
   // ─────────────────────────────────────────────────────────
   const chartPalette = useMemo(() => {
-    switch (selectedTimeframe) {
-      case '1W':
-        return {
-          name: 'emerald',
-          light: '#a7f3d0',
-          medium: '#34d399',
-          dark: '#10b981',
-          deep: '#059669',
-        };
-      case '1M':
-        return {
-          name: 'sky',
-          light: '#bae6fd',
-          medium: '#38bdf8',
-          dark: '#0ea5e9',
-          deep: '#0284c7',
-        };
-      case '3M':
-        return {
-          name: 'violet',
-          light: '#ddd6fe',
-          medium: '#a78bfa',
-          dark: '#8b5cf6',
-          deep: '#7c3aed',
-        };
-      case '1Y':
-        return {
-          name: 'amber',
-          light: '#fde68a',
-          medium: '#fbbf24',
-          dark: '#f59e0b',
-          deep: '#d97706',
-        };
-      default:
-        return {
-          name: 'sky',
-          light: '#bae6fd',
-          medium: '#38bdf8',
-          dark: '#0ea5e9',
-          deep: '#0284c7',
-        };
-    }
+    // Unified brand green palette for all timeframes
+    return {
+      light: '#d9ebe2',
+      medium: '#7fba9d',
+      dark: '#2b7a55',
+      deep: '#1e5f42',
+    };
   }, [selectedTimeframe]);
 
   // Smart Y-max: use 95th percentile so one huge spike doesn't crush the rest
@@ -508,7 +474,7 @@ const Dashboard: React.FC = () => {
       icon: Wallet,
       color: 'from-blue-600 to-blue-400',
       bgColor: 'bg-blue-50 dark:bg-blue-950',
-      textColor: 'text-blue-600 dark:text-blue-400',
+      textColor: 'text-brand-600 dark:text-brand-600',
     },
     {
       title: 'Monthly Income',
@@ -586,7 +552,7 @@ const Dashboard: React.FC = () => {
   const handleShare = async () => {
     const shareData = {
       title: 'The Base — My Financial Dashboard',
-      text: `💰 I've saved KSh 245,800 on The Base!\n📈 Savings rate: 39%\n🎯 Goal: 50% to my Emergency Fund\n\nJoin me on Kenya's best personal finance platform!`,
+      text: ` I've saved KSh 245,800 on The Base!\n📈 Savings rate: 39%\n Goal: 50% to my Emergency Fund\n\nJoin me on Kenya's best personal finance platform!`,
       url: window.location.href,
     };
     try {
@@ -637,7 +603,7 @@ const Dashboard: React.FC = () => {
           height={window.innerHeight}
           recycle={false}
           numberOfPieces={500}
-          colors={['#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']}
+          colors={['#2b7a55', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']}
         />
       )}
       
@@ -657,24 +623,24 @@ const Dashboard: React.FC = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="fixed top-20 left-0 right-0 z-40 p-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden"
+              className="fixed top-20 left-0 right-0 z-40 p-4 bg-ink-50 dark:bg-ink-900 border-b border-ink-200 dark:border-ink-800 md:hidden shadow-card"
             >
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-400" size={18} />
                 <input
                   ref={searchInputRef}
                   type="text"
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-ink-200 dark:border-ink-800 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   autoFocus
                 />
                 <button
                   onClick={() => setShowSearch(false)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2"
                 >
-                  <X size={18} className="text-gray-400" />
+                  <X size={18} className="text-ink-400" />
                 </button>
               </div>
             </motion.div>
@@ -690,7 +656,7 @@ const Dashboard: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="relative overflow-hidden bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 rounded-2xl shadow-xl"
+                className="relative overflow-hidden bg-gradient-to-r from-primary-600 via-primary-500 to-primary-400 rounded-lg shadow-xl"
               >
                 <div className="absolute inset-0 bg-black/10"></div>
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
@@ -708,7 +674,7 @@ const Dashboard: React.FC = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleRefresh}
-                    className="bg-white/20 hover:bg-white/30 text-white p-3 rounded-xl backdrop-blur-sm transition-colors"
+                    className="bg-ink-50/20 hover:bg-ink-50/30 text-white p-3 rounded-xl backdrop-blur-sm transition-colors"
                   >
                     <RefreshCw size={20} className={cn(isRefreshing && 'animate-spin')} />
                   </motion.button>
@@ -718,59 +684,8 @@ const Dashboard: React.FC = () => {
           </AnimatePresence>
 
           {/* Quick Stats with 3D Tilt Effect */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={stat.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000} glareEnable={true} glareMaxOpacity={0.1}>
-                    <Card variant="glass" interactive className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">{stat.title}</p>
-                          <div className="flex items-center space-x-2 mt-1">
-                            {balanceVisible ? (
-                              <AnimatedCounter
-                                value={stat.value}
-                                format={!stat.isPercentage}
-                                suffix={stat.isPercentage ? '%' : ''}
-                                className="text-2xl font-bold text-gray-900 dark:text-white"
-                              />
-                            ) : (
-                              <span className="text-2xl font-bold text-gray-900 dark:text-white">•••••</span>
-                            )}
-                          </div>
-                        </div>
-                        <div className={cn('p-3 rounded-xl bg-gradient-to-br', stat.color)}>
-                          <Icon className="text-white" size={24} />
-                        </div>
-                      </div>
-                      <div className="mt-4 flex items-center">
-                        {stat.trend === 'up' ? (
-                          <ArrowUpRight className="text-green-500" size={20} />
-                        ) : (
-                          <ArrowDownRight className="text-red-500" size={20} />
-                        )}
-                        <span className={cn(
-                          'text-sm font-medium ml-1',
-                          stat.trend === 'up' ? 'text-green-500' : 'text-red-500'
-                        )}>
-                          {stat.change}
-                        </span>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
-                          vs last month
-                        </span>
-                      </div>
-                    </Card>
-                  </Tilt>
-                </motion.div>
-              );
-            })}
+          <div className="mb-6">
+            <StatLedger balanceVisible={balanceVisible} />
           </div>
 
           {/* Main Content Grid */}
@@ -781,10 +696,10 @@ const Dashboard: React.FC = () => {
               {loading ? (
                 <Card variant="glass" className="p-6">
                   <div className="animate-pulse space-y-4">
-                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                    <div className="h-4 bg-ink-200 dark:bg-ink-950 rounded w-1/4"></div>
                     <div className="grid grid-cols-7 gap-1">
                       {[...Array(35)].map((_, i) => (
-                        <div key={i} className="h-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                        <div key={i} className="h-4 bg-ink-200 dark:bg-ink-950 rounded"></div>
                       ))}
                     </div>
                   </div>
@@ -802,7 +717,7 @@ const Dashboard: React.FC = () => {
               {/* Spending Chart */}
               <Card variant="glass" className="p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Spending Overview
                   </h3>
                   <div className="flex items-center space-x-2">
@@ -814,7 +729,7 @@ const Dashboard: React.FC = () => {
                           'px-3 py-1 text-sm rounded-lg transition-colors',
                           selectedTimeframe === timeframe
                             ? 'bg-primary-600 text-white'
-                            : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                            : 'hover:bg-ink-100 dark:hover:bg-gray-800'
                         )}
                       >
                         {timeframe}
@@ -957,17 +872,7 @@ const Dashboard: React.FC = () => {
                         }
                         style={{
                           data: {
-                            fill: ({ datum }) => {
-                              const max = Math.max(...spendingTimeSeries.map((d) => d.y), 1);
-                              const ratio = datum.y / max;
-
-                              // Use palette-specific colors per timeframe
-                              if (ratio > 0.75) return chartPalette.deep;
-                              if (ratio > 0.5) return chartPalette.dark;
-                              if (ratio > 0.25) return chartPalette.medium;
-                              if (ratio > 0.05) return chartPalette.light;
-                              return chartPalette.light;
-                            },
+                            fill: chartPalette.dark,
                             opacity: 1,
                           },
                         }}
@@ -1029,7 +934,7 @@ const Dashboard: React.FC = () => {
                   >
                     <Card variant="glass" className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                           {new Date(selectedDay.date).toLocaleDateString('en-KE', { 
                             weekday: 'long', 
                             year: 'numeric', 
@@ -1039,7 +944,7 @@ const Dashboard: React.FC = () => {
                         </h3>
                         <button
                           onClick={() => setSelectedDay(null)}
-                          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+                          className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg"
                         >
                           <X size={18} />
                         </button>
@@ -1051,7 +956,7 @@ const Dashboard: React.FC = () => {
                               key={transaction.id}
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
-                              className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                              className="flex items-center justify-between p-3 bg-ink-50 dark:bg-ink-800 rounded-lg"
                             >
                               <div className="flex items-center space-x-3">
                                 <div className={cn(
@@ -1065,10 +970,10 @@ const Dashboard: React.FC = () => {
                                   } size={18} />
                                 </div>
                                 <div>
-                                  <p className="font-medium text-gray-900 dark:text-white">
+                                  <p className="font-medium text-ink-900 dark:text-ink-50">
                                     {transaction.description}
                                   </p>
-                                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  <p className="text-sm text-ink-500 dark:text-ink-400">
                                     {transaction.category}
                                   </p>
                                 </div>
@@ -1083,7 +988,7 @@ const Dashboard: React.FC = () => {
                           ))}
                         </div>
                       ) : (
-                        <p className="text-gray-500 dark:text-gray-400 text-center py-4">
+                        <p className="text-ink-500 dark:text-ink-400 text-center py-4">
                           No transactions on this day
                         </p>
                       )}
@@ -1108,7 +1013,7 @@ const Dashboard: React.FC = () => {
                         <p className="text-lg font-medium italic">"{quote.text}"</p>
                         <p className="text-sm mt-2 opacity-90">— {quote.author}</p>
                         {quote.language === 'sw' && (
-                          <span className="inline-block mt-2 text-xs bg-white/20 px-2 py-1 rounded-full">
+                          <span className="inline-block mt-2 text-xs bg-ink-50/20 px-2 py-1 rounded-full">
                             Kiswahili
                           </span>
                         )}
@@ -1121,10 +1026,10 @@ const Dashboard: React.FC = () => {
               {/* Goals Progress */}
               <Card variant="glass" className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Goals Progress
                   </h3>
-                  <Target className="text-gray-400" size={20} />
+                  <Target className="text-ink-400" size={20} />
                 </div>
                 <motion.div
                   initial="hidden"
@@ -1144,8 +1049,8 @@ const Dashboard: React.FC = () => {
                       }}
                     >
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-700 dark:text-gray-300">{goal.name}</span>
-                        <span className="text-gray-900 dark:text-white font-medium">
+                        <span className="text-ink-700 dark:text-ink-300">{goal.name}</span>
+                        <span className="text-ink-900 dark:text-ink-50 font-medium">
                           {Math.round((goal.currentAmount / goal.targetAmount) * 100)}%
                         </span>
                       </div>
@@ -1157,7 +1062,7 @@ const Dashboard: React.FC = () => {
                           className="progress-bar-fill"
                         />
                       </div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <p className="text-xs text-ink-500 dark:text-ink-400 mt-1">
                         {fmtMoney(goal.currentAmount)} / {fmtMoney(goal.targetAmount)}
                       </p>
                     </motion.div>
@@ -1168,10 +1073,10 @@ const Dashboard: React.FC = () => {
               {/* Budget Overview */}
               <Card variant="glass" className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Monthly Budget
                   </h3>
-                  <AlertCircle className="text-gray-400" size={20} />
+                  <AlertCircle className="text-ink-400" size={20} />
                 </div>
                 <div className="space-y-4">
                   {mockBudgets.map((budget, index) => {
@@ -1187,7 +1092,7 @@ const Dashboard: React.FC = () => {
                         transition={{ delay: index * 0.1 }}
                       >
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-700 dark:text-gray-300">{budget.category}</span>
+                          <span className="text-ink-700 dark:text-ink-300">{budget.category}</span>
                           <span className={cn(
                             'font-medium',
                             isOverBudget && 'text-red-600',
@@ -1223,11 +1128,11 @@ const Dashboard: React.FC = () => {
               >
                 <Card variant="mpesa" className="p-6 text-white">
                   <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-white/20 rounded-lg">
+                    <div className="p-2 bg-ink-50/20 rounded-lg">
                       <Zap size={24} />
                     </div>
                     <div>
-                      <h4 className="font-semibold mb-1">Did you know? 🇰🇪</h4>
+                      <h4 className="font-semibold mb-1">Did you know? </h4>
                       <p className="text-sm text-white/90">
                         {tips[Math.floor(Math.random() * tips.length)]}
                       </p>
@@ -1239,7 +1144,7 @@ const Dashboard: React.FC = () => {
               {/* Achievements */}
               <Card variant="glass" className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Recent Achievements
                   </h3>
                   <Award className="text-primary-600" size={20} />
@@ -1255,19 +1160,19 @@ const Dashboard: React.FC = () => {
                       className={cn(
                         'p-3 rounded-xl text-center',
                         achievement.completed 
-                          ? 'bg-gradient-to-br from-yellow-400 to-yellow-600' 
-                          : 'bg-gray-100 dark:bg-gray-800'
+                          ? 'bg-ink-50 dark:bg-ink-900' 
+                          : 'bg-ink-100 dark:bg-ink-800'
                       )}
                     >
                       <div className="text-3xl mb-1">{achievement.icon}</div>
                       <p className={cn(
                         'text-xs font-medium',
-                        achievement.completed ? 'text-white' : 'text-gray-900 dark:text-white'
+                        achievement.completed ? 'text-white' : 'text-ink-900 dark:text-ink-50'
                       )}>
                         {achievement.name}
                       </p>
                       {!achievement.completed && (
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <p className="text-xs text-ink-500 dark:text-ink-400 mt-1">
                           {achievement.progress}/{achievement.total}
                         </p>
                       )}
@@ -1281,7 +1186,7 @@ const Dashboard: React.FC = () => {
 
               {/* Recent Activity Feed */}
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Recent Activity
                 </h3>
                 <div className="space-y-3">
@@ -1291,7 +1196,7 @@ const Dashboard: React.FC = () => {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="flex items-center space-x-3 p-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                      className="flex items-center space-x-3 p-2 hover:bg-ink-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
                     >
                       <div className={cn(
                         'p-2 rounded-lg',
@@ -1306,10 +1211,10 @@ const Dashboard: React.FC = () => {
                         } />
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        <p className="text-sm font-medium text-ink-900 dark:text-ink-50">
                           {transaction.description}
                         </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-ink-500 dark:text-ink-400">
                           {transaction.merchant} • {transaction.location}
                         </p>
                       </div>
@@ -1329,7 +1234,7 @@ const Dashboard: React.FC = () => {
           {/* Investment Portfolio Section */}
           <Card variant="glass" className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                 Investment Portfolio
               </h3>
               <Button variant="ghost" size="sm" icon={<ChevronRight size={16} />} iconPosition="right">
@@ -1350,13 +1255,13 @@ const Dashboard: React.FC = () => {
                 >
                   <Card variant="glass" className="p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">{investment.name}</span>
+                      <span className="text-sm text-ink-600 dark:text-ink-400">{investment.name}</span>
                       <span className={cn('text-sm font-medium text-green-600')}>{investment.returns}</span>
                     </div>
-                    <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <p className="text-xl font-bold text-ink-900 dark:text-ink-50">
                       {fmtMoney(investment.amount)}
                     </p>
-                    <div className="mt-2 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="mt-2 h-1 bg-ink-200 dark:bg-ink-950 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: '60%' }}
@@ -1386,10 +1291,10 @@ const Dashboard: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={action.onClick}
-                className="p-4 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl hover:bg-white dark:hover:bg-gray-800 transition-all"
+                className="p-4 bg-ink-50/80 dark:bg-ink-900/80 backdrop-blur-sm border border-ink-200 dark:border-ink-800 rounded-xl hover:bg-ink-50 dark:hover:bg-gray-800 transition-all shadow-card"
               >
                 <action.icon className="mx-auto mb-2 text-primary-600" size={24} />
-                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-xs font-medium text-ink-700 dark:text-ink-300">
                   {action.label}
                 </span>
               </motion.button>

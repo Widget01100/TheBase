@@ -300,16 +300,16 @@ const AICoach: React.FC = () => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div className="relative">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary-600 to-primary-400 rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-ink-50 dark:bg-ink-900 rounded-lg flex items-center justify-center">
               <Brain className="text-white" size={24} />
             </div>
             <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">
               Malkia - Your Financial Coach
             </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-ink-600 dark:text-ink-400">
               AI-powered insights • Available 24/7 • Speaks English & Swahili
             </p>
           </div>
@@ -321,18 +321,18 @@ const AICoach: React.FC = () => {
               'p-2 rounded-lg transition-colors',
               voiceMode 
                 ? 'bg-primary-600 text-white' 
-                : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                : 'hover:bg-ink-100 dark:hover:bg-gray-800'
             )}
           >
             {voiceMode ? <Volume2 size={20} /> : <VolumeX size={20} />}
           </button>
           <button
             onClick={() => setIsMuted(!isMuted)}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
+            className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg"
           >
             {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
           </button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+          <button className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg">
             <Settings size={20} />
           </button>
         </div>
@@ -353,9 +353,9 @@ const AICoach: React.FC = () => {
               )} />
             </div>
             <div className="text-3xl font-bold mb-2">{healthScore}%</div>
-            <div className="w-full bg-white/20 rounded-full h-2">
+            <div className="w-full bg-ink-50/20 rounded-full h-2">
               <div 
-                className="bg-white rounded-full h-2 transition-all duration-500"
+                className="bg-ink-50 rounded-full h-2 transition-all duration-500"
                 style={{ width: `${healthScore}%` }}
               />
             </div>
@@ -369,15 +369,15 @@ const AICoach: React.FC = () => {
           {/* Spending Insights */}
           <Card variant="glass" className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-gray-900 dark:text-white">Spending Insights</h3>
-              <PieChart size={16} className="text-gray-500" />
+              <h3 className="font-semibold text-ink-900 dark:text-ink-50">Spending Insights</h3>
+              <PieChart size={16} className="text-ink-500" />
             </div>
             <div className="space-y-2">
               {spendingData.slice(0, 4).map((item) => (
                 <div key={item.category}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-gray-600 dark:text-gray-400">{item.category}</span>
-                    <span className="text-gray-900 dark:text-white font-medium">
+                    <span className="text-ink-600 dark:text-ink-400">{item.category}</span>
+                    <span className="text-ink-900 dark:text-ink-50 font-medium">
                       {item.percentage}%
                     </span>
                   </div>
@@ -398,7 +398,7 @@ const AICoach: React.FC = () => {
           {/* Quick Tips */}
           <Card variant="glass" className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-gray-900 dark:text-white">Personalized Tips</h3>
+              <h3 className="font-semibold text-ink-900 dark:text-ink-50">Personalized Tips</h3>
               <Lightbulb size={16} className="text-yellow-500" />
             </div>
             <div className="space-y-2">
@@ -407,15 +407,15 @@ const AICoach: React.FC = () => {
                   key={tip.id}
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setSelectedTip(tip.id)}
-                  className="w-full p-2 bg-gray-50 dark:bg-gray-800 rounded-lg text-left"
+                  className="w-full p-2 bg-ink-50 dark:bg-ink-800 rounded-lg text-left"
                 >
                   <div className="flex items-center space-x-2">
                     <tip.icon size={14} className="text-primary-600" />
-                    <span className="text-xs font-medium text-gray-900 dark:text-white">
+                    <span className="text-xs font-medium text-ink-900 dark:text-ink-50">
                       {tip.title}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-ink-500 mt-1">
                     Save up to {formatCurrency(tip.savings)}/month
                   </p>
                 </motion.button>
@@ -425,7 +425,7 @@ const AICoach: React.FC = () => {
 
           {/* Mood Tracker */}
           <Card variant="glass" className="p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">
               How are you feeling?
             </h3>
             <div className="flex space-x-2">
@@ -443,7 +443,7 @@ const AICoach: React.FC = () => {
                       'flex-1 p-2 rounded-lg transition-colors',
                       mood === m.mood
                         ? 'bg-primary-600 text-white'
-                        : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                        : 'hover:bg-ink-100 dark:hover:bg-gray-800'
                     )}
                   >
                     <Icon size={20} className="mx-auto" />
@@ -472,10 +472,10 @@ const AICoach: React.FC = () => {
                     )}
                   >
                     <div className={cn(
-                      'max-w-[80%] rounded-2xl p-4',
+                      'max-w-[80%] rounded-lg p-4',
                       message.role === 'user'
                         ? 'bg-primary-600 text-white'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
+                        : 'bg-ink-100 dark:bg-ink-800 text-ink-900 dark:text-ink-50'
                     )}>
                       {message.role === 'assistant' && (
                         <div className="flex items-center space-x-2 mb-2">
@@ -493,7 +493,7 @@ const AICoach: React.FC = () => {
                       </div>
 
                       {message.insights && (
-                        <div className="mt-3 pt-3 border-t border-white/20 dark:border-gray-700">
+                        <div className="mt-3 pt-3 border-t border-white/20 dark:border-ink-700">
                           <div className="flex items-center space-x-3">
                             <div className="flex items-center space-x-1">
                               <TrendingUp size={12} />
@@ -511,7 +511,7 @@ const AICoach: React.FC = () => {
                             <button
                               key={i}
                               onClick={() => setInputMessage(suggestion)}
-                              className="px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg text-xs transition-colors"
+                              className="px-3 py-1 bg-ink-50/20 hover:bg-ink-50/30 rounded-lg text-xs transition-colors"
                             >
                               {suggestion}
                             </button>
@@ -534,15 +534,15 @@ const AICoach: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex justify-start"
                   >
-                    <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl p-4">
+                    <div className="bg-ink-100 dark:bg-ink-800 rounded-lg p-4">
                       <div className="flex items-center space-x-2">
                         <div className="w-6 h-6 bg-primary-600 rounded-lg flex items-center justify-center">
                           <Brain size={14} className="text-white" />
                         </div>
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                          <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                          <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          <div className="w-2 h-2 bg-ink-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <div className="w-2 h-2 bg-ink-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <div className="w-2 h-2 bg-ink-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                         </div>
                       </div>
                     </div>
@@ -553,13 +553,13 @@ const AICoach: React.FC = () => {
             </div>
 
             {/* Quick Questions */}
-            <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-800">
+            <div className="px-4 py-2 border-t border-ink-200 dark:border-ink-800">
               <div className="flex overflow-x-auto space-x-2 pb-2">
                 {quickQuestions.slice(0, 5).map((question, i) => (
                   <button
                     key={i}
                     onClick={() => setInputMessage(question)}
-                    className="flex-shrink-0 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-xs whitespace-nowrap transition-colors"
+                    className="flex-shrink-0 px-3 py-1.5 bg-ink-100 dark:bg-ink-800 hover:bg-ink-200 dark:hover:bg-gray-700 rounded-lg text-xs whitespace-nowrap transition-colors"
                   >
                     {question}
                   </button>
@@ -568,7 +568,7 @@ const AICoach: React.FC = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+            <div className="p-4 border-t border-ink-200 dark:border-ink-800">
               <div className="flex items-center space-x-2">
                 <button
                   onClick={toggleRecording}
@@ -576,7 +576,7 @@ const AICoach: React.FC = () => {
                     'p-3 rounded-lg transition-colors',
                     isRecording 
                       ? 'bg-red-600 text-white animate-pulse' 
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'hover:bg-ink-100 dark:hover:bg-gray-800'
                   )}
                 >
                   {isRecording ? <MicOff size={20} /> : <Mic size={20} />}
@@ -590,7 +590,7 @@ const AICoach: React.FC = () => {
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder={isRecording ? "Listening..." : "Ask Malkia anything about your finances..."}
-                    className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white dark:focus:bg-gray-700 transition-all"
+                    className="w-full px-4 py-3 bg-ink-100 dark:bg-ink-800 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-ink-50 dark:focus:bg-gray-700 transition-all"
                     disabled={isRecording}
                   />
                   {isRecording && (
@@ -616,7 +616,7 @@ const AICoach: React.FC = () => {
               {/* Voice Mode Indicator */}
               {voiceMode && (
                 <div className="mt-2 text-center">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-ink-500 dark:text-ink-400">
                     Voice mode active • Try saying "Malkia, how can I save more?"
                   </span>
                 </div>
@@ -635,14 +635,14 @@ const AICoach: React.FC = () => {
             </div>
             <div className="text-2xl font-bold mb-1">{formatCurrency(25000)}</div>
             <div className="text-xs opacity-80 mb-2">of {formatCurrency(40000)} target</div>
-            <div className="w-full bg-white/20 rounded-full h-1.5">
-              <div className="bg-white rounded-full h-1.5" style={{ width: '62.5%' }} />
+            <div className="w-full bg-ink-50/20 rounded-full h-1.5">
+              <div className="bg-ink-50 rounded-full h-1.5" style={{ width: '62.5%' }} />
             </div>
           </Card>
 
           {/* Top Recommendations */}
           <Card variant="glass" className="p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+            <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-3">
               Top Recommendations
             </h3>
             <div className="space-y-3">
@@ -661,7 +661,7 @@ const AICoach: React.FC = () => {
                       <Icon size={14} />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-sm font-medium text-ink-900 dark:text-ink-50">
                         {rec.title}
                       </p>
                       <p className="text-xs text-green-600">
@@ -676,7 +676,7 @@ const AICoach: React.FC = () => {
 
           {/* Upcoming Bills */}
           <Card variant="glass" className="p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+            <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-3">
               Upcoming Bills
             </h3>
             <div className="space-y-2">
@@ -687,14 +687,14 @@ const AICoach: React.FC = () => {
               ].map((bill, i) => (
                 <div key={i} className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    <p className="text-sm font-medium text-ink-900 dark:text-ink-50">
                       {bill.name}
                     </p>
-                    <p className="text-xs text-gray-500">{bill.due}</p>
+                    <p className="text-xs text-ink-500">{bill.due}</p>
                   </div>
                   <span className={cn(
                     'text-sm font-medium',
-                    bill.status === 'urgent' ? 'text-red-600' : 'text-gray-900 dark:text-white'
+                    bill.status === 'urgent' ? 'text-red-600' : 'text-ink-900 dark:text-ink-50'
                   )}>
                     {formatCurrency(bill.amount)}
                   </span>
@@ -705,7 +705,7 @@ const AICoach: React.FC = () => {
 
           {/* Learning Path */}
           <Card variant="glass" className="p-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+            <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-3">
               Learning Path
             </h3>
             <div className="space-y-2">
@@ -716,8 +716,8 @@ const AICoach: React.FC = () => {
               ].map((lesson, i) => (
                 <div key={i}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-gray-700 dark:text-gray-300">{lesson.step}</span>
-                    <span className="text-gray-500">{lesson.progress}%</span>
+                    <span className="text-ink-700 dark:text-ink-300">{lesson.step}</span>
+                    <span className="text-ink-500">{lesson.progress}%</span>
                   </div>
                   <div className="progress-bar">
                     <div 
@@ -752,7 +752,7 @@ const AICoach: React.FC = () => {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-md w-full p-6"
+              className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-xl max-w-md w-full p-6"
               onClick={(e) => e.stopPropagation()}
             >
               {financialTips.find(t => t.id === selectedTip) && (
@@ -765,10 +765,10 @@ const AICoach: React.FC = () => {
                       })()}
                     </div>
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                      <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50">
                         {financialTips.find(t => t.id === selectedTip)!.title}
                       </h2>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-ink-500">
                         {financialTips.find(t => t.id === selectedTip)!.description}
                       </p>
                     </div>
@@ -782,10 +782,10 @@ const AICoach: React.FC = () => {
                     </div>
 
                     <div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                      <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">
                         How to implement:
                       </h3>
-                      <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                      <ul className="space-y-2 text-sm text-ink-600 dark:text-ink-400">
                         <li className="flex items-start space-x-2">
                           <CheckCircle size={16} className="text-green-600 mt-0.5" />
                           <span>Enable automatic savings in your M-PESA settings</span>

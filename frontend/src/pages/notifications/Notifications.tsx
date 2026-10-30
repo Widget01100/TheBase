@@ -108,10 +108,10 @@ const Notifications: React.FC = () => {
             <Bell className="text-primary-600 dark:text-primary-400" size={24} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">
               Notifications
             </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-ink-500 dark:text-ink-400">
               {unreadCount > 0
                 ? `${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}`
                 : 'All caught up!'}
@@ -150,14 +150,14 @@ const Notifications: React.FC = () => {
           <div className="flex-1 relative">
             <Search
               size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"
             />
             <input
               type="text"
               placeholder="Search notifications..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm text-gray-900 dark:text-white"
+              className="w-full pl-10 pr-4 py-2 bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm text-ink-900 dark:text-ink-50"
             />
           </div>
 
@@ -187,7 +187,7 @@ const Notifications: React.FC = () => {
                     'px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors flex items-center gap-1.5',
                     activeFilter === tab.id
                       ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      : 'bg-ink-100 dark:bg-ink-800 text-ink-700 dark:text-ink-300 hover:bg-ink-200 dark:hover:bg-gray-700'
                   )}
                 >
                   {tab.label}
@@ -196,8 +196,8 @@ const Notifications: React.FC = () => {
                       className={cn(
                         'px-1.5 py-0.5 rounded-full text-[10px] font-bold',
                         activeFilter === tab.id
-                          ? 'bg-white/20'
-                          : 'bg-gray-200 dark:bg-gray-700'
+                          ? 'bg-ink-50/20'
+                          : 'bg-ink-200 dark:bg-ink-950'
                       )}
                     >
                       {count}
@@ -257,7 +257,7 @@ const Notifications: React.FC = () => {
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ delay: i * 0.03 }}
                   className={cn(
-                    'flex items-start gap-3 p-4 border-b border-gray-100 dark:border-gray-800 last:border-0 transition-colors group',
+                    'flex items-start gap-3 p-4 border-b border-gray-100 dark:border-ink-800 last:border-0 transition-colors group',
                     !n.read && 'bg-primary-50/50 dark:bg-primary-900/10'
                   )}
                 >
@@ -276,8 +276,8 @@ const Notifications: React.FC = () => {
                         className={cn(
                           'text-sm',
                           n.read
-                            ? 'text-gray-700 dark:text-gray-300 font-normal'
-                            : 'text-gray-900 dark:text-white font-semibold'
+                            ? 'text-ink-700 dark:text-ink-300 font-normal'
+                            : 'text-ink-900 dark:text-ink-50 font-semibold'
                         )}
                       >
                         {n.title}
@@ -286,10 +286,10 @@ const Notifications: React.FC = () => {
                         <div className="w-2 h-2 bg-primary-500 rounded-full shrink-0 mt-1.5" />
                       )}
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                    <p className="text-sm text-ink-500 dark:text-ink-400 mt-1 leading-relaxed">
                       {n.message}
                     </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5">
+                    <p className="text-xs text-ink-400 dark:text-ink-500 mt-1.5">
                       {n.timestamp}
                     </p>
                   </div>

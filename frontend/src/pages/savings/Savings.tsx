@@ -180,10 +180,10 @@ const Savings: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="relative z-10"
           >
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-brand-500 bg-clip-text text-transparent">
               Savings & Challenges
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
+            <p className="text-ink-600 dark:text-ink-400 mt-2">
               Turn saving into a game. Watch your money grow!
             </p>
           </motion.div>
@@ -193,7 +193,7 @@ const Savings: React.FC = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="w-40 h-40 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full opacity-20 blur-3xl"
+              className="w-40 h-40 bg-brand-500 rounded-full opacity-20 blur-3xl"
             />
           </div>
         </div>
@@ -208,10 +208,10 @@ const Savings: React.FC = () => {
             <Card variant="glass" className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Total Saved</p>
+                  <p className="text-sm text-ink-600 dark:text-ink-400">Total Saved</p>
                   <AnimatedCounter
                     value={totalSaved52Week + totalRoundUp + totalGoals}
-                    className="text-2xl font-bold text-gray-900 dark:text-white mt-1"
+                    className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1"
                   />
                 </div>
                 <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-xl">
@@ -230,16 +230,16 @@ const Savings: React.FC = () => {
             <Card variant="glass" className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">52-Week Challenge</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                  <p className="text-sm text-ink-600 dark:text-ink-400">52-Week Challenge</p>
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                     {completedWeeks}/52
                   </p>
                 </div>
                 <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-xl">
-                  <Calendar className="text-blue-600" size={24} />
+                  <Calendar className="text-brand-600" size={24} />
                 </div>
               </div>
-              <p className="text-sm text-blue-600 mt-2">{progress.toFixed(1)}% complete</p>
+              <p className="text-sm text-brand-600 mt-2">{progress.toFixed(1)}% complete</p>
             </Card>
           </motion.div>
 
@@ -251,8 +251,8 @@ const Savings: React.FC = () => {
             <Card variant="glass" className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Round-Up Savings</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                  <p className="text-sm text-ink-600 dark:text-ink-400">Round-Up Savings</p>
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                     {format(totalRoundUp)}
                   </p>
                 </div>
@@ -272,8 +272,8 @@ const Savings: React.FC = () => {
             <Card variant="glass" className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Active Goals</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                  <p className="text-sm text-ink-600 dark:text-ink-400">Active Goals</p>
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50 mt-1">
                     {savingsGoals.length}
                   </p>
                 </div>
@@ -287,7 +287,7 @@ const Savings: React.FC = () => {
         </div>
 
         {/* Main Navigation Tabs */}
-        <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+        <div className="flex space-x-1 bg-ink-100 dark:bg-ink-800 p-1 rounded-xl">
           {[
             { id: 'challenges', label: '52-Week Challenge', icon: Calendar },
             { id: 'roundup', label: 'Round-Up Savings', icon: RefreshCw },
@@ -302,8 +302,8 @@ const Savings: React.FC = () => {
                 className={cn(
                   'flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium transition-all',
                   activeTab === tab.id
-                    ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-lg'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-lg'
+                    : 'text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white'
                 )}
               >
                 <Icon size={18} />
@@ -328,7 +328,7 @@ const Savings: React.FC = () => {
               <Card variant="gradient" className="p-8 text-white">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="flex items-center space-x-4">
-                    <div className="p-4 bg-white/20 rounded-2xl">
+                    <div className="p-4 bg-ink-50/20 rounded-lg">
                       <Calendar size={40} />
                     </div>
                     <div>
@@ -341,7 +341,7 @@ const Savings: React.FC = () => {
                       <p className="text-3xl font-bold">{format(137800)}</p>
                       <p className="text-sm text-white/80">Potential total savings</p>
                     </div>
-                    <div className="h-12 w-px bg-white/20"></div>
+                    <div className="h-12 w-px bg-ink-50/20"></div>
                     <div className="text-center">
                       <p className="text-3xl font-bold">{completedWeeks}</p>
                       <p className="text-sm text-white/80">Weeks completed</p>
@@ -379,24 +379,24 @@ const Savings: React.FC = () => {
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                      <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                      <span className="text-3xl font-bold text-ink-900 dark:text-ink-50">
                         {progress.toFixed(0)}%
                       </span>
-                      <span className="text-sm text-gray-500 dark:text-gray-400">Complete</span>
+                      <span className="text-sm text-ink-500 dark:text-ink-400">Complete</span>
                     </div>
                   </div>
                   <div className="mt-4 text-center">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-ink-600 dark:text-ink-400">
                       Next milestone: Week {completedWeeks + 1}
                     </p>
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white mt-1">
+                    <p className="text-lg font-semibold text-ink-900 dark:text-ink-50 mt-1">
                       Save {format((completedWeeks + 1) * 100)}
                     </p>
                   </div>
                 </Card>
 
                 <Card variant="glass" className="p-6 col-span-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                     Progress Timeline
                   </h3>
                   <ResponsiveContainer width="100%" height={200}>
@@ -430,10 +430,10 @@ const Savings: React.FC = () => {
                     className={cn(
                       'aspect-square rounded-xl p-2 flex flex-col items-center justify-center transition-all',
                       week.completed
-                        ? 'bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg'
+                        ? 'bg-ink-50 dark:bg-ink-900 text-white shadow-lg'
                         : week.saved > 0
                         ? 'bg-green-100 dark:bg-green-900/20 border-2 border-green-500'
-                        : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
+                        : 'bg-ink-100 dark:bg-ink-800 hover:bg-ink-200 dark:hover:bg-gray-700'
                     )}
                   >
                     <span className="text-xs font-medium">W{week.week}</span>
@@ -463,7 +463,7 @@ const Savings: React.FC = () => {
                     Share Challenge
                   </Button>
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center space-x-2 text-sm text-ink-600 dark:text-ink-400">
                   <Info size={16} />
                   <span>Complete all 52 weeks to earn the "Saving Shark" badge 🦈</span>
                 </div>
@@ -483,7 +483,7 @@ const Savings: React.FC = () => {
               <Card variant="mpesa" className="p-8 text-white">
                 <div className="flex flex-col md:flex-row items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <div className="p-4 bg-white/20 rounded-2xl">
+                    <div className="p-4 bg-ink-50/20 rounded-lg">
                       <RefreshCw size={40} />
                     </div>
                     <div>
@@ -507,33 +507,33 @@ const Savings: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Settings */}
                 <Card variant="glass" className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                     Round-Up Settings
                   </h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-700 dark:text-gray-300">Auto round-up</span>
+                      <span className="text-ink-700 dark:text-ink-300">Auto round-up</span>
                       <button
                         onClick={() => setRoundUpEnabled(!roundUpEnabled)}
                         className={cn(
                           'w-12 h-6 rounded-full transition-colors',
-                          roundUpEnabled ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-700'
+                          roundUpEnabled ? 'bg-green-500' : 'bg-gray-300 dark:bg-ink-950'
                         )}
                       >
                         <motion.div
                           animate={{ x: roundUpEnabled ? 24 : 2 }}
-                          className="w-5 h-5 bg-white rounded-full shadow-md"
+                          className="w-5 h-5 bg-ink-50 rounded-full shadow-md"
                         />
                       </button>
                     </div>
                     <div>
-                      <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                         Round-up multiplier
                       </label>
                       <select
                         value={roundUpMultiplier}
                         onChange={(e) => setRoundUpMultiplier(Number(e.target.value))}
-                        className="w-full p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
+                        className="w-full p-2 bg-ink-50 dark:bg-ink-800 border border-ink-200 dark:border-ink-700 rounded-lg"
                       >
                         <option value={1}>1x (Round to nearest 100)</option>
                         <option value={2}>2x (Round to nearest 200)</option>
@@ -552,15 +552,15 @@ const Savings: React.FC = () => {
 
                 {/* Monthly Stats */}
                 <Card variant="glass" className="p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                     Monthly Round-Up
                   </h3>
                   <div className="space-y-4">
                     {roundUpData.map((month) => (
                       <div key={month.name}>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-600 dark:text-gray-400">{month.name}</span>
-                          <span className="font-medium text-gray-900 dark:text-white">
+                          <span className="text-ink-600 dark:text-ink-400">{month.name}</span>
+                          <span className="font-medium text-ink-900 dark:text-ink-50">
                             {format(month.saved)}
                           </span>
                         </div>
@@ -579,20 +579,20 @@ const Savings: React.FC = () => {
               {/* Round-Up Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card variant="glass" className="p-4">
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Total Saved</p>
+                  <p className="text-xs text-ink-500 dark:text-ink-400">Total Saved</p>
                   <p className="text-xl font-bold text-green-600 mt-1">
                     {format(roundUpStats.total)}
                   </p>
                 </Card>
                 <Card variant="glass" className="p-4">
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Round-Ups</p>
+                  <p className="text-xs text-ink-500 dark:text-ink-400">Round-Ups</p>
                   <p className="text-xl font-bold text-purple-600 mt-1">
                     {roundUpStats.count}
                   </p>
                 </Card>
                 <Card variant="glass" className="p-4">
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Average</p>
-                  <p className="text-xl font-bold text-blue-600 mt-1">
+                  <p className="text-xs text-ink-500 dark:text-ink-400">Average</p>
+                  <p className="text-xl font-bold text-brand-600 mt-1">
                     {format(roundUpStats.avg)}
                   </p>
                 </Card>
@@ -600,33 +600,33 @@ const Savings: React.FC = () => {
 
               {/* Recent Round-Ups */}
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Recent Round-Ups
                 </h3>
                 <div className="space-y-3">
                   {roundUpHistory.length === 0 ? (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-6">
+                    <p className="text-sm text-ink-500 dark:text-ink-400 text-center py-6">
                       No round-ups yet. Make an M-PESA transaction to get started.
                     </p>
                   ) : (
                     roundUpHistory.slice(0, 5).map((day) => (
                       <div
                         key={day.date}
-                        className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                        className="flex items-center justify-between p-3 hover:bg-ink-50 dark:hover:bg-gray-800 rounded-lg transition-colors"
                       >
                         <div className="flex items-center space-x-3">
                           <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
                             <RefreshCw size={18} className="text-purple-600" />
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900 dark:text-white">
+                            <p className="font-medium text-ink-900 dark:text-ink-50">
                               {new Date(day.date).toLocaleDateString('en-KE', { 
                                 weekday: 'short', 
                                 day: 'numeric', 
                                 month: 'short' 
                               })}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                            <p className="text-xs text-ink-500 dark:text-ink-400">
                               {day.count} transaction{day.count > 1 ? 's' : ''} rounded up
                             </p>
                           </div>
@@ -635,7 +635,7 @@ const Savings: React.FC = () => {
                           <p className="font-semibold text-green-600">
                             +{format(day.total)}
                           </p>
-                          <p className="text-xs text-gray-500">rounded up</p>
+                          <p className="text-xs text-ink-500">rounded up</p>
                         </div>
                       </div>
                     ))
@@ -694,23 +694,23 @@ const Savings: React.FC = () => {
                               <Icon style={{ color: goal.color }} size={24} />
                             </div>
                             <div>
-                              <h3 className="font-semibold text-gray-900 dark:text-white">
+                              <h3 className="font-semibold text-ink-900 dark:text-ink-50">
                                 {goal.name}
                               </h3>
-                              <p className="text-sm text-gray-500 dark:text-gray-400">
+                              <p className="text-sm text-ink-500 dark:text-ink-400">
                                 Due {goal.deadline}
                               </p>
                             </div>
                           </div>
-                          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-                            <Settings size={16} className="text-gray-500" />
+                          <button className="p-2 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg">
+                            <Settings size={16} className="text-ink-500" />
                           </button>
                         </div>
 
                         <div className="space-y-2">
                           <div className="flex justify-between text-sm">
-                            <span className="text-gray-600 dark:text-gray-400">Progress</span>
-                            <span className="font-medium text-gray-900 dark:text-white">
+                            <span className="text-ink-600 dark:text-ink-400">Progress</span>
+                            <span className="font-medium text-ink-900 dark:text-ink-50">
                               {progress.toFixed(1)}%
                             </span>
                           </div>
@@ -721,10 +721,10 @@ const Savings: React.FC = () => {
                             />
                           </div>
                           <div className="flex justify-between text-sm mt-2">
-                            <span className="text-gray-600 dark:text-gray-400">
+                            <span className="text-ink-600 dark:text-ink-400">
                               {format(goal.current)}
                             </span>
-                            <span className="text-gray-900 dark:text-white font-medium">
+                            <span className="text-ink-900 dark:text-ink-50 font-medium">
                               {format(goal.target)}
                             </span>
                           </div>
@@ -732,8 +732,8 @@ const Savings: React.FC = () => {
 
                         <div className="mt-4 flex items-center justify-between">
                           <div className="flex items-center space-x-2">
-                            <Clock size={14} className="text-gray-500" />
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                            <Clock size={14} className="text-ink-500" />
+                            <span className="text-xs text-ink-500 dark:text-ink-400">
                               {Math.ceil((goal.target - goal.current) / 5000)} months left
                             </span>
                           </div>
@@ -751,7 +751,7 @@ const Savings: React.FC = () => {
               {/* Goal Tips */}
               <Card variant="mpesa" className="p-6">
                 <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-white/20 rounded-xl">
+                  <div className="p-3 bg-ink-50/20 rounded-xl">
                     <Sparkles size={24} />
                   </div>
                   <div>
@@ -779,20 +779,20 @@ const Savings: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card variant="glass" className="p-6 text-center">
                   <Trophy className="mx-auto text-yellow-500 mb-2" size={32} />
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50">
                     {achievements.filter(a => a.earned).length}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Achievements Earned</p>
+                  <p className="text-sm text-ink-600 dark:text-ink-400">Achievements Earned</p>
                 </Card>
                 <Card variant="glass" className="p-6 text-center">
                   <Flame className="mx-auto text-orange-500 mb-2" size={32} />
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">15</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Day Streak</p>
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50">15</p>
+                  <p className="text-sm text-ink-600 dark:text-ink-400">Day Streak</p>
                 </Card>
                 <Card variant="glass" className="p-6 text-center">
                   <Medal className="mx-auto text-purple-500 mb-2" size={32} />
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">3</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Rare Badges</p>
+                  <p className="text-2xl font-bold text-ink-900 dark:text-ink-50">3</p>
+                  <p className="text-sm text-ink-600 dark:text-ink-400">Rare Badges</p>
                 </Card>
               </div>
 
@@ -831,7 +831,7 @@ const Savings: React.FC = () => {
                         </motion.div>
                       )}
                       <div className="text-5xl mb-3">{achievement.icon}</div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                      <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-1">
                         {achievement.name}
                       </h3>
                       {achievement.earned ? (
@@ -839,7 +839,7 @@ const Savings: React.FC = () => {
                           Earned {achievement.date}
                         </p>
                       ) : (
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                        <p className="text-xs text-ink-500 dark:text-ink-400">
                           Locked
                         </p>
                       )}
@@ -850,7 +850,7 @@ const Savings: React.FC = () => {
 
               {/* Next Achievements */}
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Next Achievements
                 </h3>
                 <div className="space-y-3">
@@ -863,8 +863,8 @@ const Savings: React.FC = () => {
                       <span className="text-2xl">{next.icon}</span>
                       <div className="flex-1">
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-700 dark:text-gray-300">{next.name}</span>
-                          <span className="text-gray-900 dark:text-white font-medium">
+                          <span className="text-ink-700 dark:text-ink-300">{next.name}</span>
+                          <span className="text-ink-900 dark:text-ink-50 font-medium">
                             {next.progress}%
                           </span>
                         </div>
@@ -897,48 +897,48 @@ const Savings: React.FC = () => {
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
-                className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-md w-full p-6"
+                className="bg-ink-50 dark:bg-ink-900 rounded-lg shadow-xl max-w-md w-full p-6"
                 onClick={(e) => e.stopPropagation()}
               >
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mb-4">
                   Create Savings Goal
                 </h2>
                 
                 <form className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                       Goal Name
                     </label>
                     <input
                       type="text"
                       placeholder="e.g., Emergency Fund"
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                       Target Amount (KES)
                     </label>
                     <input
                       type="number"
                       placeholder="0.00"
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                       Deadline
                     </label>
                     <input
                       type="date"
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-2">
                       Icon
                     </label>
                     <div className="grid grid-cols-4 gap-2">
@@ -946,9 +946,9 @@ const Savings: React.FC = () => {
                         <button
                           key={i}
                           type="button"
-                          className="p-3 border border-gray-200 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                          className="p-3 border border-ink-200 dark:border-ink-800 rounded-lg hover:bg-ink-50 dark:hover:bg-gray-800"
                         >
-                          <Icon size={20} className="mx-auto text-gray-700 dark:text-gray-300" />
+                          <Icon size={20} className="mx-auto text-ink-700 dark:text-ink-300" />
                         </button>
                       ))}
                     </div>
@@ -956,7 +956,7 @@ const Savings: React.FC = () => {
 
                   <div className="flex items-center space-x-2">
                     <input type="checkbox" id="autoSave" className="rounded text-primary-600" />
-                    <label htmlFor="autoSave" className="text-sm text-gray-700 dark:text-gray-300">
+                    <label htmlFor="autoSave" className="text-sm text-ink-700 dark:text-ink-300">
                       Enable auto-save from round-ups
                     </label>
                   </div>

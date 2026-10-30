@@ -25,7 +25,7 @@ const Help: React.FC = () => {
     >
       {/* Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400 rounded-2xl"></div>
+        <div className="absolute inset-0 bg-brand-500 rounded-lg"></div>
         <div className="relative p-8 text-white">
           <h1 className="text-3xl font-bold mb-2">How can we help you?</h1>
           <p className="text-white/80 mb-6">Search our help center or browse topics below</p>
@@ -34,7 +34,7 @@ const Help: React.FC = () => {
             <input
               type="text"
               placeholder="Search for help..."
-              className="w-full pl-12 pr-4 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="w-full pl-12 pr-4 py-4 bg-ink-50/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
             />
           </div>
         </div>
@@ -44,10 +44,10 @@ const Help: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card variant="glass" className="p-6 text-center">
           <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <MessageCircle className="text-blue-600" size={24} />
+            <MessageCircle className="text-brand-600" size={24} />
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Chat with Malkia</h3>
-          <p className="text-sm text-gray-500 mb-4">Get instant answers from our AI assistant</p>
+          <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">Chat with Malkia</h3>
+          <p className="text-sm text-ink-500 mb-4">Get instant answers from our AI assistant</p>
           <Button variant="primary" fullWidth>Start Chat</Button>
         </Card>
 
@@ -55,8 +55,8 @@ const Help: React.FC = () => {
           <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-xl flex items-center justify-center mx-auto mb-4">
             <Mail className="text-green-600" size={24} />
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Email Support</h3>
-          <p className="text-sm text-gray-500 mb-4">Get help within 24 hours</p>
+          <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">Email Support</h3>
+          <p className="text-sm text-ink-500 mb-4">Get help within 24 hours</p>
           <Button variant="primary" fullWidth>Send Email</Button>
         </Card>
 
@@ -64,14 +64,14 @@ const Help: React.FC = () => {
           <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-xl flex items-center justify-center mx-auto mb-4">
             <Phone className="text-purple-600" size={24} />
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Phone Support</h3>
-          <p className="text-sm text-gray-500 mb-4">Call us at +254 712 345 678</p>
+          <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">Phone Support</h3>
+          <p className="text-sm text-ink-500 mb-4">Call us at +254 712 345 678</p>
           <Button variant="primary" fullWidth>Call Now</Button>
         </Card>
       </div>
 
       {/* FAQ Section */}
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+      <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mt-8 mb-4">
         Frequently Asked Questions
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -102,14 +102,14 @@ const Help: React.FC = () => {
           }
         ].map((faq, i) => (
           <Card key={i} variant="glass" className="p-6">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{faq.q}</h3>
-            <p className="text-sm text-gray-500">{faq.a}</p>
+            <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-2">{faq.q}</h3>
+            <p className="text-sm text-ink-500">{faq.a}</p>
           </Card>
         ))}
       </div>
 
       {/* Guides & Tutorials */}
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-8 mb-4">
+      <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50 mt-8 mb-4">
         Guides & Tutorials
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -125,12 +125,12 @@ const Help: React.FC = () => {
                 <div className="p-2 bg-primary-100 dark:bg-primary-900/20 rounded-lg">
                   <Icon className="text-primary-600" size={20} />
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">{guide.title}</h3>
+                <h3 className="font-semibold text-ink-900 dark:text-ink-50">{guide.title}</h3>
               </div>
-              <p className="text-sm text-gray-500 mb-4">{guide.reads.toLocaleString()} reads</p>
+              <p className="text-sm text-ink-500 mb-4">{guide.reads.toLocaleString()} reads</p>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400">Updated recently</span>
-                <ChevronRight size={16} className="text-gray-400" />
+                <span className="text-xs text-ink-400">Updated recently</span>
+                <ChevronRight size={16} className="text-ink-400" />
               </div>
             </Card>
           );
@@ -141,17 +141,17 @@ const Help: React.FC = () => {
       <Card variant="glass" className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+            <h3 className="font-semibold text-ink-900 dark:text-ink-50 mb-1">
               Was this help page useful?
             </h3>
-            <p className="text-sm text-gray-500">Your feedback helps us improve</p>
+            <p className="text-sm text-ink-500">Your feedback helps us improve</p>
           </div>
           <div className="flex items-center space-x-2">
-            <button className="p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-              <ThumbsUp size={20} className="text-gray-500" />
+            <button className="p-3 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg">
+              <ThumbsUp size={20} className="text-ink-500" />
             </button>
-            <button className="p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
-              <ThumbsUp size={20} className="text-gray-500 rotate-180" />
+            <button className="p-3 hover:bg-ink-100 dark:hover:bg-gray-800 rounded-lg">
+              <ThumbsUp size={20} className="text-ink-500 rotate-180" />
             </button>
           </div>
         </div>

@@ -111,7 +111,7 @@ const calculators: Calculator[] = [
     name: 'FIRE Calculator',
     description: 'Financial Independence, Retire Early - Calculate your FIRE number',
     icon: Target,
-    color: 'text-blue-600',
+    color: 'text-brand-600',
     gradient: 'from-blue-600 to-blue-400',
     popular: true,
   },
@@ -183,7 +183,7 @@ const calculators: Calculator[] = [
     name: 'Land Purchase',
     description: 'Calculate costs for buying land in Kenya',
     icon: Building,
-    color: 'text-emerald-600',
+    color: 'text-brand-600',
     gradient: 'from-emerald-600 to-emerald-400',
     popular: false,
   },
@@ -444,10 +444,10 @@ const Calculators: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-brand-500 bg-clip-text text-transparent">
             Financial Calculators
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-ink-600 dark:text-ink-400 mt-2">
             Plan your financial future with Kenyan-specific calculators
           </p>
         </div>
@@ -484,14 +484,14 @@ const Calculators: React.FC = () => {
       </div>
 
       {/* Calculator Navigation Tabs */}
-      <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+      <div className="flex space-x-1 bg-ink-100 dark:bg-ink-800 p-1 rounded-xl">
         <button
           onClick={() => setActiveTab('calculators')}
           className={cn(
             'flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all',
             activeTab === 'calculators'
-              ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-lg'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-lg'
+              : 'text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white'
           )}
         >
           All Calculators
@@ -501,8 +501,8 @@ const Calculators: React.FC = () => {
           className={cn(
             'flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all',
             activeTab === 'saved'
-              ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-lg'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-lg'
+              : 'text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white'
           )}
         >
           Saved ({savedCalculations.length})
@@ -512,8 +512,8 @@ const Calculators: React.FC = () => {
           className={cn(
             'flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all',
             activeTab === 'compare'
-              ? 'bg-white dark:bg-gray-900 text-primary-600 shadow-lg'
-              : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              ? 'bg-ink-50 dark:bg-ink-900 text-primary-600 shadow-lg'
+              : 'text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white'
           )}
         >
           Compare
@@ -552,8 +552,8 @@ const Calculators: React.FC = () => {
                       <div className={cn(
                         'p-3 rounded-xl',
                         selectedCalculator === calc.id 
-                          ? 'bg-white/20' 
-                          : 'bg-gray-100 dark:bg-gray-800'
+                          ? 'bg-ink-50/20' 
+                          : 'bg-ink-100 dark:bg-ink-800'
                       )}>
                         <Icon className={selectedCalculator === calc.id ? 'text-white' : calc.color} size={24} />
                       </div>
@@ -561,7 +561,7 @@ const Calculators: React.FC = () => {
                         <span className={cn(
                           'px-2 py-1 text-xs rounded-full',
                           selectedCalculator === calc.id
-                            ? 'bg-white/20 text-white'
+                            ? 'bg-ink-50/20 text-white'
                             : 'bg-primary-100 text-primary-600'
                         )}>
                           Popular
@@ -570,13 +570,13 @@ const Calculators: React.FC = () => {
                     </div>
                     <h3 className={cn(
                       'font-semibold mt-4 mb-1',
-                      selectedCalculator === calc.id ? 'text-white' : 'text-gray-900 dark:text-white'
+                      selectedCalculator === calc.id ? 'text-white' : 'text-ink-900 dark:text-ink-50'
                     )}>
                       {calc.name}
                     </h3>
                     <p className={cn(
                       'text-sm',
-                      selectedCalculator === calc.id ? 'text-white/80' : 'text-gray-500'
+                      selectedCalculator === calc.id ? 'text-white/80' : 'text-ink-500'
                     )}>
                       {calc.description}
                     </p>
@@ -598,11 +598,11 @@ const Calculators: React.FC = () => {
           >
             {savedCalculations.length === 0 ? (
               <Card variant="glass" className="p-12 text-center">
-                <Calculator size={48} className="mx-auto text-gray-400 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <Calculator size={48} className="mx-auto text-ink-400 mb-4" />
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-2">
                   No saved calculations yet
                 </h3>
-                <p className="text-gray-500 dark:text-gray-400 mb-4">
+                <p className="text-ink-500 dark:text-ink-400 mb-4">
                   Save your calculations to compare them later
                 </p>
                 <Button variant="primary" onClick={() => setActiveTab('calculators')}>
@@ -614,10 +614,10 @@ const Calculators: React.FC = () => {
                 <Card key={calc.id} variant="glass" className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">
+                      <p className="font-medium text-ink-900 dark:text-ink-50">
                         {calculators.find(c => c.id === calc.type)?.name}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-ink-500">
                         {calc.date.toLocaleDateString()}
                       </p>
                     </div>
@@ -640,15 +640,15 @@ const Calculators: React.FC = () => {
             exit={{ opacity: 0, y: -20 }}
           >
             <Card variant="glass" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                 Compare Investment Options
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                     Investment 1
                   </label>
-                  <select className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg">
+                  <select className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg">
                     <option>Sacco (12%)</option>
                     <option>MMF (8.5%)</option>
                     <option>T-Bills (10%)</option>
@@ -656,10 +656,10 @@ const Calculators: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                     Investment 2
                   </label>
-                  <select className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg">
+                  <select className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg">
                     <option>MMF (8.5%)</option>
                     <option>Sacco (12%)</option>
                     <option>T-Bills (10%)</option>
@@ -684,7 +684,7 @@ const Calculators: React.FC = () => {
           >
             <Card variant="gradient" className="p-8 text-white">
               <div className="flex items-center space-x-4">
-                <div className="p-4 bg-white/20 rounded-2xl">
+                <div className="p-4 bg-ink-50/20 rounded-lg">
                   <Target size={40} />
                 </div>
                 <div>
@@ -700,7 +700,7 @@ const Calculators: React.FC = () => {
               {/* Input Form */}
               <Card variant="glass" className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50">
                     Your Details
                   </h3>
                   <button
@@ -714,51 +714,51 @@ const Calculators: React.FC = () => {
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Current Age
                     </label>
                     <input
                       type="number"
                       value={fireInputs.currentAge}
                       onChange={(e) => setFireInputs({ ...fireInputs, currentAge: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Desired Retirement Age
                     </label>
                     <input
                       type="number"
                       value={fireInputs.retirementAge}
                       onChange={(e) => setFireInputs({ ...fireInputs, retirementAge: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Current Savings (KES)
                     </label>
                     <input
                       type="number"
                       value={fireInputs.currentSavings}
                       onChange={(e) => setFireInputs({ ...fireInputs, currentSavings: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Monthly Savings (KES)
                     </label>
                     <input
                       type="number"
                       value={fireInputs.monthlySavings}
                       onChange={(e) => setFireInputs({ ...fireInputs, monthlySavings: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Expected Return (%)
                     </label>
                     <input
@@ -766,18 +766,18 @@ const Calculators: React.FC = () => {
                       step="0.1"
                       value={fireInputs.expectedReturn}
                       onChange={(e) => setFireInputs({ ...fireInputs, expectedReturn: parseFloat(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Desired Monthly Income (KES)
                     </label>
                     <input
                       type="number"
                       value={fireInputs.desiredMonthlyIncome}
                       onChange={(e) => setFireInputs({ ...fireInputs, desiredMonthlyIncome: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                 </div>
@@ -785,31 +785,31 @@ const Calculators: React.FC = () => {
 
               {/* Results */}
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Your FIRE Number
                 </h3>
                 
                 <div className="space-y-6">
                   <div className="text-center">
-                    <p className="text-sm text-gray-500 mb-1">You need</p>
+                    <p className="text-sm text-ink-500 mb-1">You need</p>
                     <p className="text-4xl font-bold text-primary-600">
                       {format(fireResults.fireNumber)}
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-ink-500 mt-1">
                       to retire at age {fireInputs.retirementAge}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Projected Savings</p>
-                      <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <div className="p-4 bg-ink-50 dark:bg-ink-800 rounded-lg text-center">
+                      <p className="text-xs text-ink-500">Projected Savings</p>
+                      <p className="text-xl font-bold text-ink-900 dark:text-ink-50">
                         {format(fireResults.totalAtRetirement)}
                       </p>
                     </div>
-                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Monthly Income</p>
-                      <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <div className="p-4 bg-ink-50 dark:bg-ink-800 rounded-lg text-center">
+                      <p className="text-xs text-ink-500">Monthly Income</p>
+                      <p className="text-xl font-bold text-ink-900 dark:text-ink-50">
                         {format(fireResults.monthlyIncome)}
                       </p>
                     </div>
@@ -862,7 +862,7 @@ const Calculators: React.FC = () => {
 
             {/* Projection Chart */}
             <Card variant="glass" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                 Wealth Projection
               </h3>
               <div className="h-80">
@@ -922,7 +922,7 @@ const Calculators: React.FC = () => {
           >
             <Card variant="gradient" className="p-8 text-white" style={{ background: 'linear-gradient(135deg, #8b5cf6, #ec4899)' }}>
               <div className="flex items-center space-x-4">
-                <div className="p-4 bg-white/20 rounded-2xl">
+                <div className="p-4 bg-ink-50/20 rounded-lg">
                   <Landmark size={40} />
                 </div>
                 <div>
@@ -936,45 +936,45 @@ const Calculators: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Investment Details
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Initial Amount (KES)
                     </label>
                     <input
                       type="number"
                       value={saccoMMFInputs.initialAmount}
                       onChange={(e) => setSaccoMMFInputs({ ...saccoMMFInputs, initialAmount: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Monthly Contribution (KES)
                     </label>
                     <input
                       type="number"
                       value={saccoMMFInputs.monthlyContribution}
                       onChange={(e) => setSaccoMMFInputs({ ...saccoMMFInputs, monthlyContribution: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Investment Period (Years)
                     </label>
                     <input
                       type="number"
                       value={saccoMMFInputs.years}
                       onChange={(e) => setSaccoMMFInputs({ ...saccoMMFInputs, years: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Sacco Dividend Rate (%)
                     </label>
                     <input
@@ -982,11 +982,11 @@ const Calculators: React.FC = () => {
                       step="0.1"
                       value={saccoMMFInputs.saccoRate}
                       onChange={(e) => setSaccoMMFInputs({ ...saccoMMFInputs, saccoRate: parseFloat(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       MMF Interest Rate (%)
                     </label>
                     <input
@@ -994,14 +994,14 @@ const Calculators: React.FC = () => {
                       step="0.1"
                       value={saccoMMFInputs.mmfRate}
                       onChange={(e) => setSaccoMMFInputs({ ...saccoMMFInputs, mmfRate: parseFloat(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                 </div>
               </Card>
 
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Comparison Results
                 </h3>
                 
@@ -1009,7 +1009,7 @@ const Calculators: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-center">
                       <Landmark size={24} className="mx-auto text-purple-600 mb-2" />
-                      <p className="text-xs text-gray-500">Sacco Future Value</p>
+                      <p className="text-xs text-ink-500">Sacco Future Value</p>
                       <p className="text-xl font-bold text-purple-600">
                         {format(saccoMMFResults.saccoFuture)}
                       </p>
@@ -1018,9 +1018,9 @@ const Calculators: React.FC = () => {
                       </p>
                     </div>
                     <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-center">
-                      <TrendingUp size={24} className="mx-auto text-blue-600 mb-2" />
-                      <p className="text-xs text-gray-500">MMF Future Value</p>
-                      <p className="text-xl font-bold text-blue-600">
+                      <TrendingUp size={24} className="mx-auto text-brand-600 mb-2" />
+                      <p className="text-xs text-ink-500">MMF Future Value</p>
+                      <p className="text-xl font-bold text-brand-600">
                         {format(saccoMMFResults.mmfFuture)}
                       </p>
                       <p className="text-xs text-green-600 mt-1">
@@ -1048,9 +1048,9 @@ const Calculators: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <h4 className="font-medium text-gray-900 dark:text-white mb-2">Key Insights</h4>
-                    <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="p-4 bg-ink-50 dark:bg-ink-800 rounded-lg">
+                    <h4 className="font-medium text-ink-900 dark:text-ink-50 mb-2">Key Insights</h4>
+                    <ul className="space-y-2 text-sm text-ink-600 dark:text-ink-400">
                       <li>• Saccos offer loans against your savings</li>
                       <li>• MMFs provide daily liquidity</li>
                       <li>• Consider diversifying between both</li>
@@ -1073,7 +1073,7 @@ const Calculators: React.FC = () => {
           >
             <Card variant="gradient" className="p-8 text-white" style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }}>
               <div className="flex items-center space-x-4">
-                <div className="p-4 bg-white/20 rounded-2xl">
+                <div className="p-4 bg-ink-50/20 rounded-lg">
                   <GraduationCap size={40} />
                 </div>
                 <div>
@@ -1087,29 +1087,29 @@ const Calculators: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Child's Details
                 </h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Child's Current Age
                     </label>
                     <input
                       type="number"
                       value={educationInputs.childAge}
                       onChange={(e) => setEducationInputs({ ...educationInputs, childAge: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       University Type
                     </label>
                     <select
                       value={educationInputs.universityType}
                       onChange={(e) => setEducationInputs({ ...educationInputs, universityType: e.target.value as any })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     >
                       <option value="public">Public University (KSh 160k/year)</option>
                       <option value="private">Private University (KSh 400k/year)</option>
@@ -1117,46 +1117,46 @@ const Calculators: React.FC = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Current Savings (KES)
                     </label>
                     <input
                       type="number"
                       value={educationInputs.currentSavings}
                       onChange={(e) => setEducationInputs({ ...educationInputs, currentSavings: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <label className="block text-sm text-ink-600 dark:text-ink-400 mb-2">
                       Monthly Contribution (KES)
                     </label>
                     <input
                       type="number"
                       value={educationInputs.monthlyContribution}
                       onChange={(e) => setEducationInputs({ ...educationInputs, monthlyContribution: parseInt(e.target.value) })}
-                      className="w-full p-2 border border-gray-200 dark:border-gray-800 rounded-lg"
+                      className="w-full p-2 border border-ink-200 dark:border-ink-800 rounded-lg"
                     />
                   </div>
                 </div>
               </Card>
 
               <Card variant="glass" className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-lg font-semibold text-ink-900 dark:text-ink-50 mb-4">
                   Education Fund Results
                 </h3>
                 
                 <div className="space-y-6">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Total Needed</p>
-                      <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <div className="p-4 bg-ink-50 dark:bg-ink-800 rounded-lg text-center">
+                      <p className="text-xs text-ink-500">Total Needed</p>
+                      <p className="text-xl font-bold text-ink-900 dark:text-ink-50">
                         {format(educationResults.totalNeeded)}
                       </p>
                     </div>
-                    <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
-                      <p className="text-xs text-gray-500">Projected Savings</p>
-                      <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <div className="p-4 bg-ink-50 dark:bg-ink-800 rounded-lg text-center">
+                      <p className="text-xs text-ink-500">Projected Savings</p>
+                      <p className="text-xl font-bold text-ink-900 dark:text-ink-50">
                         {format(educationResults.totalSaved)}
                       </p>
                     </div>
